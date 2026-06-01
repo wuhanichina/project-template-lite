@@ -2,7 +2,7 @@
 
 轻量级 MATLAB 科研论文项目模板。它适合用来维护一个从想法、模型、算例、结果图表到论文证据都能互相追溯的研究项目。
 
-这个模板的核心判断很简单：项目根目录就是 MATLAB 代码根目录；不要再套一层 `02_Coding/`；不要为了整理而不断新增文件夹；每个论文主张都要能追到入口脚本、结果文件和证据状态。
+这个模板的核心判断很简单：项目根目录就是 MATLAB 代码根目录；不要为了整理而不断新增文件夹；每个论文主张都要能追到入口脚本、结果文件和证据状态。
 
 ## 适合谁用
 
@@ -178,11 +178,11 @@ ProjectName_case123
 - 模板入口和 MATLAB package。
 - `.cursor/rules/`。
 - `01_IDEA/`、`02_PAPER/config/author-profile.example.yaml`、`03_REFERENCE/` 中的轻量文本材料。
-- `result/` 里的 README 占位说明。
+- `data/`、`cache/`、`tests/`、`result/` 里的 README 占位说明。
 
 默认不要跟踪：
 
-- `cache/`
+- `cache/` 中的生成文件。
 - 真实运行输出。
 - 大型 `.mat` 文件。
 - `.fig`、日志、临时测试结果。

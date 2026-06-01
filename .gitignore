@@ -1,5 +1,7 @@
 # Project-private folders and generated outputs stay off GitHub by default.
-cache/
+cache/**
+!cache/
+!cache/README.md
 result/**
 !result/
 !result/README.md
@@ -10,7 +12,9 @@ result/**
 !result/case123/figures/
 !result/case123/figures/README.md
 02_PAPER/config/author-profile.yaml
-tests/
+tests/**
+!tests/
+!tests/README.md
 tmp/
 *.asv
 *.fig
