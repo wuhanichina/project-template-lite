@@ -1,0 +1,47 @@
+# ============================================================
+# Author profile example
+# Copy this file to author-profile.yaml and fill in local/private details.
+# The real author-profile.yaml is intentionally ignored by Git.
+# ============================================================
+
+# --- Basic information ---
+name_cn: "Your Chinese Name"
+name_en: "Your English Name"
+institution_cn: "Your Institution"
+institution_en: "Your Institution"
+address_cn: "Your Address"
+address_en: "Your Address"
+zipcode: "000000"
+email: "name@example.com"
+orcid: "0000-0000-0000-0000"
+orcid_url: "https://orcid.org/0000-0000-0000-0000"
+
+# --- Funding ---
+funds:
+  - name_cn: "Funding Program"
+    name_en: "Funding Program"
+    number: "Grant Number"
+    acknowledgement_cn: "Funding acknowledgement"
+    acknowledgement_en: "Funding acknowledgement"
+
+# --- Research areas ---
+research_areas_cn:
+  - "Research area"
+research_areas_en:
+  - "Research area"
+
+# --- Toolchain ---
+tools:
+  reference_manager: "EndNote / Zotero"
+  note_taking: "Obsidian / Notion"
+  formula_preview: "LaTeX MathJax"
+  computation: "MATLAB"
+  latex_editor: "Overleaf / TeXstudio"
+
+# --- Collaborators, optional ---
+# collaborators:
+#   - name_cn: "Collaborator Name"
+#     name_en: "Collaborator Name"
+#     institution_en: "Institution"
+#     email: "name@example.com"
+#     role: "co-author"

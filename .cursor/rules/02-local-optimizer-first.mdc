@@ -1,0 +1,57 @@
+---
+description: Local MATLAB optimizer policy. Prefer CVX, MOSEK, and Gurobi on this machine; keep GAMS as optional legacy or comparison tooling only.
+globs: "**/*.m,**/*.gms"
+alwaysApply: false
+---
+
+# Local Optimizer First
+
+## Default Solver Order
+
+For new optimization code, prefer the local MATLAB optimization stack:
+
+1. `CVX + MOSEK` for SDP, SOCP, disciplined convex models, and quick convex prototypes.
+2. `Gurobi` for LP, QP, MILP, MIQP, and SCA subproblems that can be expressed as LP/QP/QCP.
+3. Direct `MOSEK` APIs for conic forms that are clearer or faster without CVX.
+4. MATLAB built-in solvers only for small diagnostics or non-paper baselines.
+5. `GAMS` only for legacy reproduction, external-author baselines, or models that are genuinely not yet rewritten in MATLAB.
+
+Do not introduce a new GAMS dependency by default.
+
+## Dependency Checks
+
+Do not infer solver availability from installer folders alone. Check MATLAB visibility first:
+
+```matlab
+assert(exist('cvx_begin', 'file') == 2, 'CVX is not visible on the MATLAB path.');
+assert(exist('mosekopt', 'file') == 3 || exist('mosekopt', 'file') == 2, 'MOSEK is not visible on the MATLAB path.');
+assert(exist('gurobi', 'file') == 3 || exist('gurobi', 'file') == 2, 'Gurobi is not visible on the MATLAB path.');
+```
+
+For CVX, a robust local startup pattern is:
+
+```matlab
+cvxRootCandidates = [
+    "D:\OneDrive\Coding History\Matlab\Packages\cvx"
+];
+cvxRoot = cvxRootCandidates(find(isfolder(cvxRootCandidates), 1, 'first'));
+assert(~isempty(cvxRoot), 'CVX root was not found in configured local candidates.');
+addpath(cvxRoot);
+cvx_startup(true);
+assert(exist('cvx_begin', 'file') == 2, 'CVX startup did not expose cvx_begin.');
+```
+
+## Solver Selection Rules
+
+- If the model is convex and small enough to express clearly in CVX, start with CVX and choose MOSEK inside CVX.
+- If the model is an LP/QP/MIP subproblem, build the Gurobi model directly instead of routing through CVX.
+- If the model is nonlinear and nonconvex, do not pretend Gurobi or MOSEK can replace GAMS by changing a solver name. First reformulate or mark it as a legacy-GAMS path.
+- Record the solver family, solver version when available, tolerance, and status in the case output.
+
+## GAMS Boundary
+
+GAMS files may exist in old projects, but in this lightweight template:
+
+- Do not create `gams_models/` unless a concrete case requires it.
+- Do not make `gams.exe`, GDX files, or GAMS licensing part of the default startup path.
+- If a legacy GAMS baseline is needed, isolate it behind one clearly named adapter and document why MATLAB-native solvers are not enough for that case.

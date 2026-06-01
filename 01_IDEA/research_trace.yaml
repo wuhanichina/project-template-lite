@@ -1,0 +1,58 @@
+# Lightweight research trace.
+# Replace the placeholder nodes after copying the template.
+# Keep only decisions, experiments, dead ends, pivots, and open questions that affect the paper line.
+
+schema_version: ara_lite_trace_v1
+
+rules:
+  - Do not record ordinary coding logs here.
+  - Every supported claim should eventually connect to at least one experiment node and one evidence id.
+  - Every dead_end node should state the tested hypothesis, failure mode, and lesson.
+  - Use provenance values: user, ai-suggested, ai-executed, user-revised.
+
+tree:
+  - id: N01
+    type: question
+    title: "待填：核心科学问题"
+    provenance: user
+    status: open
+    description: "在什么工程场景下，现有方法不能充分解决问题，而本文方法可以给出更可靠、更可解释或更高效的结果？"
+    children:
+      - id: N02
+        type: decision
+        title: "待填：选择最小可验证问题"
+        provenance: user
+        status: open
+        choice: "先收窄到一个能被 case33bw / case123 验证的主张。"
+        alternatives:
+          - "直接写成完整大框架"
+          - "先做无边界的工程实现"
+        evidence: []
+      - id: N03
+        type: experiment
+        title: "待填：case33bw 主算例"
+        provenance: ai-executed
+        status: open
+        verifies:
+          - C1
+        evidence:
+          - E01
+        result: "待填：运行后登记关键结果和原始输出路径。"
+      - id: N04
+        type: experiment
+        title: "待填：case123 扩展算例"
+        provenance: ai-executed
+        status: open
+        verifies:
+          - C2
+        evidence:
+          - E02
+        result: "待填：运行后登记扩展性、规模和关键指标。"
+      - id: N05
+        type: dead_end
+        title: "待填：已放弃的方案"
+        provenance: user-revised
+        status: open
+        hypothesis: "待填：原先认为可行的建模、求解、近似或对比路线。"
+        failure_mode: "待填：为什么失败、过强、过慢、不公平或无法支撑论文 claim。"
+        lesson: "待填：后续 agent 和合作者不要重复尝试的原因。"

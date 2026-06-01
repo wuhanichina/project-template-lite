@@ -1,0 +1,67 @@
+---
+description: MATLAB code style, dependency checks, paths, logging, and claim-document consistency.
+globs: "**/*.m"
+alwaysApply: false
+---
+
+# MATLAB Code Style
+
+## Paths And Startup
+
+- Build absolute paths from the entry file location, not from `pwd`.
+- Keep machine-specific paths in a short startup or config block near the top of the entry.
+- For paths containing spaces or Chinese characters, avoid long inline `matlab -batch` commands; prefer a small `.m` entry script.
+- When calling external commands, quote paths explicitly.
+
+## Configuration
+
+Use a named `config` or `caseConfig` struct for all tunable values:
+
+- case name
+- data source
+- solver family
+- random seed
+- result directory
+- per-case figure directory
+- cache directory
+- iteration limits
+- tolerances
+- cache toggles
+
+Avoid unnamed magic numbers in model-building code.
+
+## Validation
+
+- Use `arguments` blocks in reusable functions when the signature is stable.
+- Use `assert` for physical, dimensional, and solver-precondition checks.
+- Error messages should say what failed, which object failed, and what path or variable should be checked.
+- Do not use `try/catch` to hide infeasibility, missing dependencies, or solver failures.
+
+## Naming
+
+- Function names: lower snake case, verb-oriented when possible.
+- Struct fields: lower camel case.
+- Constants and tolerances: named fields under `config` rather than global constants.
+- Mathematical variables should match `01_IDEA/derivation.md` whenever practical.
+
+## Code-Document Consistency
+
+- A core method function should cite the relevant section or equation in `01_IDEA/derivation.md`.
+- A case entry should state which claim in `01_IDEA/claims.md` it supports.
+- When a code change changes metrics, baseline definitions, or assumptions, update `01_IDEA/claims.md`.
+- Shared core model, solver, and contribution-defining functions belong under `+ProjectName_core/`.
+- MC helpers, IO/export helpers, cache plumbing, and plotting helpers belong under `+ProjectName_utils/`.
+- SOTA and comparison-method helpers belong under `+ProjectName_sota/`.
+- Case scripts should stay readable rather than becoming large algorithm or utility files.
+- Do not introduce new helper folders such as `scripts/` unless the author deliberately chooses that layout.
+
+## Paper Figure Discipline
+
+- Use explicit figure handles and offscreen rendering for formal figures.
+- Keep formal case figures under `result/<case_name>/figures/`.
+- Keep plotting code under `+ProjectName_utils/+plotting/`; do not move plotting helpers into a separate `scripts/` folder.
+- Use `ProjectName_utils.plotting.methodStyle` as the project-level visual encoding registry. The camelCase name is intentional because the paper-figure prompt expects `methodStyle`.
+- Do not distinguish methods by color alone; use color, line style, and marker together for line plots.
+- For dense line plots, use sparse markers through `ProjectName_utils.plotting.plot_method_line` or equivalent `MarkerIndices` logic.
+- Export formal figures through `ProjectName_utils.plotting.save_figure` so `.fig`, `.png`, `.svg`, plot data, manifest, and check report stay synchronized.
+- Every formal figure needs explicit metadata: scientific/engineering question, data files, command, key parameters, and random seed or a declared `not_applicable` value.

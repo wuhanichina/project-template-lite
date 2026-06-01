@@ -1,0 +1,63 @@
+---
+description: Research-note and paper-skill bridge. Use ProjectName_note.md as the project research note and the primary input surface for paper writing and review skills.
+alwaysApply: true
+---
+
+# Research Note And Paper Skill Bridge
+
+## Project Research Note
+
+`ProjectName_note.md` is the project research note at the project root. When the template is copied, rename the `ProjectName` prefix if needed, or replace the title and all `ProjectName` placeholders.
+
+It should contain:
+
+- research significance,
+- scientific problem and boundary,
+- major research decisions and abandoned alternatives,
+- complete mathematical model and derivation,
+- solver and experiment protocol,
+- claim-evidence-code bindings,
+- lightweight research trace for meaningful dead ends and pivots,
+- important results and claim support,
+- relation to closest competitors,
+- writing and review checkpoints.
+
+Do not treat `ProjectName_note.md` as a scratch log. It should be readable by a collaborator or reviewer-facing coauthor.
+
+## Synchronization Rules
+
+- If `01_IDEA/story.md` changes the main story, update `ProjectName_note.md`.
+- If `01_IDEA/claims.md` changes claim boundaries or evidence status, update `ProjectName_note.md`.
+- If `01_IDEA/derivation.md` changes variables, assumptions, or formulas, update the model section in `ProjectName_note.md`.
+- If `01_IDEA/evidence_map.md` registers or changes a formal result, update the result and claim-support sections in `ProjectName_note.md`.
+- If `01_IDEA/research_trace.yaml` records a route change or failed line that affects the paper boundary, update the story or claim boundary.
+- If `ProjectName.m` or a `ProjectName_case*.m` run produces a paper-facing result, register it in `ProjectName_note.md`.
+- If a result weakens a claim, revise the claim before writing or polishing manuscript text.
+
+## Paper Writing Skill Interface
+
+Before drafting with the paper-writing skill, load this material in order:
+
+1. `ProjectName_note.md`
+2. `02_PAPER/config/author-profile.yaml` if present locally, otherwise `02_PAPER/config/author-profile.example.yaml`
+3. `01_IDEA/story.md`
+4. `01_IDEA/claims.md`
+5. `01_IDEA/derivation.md`
+6. `01_IDEA/evidence_map.md`
+7. `01_IDEA/research_trace.yaml`
+8. relevant result files under `result/`
+9. closest-competitor notes or BibTeX under `03_REFERENCE/`
+
+The writing skill should convert the public note into manuscript prose, not invent unsupported contributions.
+
+## Paper Review Skill Interface
+
+Before reviewing with the paper-review skill, check:
+
+- whether every strong manuscript claim maps to `ProjectName_note.md` or `01_IDEA/claims.md`,
+- whether every equation has defined variables and physical meaning,
+- whether the case studies verify the stated innovation rather than a different problem,
+- whether conclusions are supported by formulas, results, or explicit assumptions,
+- whether unsupported engineering implementation details should be removed from the manuscript body.
+
+Review findings should feed back into `ProjectName_note.md` when they change the public claim boundary.

@@ -1,0 +1,58 @@
+---
+description: Lightweight research-coding rules for this project template. The project root is the code root, and every computation must stay tied to idea claims.
+alwaysApply: true
+---
+
+# Lightweight Research Coding Rules
+
+## Project Boundary
+
+This repository uses the project root as the MATLAB code root. Do not recreate legacy staged coding or paper automation scaffolding such as `02_Coding/`, `03_Paper/`, `00_MEMORY/`, or staged experiment trees unless the user explicitly asks for them.
+
+Keep the visible root small:
+
+- `ProjectName_note.md` is the project research note and should stay synchronized with the idea files, math derivation, and important results.
+- `ProjectName.m` is the unified runnable entry for paper figures and tables. It should orchestrate the proposed method and SOTA comparison, not hide core algorithm logic in a long script.
+- `ProjectName_case33bw.m` and `ProjectName_case123.m` are the default case entries for the proposed method on the two example networks. Replace `ProjectName` with the actual project prefix when the template is copied.
+- `+ProjectName_core/` holds reusable model, algorithm, solver, and metric functions. Replace `ProjectName` with the actual project prefix when the template is copied.
+- `+ProjectName_utils/` holds non-core utilities such as MC helpers, IO/export helpers, plotting helpers, and cache support. It must not define the paper's core model or contribution.
+- `+ProjectName_sota/` holds reusable comparison-method code.
+- `data/`, `cache/`, and `result/` are fixed directories. The template may keep README placeholders under `result/`, but generated result artifacts should not be prefilled.
+- `tests/` holds tuning scripts, local checks, and temporary validation before a result becomes paper evidence.
+- `01_IDEA/` holds story, claims, derivations, the evidence map, and the lightweight research trace.
+- `02_PAPER/` contains paper-facing material. Track only `config/author-profile.example.yaml`; keep the real local `config/author-profile.yaml` out of Git because it contains personal information.
+- `03_REFERENCE/` holds manually collected literature and BibTeX files.
+- Generated outputs go under `result/`; intermediate artifacts go under `cache/`.
+- Each runnable case owns one result subtree: `result/<case_name>/` for numerical outputs, tables, and logs, plus `result/<case_name>/figures/` for formal case-specific figures.
+- Do not add new root-level or sidecar folders by default. In particular, do not create `scripts/`, `tools/`, or another utility folder unless the author explicitly asks for that structure.
+
+## Research Workflow
+
+- Every main case should answer one evidence question in `01_IDEA/claims.md`.
+- Every public-facing research claim should also be reflected in `ProjectName_note.md`.
+- Every formal result should be registered in `01_IDEA/evidence_map.md` before it is used in paper prose.
+- Important failed approaches, abandoned alternatives, pivots, and unresolved research questions should be recorded in `01_IDEA/research_trace.yaml`.
+- If a result changes the story, update `01_IDEA/story.md` or `01_IDEA/claims.md` in the same change.
+- If a formula or variable changes, update `01_IDEA/derivation.md` before treating the result as paper evidence.
+- Do not write broad contribution claims that are not backed by a runnable entry or a derivation.
+
+## Code Organization
+
+- Keep configuration near the top of `ProjectName.m` and each `ProjectName_case*.m` entry.
+- Use `projectRoot = fileparts(mfilename('fullpath'))` instead of relying on the current MATLAB working directory.
+- Put shared model-building, solver, metric, and export logic in `+ProjectName_core/`.
+- Put MC sampling support, directory/file IO, cache plumbing, and plotting/export helpers in `+ProjectName_utils/`.
+- Put shared baseline or comparison method logic in `+ProjectName_sota/`.
+- Keep case-specific orchestration in `ProjectName_case*.m`.
+- Do not create another stage folder for reusable code.
+- Do not create a separate `scripts/` folder for runnable MATLAB helpers; use the root case entries, `tests/` for temporary validation, or the existing package folders.
+
+## Result Discipline
+
+- A runnable case may create `result/<case_name>/`.
+- A runnable case should create `result/<case_name>/figures/` and write all formal figures for that case there.
+- Each formal result should be traceable to the entry file, config, solver, and data version that produced it.
+- Each formal MATLAB figure should be exported through `ProjectName_utils.plotting.save_figure`, which produces `.fig`, `.png`, `.svg`, optional plot-data CSV, a JSONL manifest row, and a figure check report.
+- Do not use screenshots, copy/paste, Python/Matplotlib, Excel, or Origin as the formal paper-figure export path.
+- Failed runs should leave enough context to diagnose the failure; do not silently catch solver errors and continue.
+- Do not claim a paper result from `result/` unless it is linked to a claim id and evidence id.
