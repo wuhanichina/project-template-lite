@@ -10,6 +10,12 @@ Keep this package for implementation support that should not define the paper's 
   `methodStyle`, `plot_method_line`, and `save_figure`, and should be written to
   `result/<case>/figures/`.
 
+`save_figure` is intentionally strict. Formal exports must provide metadata for
+the scientific question, data files, field/unit/dimension description, visual
+encoding, target layout, command, key parameters, and random seed/status. Keep
+data transformations, excluded points, and log-axis zero handling explicit in
+the manifest and check report.
+
 Prefer adding shared helpers to this package instead of creating a separate
 `scripts/`, `tools/`, or parallel utility folder. Create a new folder only when
 the project author explicitly chooses that organization.

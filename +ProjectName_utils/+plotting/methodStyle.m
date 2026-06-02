@@ -22,9 +22,14 @@ end
 
 function registry = default_registry()
 registry = struct();
-registry.baseline = struct("color", [0 0 0], "ls", "-", "mk", "o");
-registry.method1 = struct("color", [0.85 0.10 0.10], "ls", "-", "mk", "s");
-registry.method2 = struct("color", [0.00 0.20 0.70], "ls", "--", "mk", "^");
-registry.method3 = struct("color", [0.10 0.55 0.20], "ls", ":", "mk", "d");
-registry.method4 = struct("color", [0.90 0.50 0.00], "ls", "-.", "mk", "x");
+registry.baseline = struct("color", [0 0 0], "ls", "-", "mk", "o", ...
+    "gray", 0.15, "hatch", "none");
+registry.method1 = struct("color", [0.85 0.10 0.10], "ls", "-", "mk", "s", ...
+    "gray", 0.35, "hatch", "/");
+registry.method2 = struct("color", [0.00 0.20 0.70], "ls", "--", "mk", "^", ...
+    "gray", 0.55, "hatch", "\");
+registry.method3 = struct("color", [0.10 0.55 0.20], "ls", ":", "mk", "d", ...
+    "gray", 0.75, "hatch", "x");
+registry.method4 = struct("color", [0.90 0.50 0.00], "ls", "-.", "mk", "x", ...
+    "gray", 0.90, "hatch", ".");
 end

@@ -12,6 +12,9 @@ function outputs = save_figure(figHandle, outDirOrBase, figName, options)
 %       "figNo", "Fig01", ...
 %       "sciQuestion", "What engineering question does this figure answer?", ...
 %       "dataFiles", "result/case33bw/results.mat", ...
+%       "dataDescription", "Fields, units, dimensions, and preprocessing status.", ...
+%       "visualEncoding", ProjectName_utils.plotting.methodStyle(), ...
+%       "targetLayout", "single-column", ...
 %       "command", "ProjectName_case33bw", ...
 %       "keyParams", struct("case", "case33bw"), ...
 %       "randomSeed", 33);
@@ -258,7 +261,8 @@ if strlength(string(options.Command)) > 0
     metadata.command = string(options.Command);
 end
 
-requiredFields = ["sciQuestion", "dataFiles", "command", "keyParams", "randomSeed"];
+requiredFields = ["sciQuestion", "dataFiles", "dataDescription", ...
+    "visualEncoding", "targetLayout", "command", "keyParams", "randomSeed"];
 missingFields = strings(1, 0);
 for k = 1:numel(requiredFields)
     fieldName = requiredFields(k);
@@ -268,7 +272,7 @@ for k = 1:numel(requiredFields)
 end
 if ~isempty(missingFields)
     error("ProjectName_utils:plotting:MissingMetadata", ...
-        "Missing figure metadata: %s. Do not export formal figures until the scientific question, data source, command, key parameters, and random seed/status are explicit.", ...
+        "Missing figure metadata: %s. Do not export formal figures until the scientific question, data source, data fields/units, visual encoding, target layout, command, key parameters, and random seed/status are explicit.", ...
         strjoin(missingFields, ", "));
 end
 
@@ -373,9 +377,11 @@ end
 end
 
 function tf = manifest_complete(manifest)
-requiredFields = ["figNo", "figName", "sciQuestion", "dataFiles", "script", ...
+requiredFields = ["figNo", "figName", "sciQuestion", "dataFiles", ...
+    "dataDescription", "visualEncoding", "targetLayout", "script", ...
     "command", "keyParams", "randomSeed", "matlabVersion", "font", ...
-    "colormap", "isDiagnostic", "excludedPoints", "logAxisThreshold", "timestamp"];
+    "colormap", "isDiagnostic", "excludedPoints", "logAxisThreshold", ...
+    "timestamp"];
 tf = true;
 for k = 1:numel(requiredFields)
     fieldName = requiredFields(k);
@@ -404,11 +410,13 @@ fprintf(fid, "| PNG nonblank | %s |\n", status_text(checks.pngNonblank));
 fprintf(fid, "| SVG readable | %s |\n", status_text(checks.svgReadable));
 fprintf(fid, "| Plot data CSV exported when provided | %s |\n", status_text(checks.plotDataExported));
 fprintf(fid, "| Manifest fields complete | %s |\n", status_text(checks.manifestComplete));
+fprintf(fid, "| Data was not changed for visual effect; any filtering or transform is declared | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Text, axes, legend, lines, and markers readable at target size | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Legend does not cover key curves | REVIEW_REQUIRED |\n");
 fprintf(fid, "| X-axis labels are not too dense | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Structured labels use domain-readable forms | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Method color, line style, and marker match methodStyle | REVIEW_REQUIRED |\n");
+fprintf(fid, "| Formal figure is not a subplot/tiledlayout composite | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Methods remain distinguishable in grayscale | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Log-axis zero handling and excluded points are declared | REVIEW_REQUIRED |\n\n");
 end

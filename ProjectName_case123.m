@@ -34,7 +34,10 @@ fprintf("Figure directory: %s\n", caseConfig.figureDir);
 % 2. call +ProjectName_core functions to build the proposed-method model
 % 3. solve the model and cache reusable intermediate artifacts under cache/case123
 % 4. export tables under result/case123 and formal figures under
-%    result/case123/figures with ProjectName_utils.plotting.save_figure
+%    result/case123/figures with ProjectName_utils.plotting.save_figure.
+%    Formal figure metadata must include the scientific question, data files,
+%    field/unit/dimension description, visual encoding, target layout, command,
+%    key parameters, and random seed/status.
 % 5. register the formal result in 01_IDEA/evidence_map.md
 
 summaryFile = fullfile(caseConfig.resultDir, "summary.txt");

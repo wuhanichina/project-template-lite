@@ -31,10 +31,11 @@ Keep the visible root small:
 - Every main case should answer one evidence question in `01_IDEA/claims.md`.
 - Every public-facing research claim should also be reflected in `ProjectName_note.md`.
 - Every formal result should be registered in `01_IDEA/evidence_map.md` before it is used in paper prose.
-- Important failed approaches, abandoned alternatives, pivots, and unresolved research questions should be recorded in `01_IDEA/research_trace.yaml`.
+- Important failed approaches, abandoned alternatives, retained early ideas, pivots, and unresolved research questions should be recorded in `01_IDEA/research_trace.yaml`.
 - If a result changes the story, update `01_IDEA/story.md` or `01_IDEA/claims.md` in the same change.
 - If a formula or variable changes, update `01_IDEA/derivation.md` before treating the result as paper evidence.
 - Do not write broad contribution claims that are not backed by a runnable entry or a derivation.
+- Research notes must be evidence-bound archives, not paper drafts or promotional summaries. Every important judgment should be marked with a status such as `已由理论推导支持`, `已由数值实验支持`, `尚未验证`, `当前证据不足`, `暂时放弃`, or `文献待核查`.
 
 ## Code Organization
 
@@ -53,6 +54,9 @@ Keep the visible root small:
 - A runnable case should create `result/<case_name>/figures/` and write all formal figures for that case there.
 - Each formal result should be traceable to the entry file, config, solver, and data version that produced it.
 - Each formal MATLAB figure should be exported through `ProjectName_utils.plotting.save_figure`, which produces `.fig`, `.png`, `.svg`, optional plot-data CSV, a JSONL manifest row, and a figure check report.
+- Each formal figure must declare its scientific question, data files, field/unit/dimension description, visual encoding, target layout, command, key parameters, and random seed/status before export.
+- Do not alter, smooth, crop, or relabel data for visual appeal. Any diagnostic exclusion or log-axis zero handling must be explicit in the manifest and check report.
+- Do not use MATLAB `subplot` or `tiledlayout` composites as final formal figures; export separate subfigures and combine them later in the manuscript layout.
 - Do not use screenshots, copy/paste, Python/Matplotlib, Excel, or Origin as the formal paper-figure export path.
 - Failed runs should leave enough context to diagnose the failure; do not silently catch solver errors and continue.
 - Do not claim a paper result from `result/` unless it is linked to a claim id and evidence id.

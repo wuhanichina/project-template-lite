@@ -8,6 +8,9 @@ rules:
   - Do not record ordinary coding logs here.
   - Every supported claim should eventually connect to at least one experiment node and one evidence id.
   - Every dead_end node should state the tested hypothesis, failure mode, and lesson.
+  - Preserve retained ideas, abandoned ideas, and unverified ideas; do not flatten the history into only the current route.
+  - If Git history is unavailable, keep branch/commit/tag/issue fields and mark them as Git information pending.
+  - Every route-changing node should state which model, code file, result folder, or claim boundary it affects.
   - Use provenance values: user, ai-suggested, ai-executed, user-revised.
 
 tree:

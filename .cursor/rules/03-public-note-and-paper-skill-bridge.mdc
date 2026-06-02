@@ -9,20 +9,63 @@ alwaysApply: true
 
 `ProjectName_note.md` is the project research note at the project root. When the template is copied, rename the `ProjectName` prefix if needed, or replace the title and all `ProjectName` placeholders.
 
+It is a traceable research archive, not a manuscript draft, promotion text, defense material, or submission document. Its job is to record how the research question formed, how the route evolved, how the math model maps to code, which results support or weaken current judgments, and what remains unresolved.
+
 It should contain:
 
-- research significance,
-- scientific problem and boundary,
-- major research decisions and abandoned alternatives,
+- engineering need, existing-method insufficiency, pain point, and scientific question,
+- current research positioning and claim boundary,
+- major research decisions, abandoned alternatives, retained ideas, and unverified ideas,
+- route-evolution map from early ideas to the current line,
 - complete mathematical model and derivation,
+- assumptions, approximations, variable definitions, and code-variable mapping,
 - solver and experiment protocol,
 - claim-evidence-code bindings,
+- Git branch, commit, tag, issue, and pull-request linkage when available,
 - lightweight research trace for meaningful dead ends and pivots,
 - important results and claim support,
 - relation to closest competitors,
 - writing and review checkpoints.
 
-Do not treat `ProjectName_note.md` as a scratch log. It should be readable by a collaborator or reviewer-facing coauthor.
+Do not treat `ProjectName_note.md` as a scratch log. It should be readable by a collaborator or reviewer-facing coauthor, while still preserving immature models, unstable results, failed checks, and unresolved questions when they affect the research line.
+
+## Writing Boundary
+
+- Do not write the note in compressed paper sections such as introduction/method/case/conclusion. Use it to preserve reasoning, route changes, evidence states, and open problems.
+- Do not use promotional or defensive language such as "breakthrough", "revolutionary", "fully solves", "strictly superior to all existing methods", "first", or "completely avoids" unless literature review, proof, and experiments support that exact claim.
+- Prefer evidence-bound wording: "current evidence supports", "this remains to be verified", "this route was archived because", "this conclusion is only observed in", and "the assumption applies under".
+- Keep abandoned and archived routes. Record the original idea, attempted implementation, Git record if available, observed failure mode, reason for abandonment, retained lesson, and whether it may be reopened.
+- If Git history is unavailable or not yet committed, keep the Git fields and mark them with `【Git 信息待补充】` or `【Git 待提交】` rather than deleting traceability structure.
+
+## Evidence-State Labels
+
+Every judgmental conclusion should carry an explicit evidence state. Use these labels by default:
+
+- `已由理论推导支持`
+- `已由数值实验支持`
+- `已由代码实现支持`
+- `已有 Git 版本记录`
+- `仅为当前假设`
+- `尚未验证`
+- `结果不稳定`
+- `当前证据不足`
+- `已被实验排除`
+- `暂时放弃`
+- `文献待核查`
+- `代码尚未实现`
+- `结果待复核`
+
+For missing information, use explicit placeholders such as `【待补充】`, `【尚未验证】`, `【文献待核查】`, `【当前证据不足】`, `【文档滞后】`, `【尚未实现】`, and `【代码待核查】`. Do not invent references, figures, commits, results, or numerical values to make the note look complete.
+
+## Required Threads
+
+The note should preserve three threads:
+
+```text
+Problem formation: engineering need -> existing insufficiency -> pain point -> scientific question
+Research evolution: initial idea -> exposed problem -> route adjustment -> current route
+Traceability: math model -> code implementation -> Git version -> staged validation -> evidence state
+```
 
 ## Synchronization Rules
 
