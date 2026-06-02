@@ -1,17 +1,22 @@
-# Lightweight research trace.
-# Replace the placeholder nodes after copying the template.
-# Keep only decisions, experiments, dead ends, pivots, and open questions that affect the paper line.
+# Lightweight research trace for route evolution.
+# This file is a compact map of decisions, experiments, archived routes, and open questions that affect the paper line.
 
 schema_version: ara_lite_trace_v1
 
-rules:
-  - Do not record ordinary coding logs here.
-  - Every supported claim should eventually connect to at least one experiment node and one evidence id.
-  - Every dead_end node should state the tested hypothesis, failure mode, and lesson.
-  - Preserve retained ideas, abandoned ideas, and unverified ideas; do not flatten the history into only the current route.
-  - If Git history is unavailable, keep branch/commit/tag/issue fields and mark them as Git information pending.
-  - Every route-changing node should state which model, code file, result folder, or claim boundary it affects.
-  - Use provenance values: user, ai-suggested, ai-executed, user-revised.
+guide:
+  purpose: "记录研究路线如何从初始问题演化到当前主线，并保留有价值的分支和归档路径。"
+  provenance_values:
+    - user
+    - ai-suggested
+    - ai-executed
+    - user-revised
+  node_types:
+    - question
+    - decision
+    - experiment
+    - retained_idea
+    - archived_route
+    - open_question
 
 tree:
   - id: N01
@@ -19,7 +24,13 @@ tree:
     title: "待填：核心科学问题"
     provenance: user
     status: open
-    description: "在什么工程场景下，现有方法不能充分解决问题，而本文方法可以给出更可靠、更可解释或更高效的结果？"
+    description: "在什么工程场景下，现有方法存在关键不足，而本文方法可以给出更可靠、更可解释或更高效的结果？"
+    affects:
+      claims:
+        - C1
+      files:
+        - "01_IDEA/story.md"
+        - "01_IDEA/claims.md"
     children:
       - id: N02
         type: decision
@@ -31,6 +42,7 @@ tree:
           - "直接写成完整大框架"
           - "先做无边界的工程实现"
         evidence: []
+        lesson: "待填：该选择如何帮助论文主张变得可验证。"
       - id: N03
         type: experiment
         title: "待填：case33bw 主算例"
@@ -52,10 +64,27 @@ tree:
           - E02
         result: "待填：运行后登记扩展性、规模和关键指标。"
       - id: N05
-        type: dead_end
-        title: "待填：已放弃的方案"
+        type: retained_idea
+        title: "待填：从早期方案保留下来的思路"
         provenance: user-revised
         status: open
-        hypothesis: "待填：原先认为可行的建模、求解、近似或对比路线。"
-        failure_mode: "待填：为什么失败、过强、过慢、不公平或无法支撑论文 claim。"
-        lesson: "待填：后续 agent 和合作者不要重复尝试的原因。"
+        original_context: "待填：该思路最初来自哪个问题或方案。"
+        retained_reason: "待填：它为什么仍然服务于当前主线。"
+        related_files: []
+      - id: N06
+        type: archived_route
+        title: "待填：已归档的方案"
+        provenance: user-revised
+        status: archived
+        original_hypothesis: "待填：原先认为可行的建模、求解、近似或对比路线。"
+        attempt: "待填：尝试方式、分支、commit 或结果目录。"
+        observed_issue: "待填：推导、实现或实验中暴露的问题。"
+        archived_reason: "待填：暂时不进入当前主线的原因。"
+        retained_lesson: "待填：该路线留下的启示。"
+      - id: N07
+        type: open_question
+        title: "待填：尚未验证的问题"
+        provenance: user
+        status: open
+        question: "待填：需要通过推导、代码或实验继续确认的问题。"
+        next_step: "待填：下一步行动。"

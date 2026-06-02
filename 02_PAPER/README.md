@@ -4,13 +4,13 @@ Put manuscript-facing material here.
 
 Drafts in this folder should be distilled from `ProjectName_note.md`,
 `01_IDEA/claims.md`, `01_IDEA/evidence_map.md`, `01_IDEA/research_trace.yaml`,
-and registered outputs under `result/`. Do not introduce claims, figures,
-numbers, references, or Git/version statements that cannot be traced back to
-those files.
+and registered outputs under `result/`. Keep claims, figures, numbers,
+references, and Git/version statements traceable to those files.
 
 Formal manuscript figures should come from `result/<case>/figures/` bundles
-exported by `ProjectName_utils.plotting.save_figure`, not screenshots, manual
-redraws, or external plotting tools.
+exported by `ProjectName_utils.plotting.save_figure`, so source figures,
+preview images, vector outputs, plot data, manifest rows, and check reports stay
+synchronized.
 
 The tracked author profile is only an example:
 

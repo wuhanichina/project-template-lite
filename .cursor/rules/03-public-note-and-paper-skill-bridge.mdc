@@ -9,7 +9,7 @@ alwaysApply: true
 
 `ProjectName_note.md` is the project research note at the project root. When the template is copied, rename the `ProjectName` prefix if needed, or replace the title and all `ProjectName` placeholders.
 
-It is a traceable research archive, not a manuscript draft, promotion text, defense material, or submission document. Its job is to record how the research question formed, how the route evolved, how the math model maps to code, which results support or weaken current judgments, and what remains unresolved.
+It is a traceable research archive. Its job is to turn a project idea into material that collaborators can inspect, continue, and later distill into manuscript prose: how the research question formed, how the route evolved, how the math model maps to code, which results support or revise current judgments, and what remains unresolved.
 
 It should contain:
 
@@ -27,15 +27,16 @@ It should contain:
 - relation to closest competitors,
 - writing and review checkpoints.
 
-Do not treat `ProjectName_note.md` as a scratch log. It should be readable by a collaborator or reviewer-facing coauthor, while still preserving immature models, unstable results, failed checks, and unresolved questions when they affect the research line.
+Keep `ProjectName_note.md` readable by a collaborator or reviewer-facing coauthor, while preserving immature models, unstable results, failed checks, and unresolved questions when they affect the research line.
 
-## Writing Boundary
+## Writing Practice
 
-- Do not write the note in compressed paper sections such as introduction/method/case/conclusion. Use it to preserve reasoning, route changes, evidence states, and open problems.
-- Do not use promotional or defensive language such as "breakthrough", "revolutionary", "fully solves", "strictly superior to all existing methods", "first", or "completely avoids" unless literature review, proof, and experiments support that exact claim.
+- Keep human-facing files such as `ProjectName_note.md` and `01_IDEA/*` focused on research content: story, claims, derivation, evidence, route evolution, and next steps. Put agent execution rules, prohibitions, and process guardrails in `.cursor/rules/`, not in those human-facing files.
+- Start with problem formation and route evolution, then let paper sections be distilled later from the archive.
+- Use concrete, evidence-bound language. Strong contribution language should appear only when literature review, proof, and experiments support that exact claim.
 - Prefer evidence-bound wording: "current evidence supports", "this remains to be verified", "this route was archived because", "this conclusion is only observed in", and "the assumption applies under".
 - Keep abandoned and archived routes. Record the original idea, attempted implementation, Git record if available, observed failure mode, reason for abandonment, retained lesson, and whether it may be reopened.
-- If Git history is unavailable or not yet committed, keep the Git fields and mark them with `【Git 信息待补充】` or `【Git 待提交】` rather than deleting traceability structure.
+- If Git history is unavailable or not yet committed, keep the Git fields and mark them with `【Git 信息待补充】` or `【Git 待提交】` so version linkage can be filled later.
 
 ## Evidence-State Labels
 
@@ -55,7 +56,7 @@ Every judgmental conclusion should carry an explicit evidence state. Use these l
 - `代码尚未实现`
 - `结果待复核`
 
-For missing information, use explicit placeholders such as `【待补充】`, `【尚未验证】`, `【文献待核查】`, `【当前证据不足】`, `【文档滞后】`, `【尚未实现】`, and `【代码待核查】`. Do not invent references, figures, commits, results, or numerical values to make the note look complete.
+For missing information, use explicit placeholders such as `【待补充】`, `【尚未验证】`, `【文献待核查】`, `【当前证据不足】`, `【文档滞后】`, `【尚未实现】`, and `【代码待核查】`. These placeholders are part of the work plan and make follow-up tasks visible.
 
 ## Required Threads
 
@@ -91,7 +92,7 @@ Before drafting with the paper-writing skill, load this material in order:
 8. relevant result files under `result/`
 9. closest-competitor notes or BibTeX under `03_REFERENCE/`
 
-The writing skill should convert the public note into manuscript prose, not invent unsupported contributions.
+The writing skill should convert the public note into manuscript prose and keep every contribution tied to the archive evidence.
 
 ## Paper Review Skill Interface
 
