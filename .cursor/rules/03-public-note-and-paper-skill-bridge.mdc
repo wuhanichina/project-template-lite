@@ -31,7 +31,7 @@ Keep `ProjectName_note.md` readable by a collaborator or reviewer-facing coautho
 
 ## Writing Practice
 
-- Keep human-facing files such as `ProjectName_note.md` and `01_IDEA/*` focused on research content: story, claims, derivation, evidence, route evolution, and next steps. Put agent execution rules, prohibitions, and process guardrails in `.cursor/rules/`, not in those human-facing files.
+- Keep human-facing files such as `ProjectName_note.md` and `01_IDEA/*` focused on research content: story, claims, derivation, symbols, evidence, route evolution, and next steps. Put agent execution rules, prohibitions, and process guardrails in `.cursor/rules/`, not in those human-facing files.
 - Start with problem formation and route evolution, then let paper sections be distilled later from the archive.
 - Use concrete, evidence-bound language. Strong contribution language should appear only when literature review, proof, and experiments support that exact claim.
 - Prefer evidence-bound wording: "current evidence supports", "this remains to be verified", "this route was archived because", "this conclusion is only observed in", and "the assumption applies under".
@@ -73,6 +73,7 @@ Traceability: math model -> code implementation -> Git version -> staged validat
 - If `01_IDEA/story.md` changes the main story, update `ProjectName_note.md`.
 - If `01_IDEA/claims.md` changes claim boundaries or evidence status, update `ProjectName_note.md`.
 - If `01_IDEA/derivation.md` changes variables, assumptions, or formulas, update the model section in `ProjectName_note.md`.
+- If `01_IDEA/symbols.md` changes symbols, units, dimensions, or code-variable mappings, update the model and writing-check sections in `ProjectName_note.md`.
 - If `01_IDEA/evidence_map.md` registers or changes a formal result, update the result and claim-support sections in `ProjectName_note.md`.
 - If `01_IDEA/research_trace.yaml` records a route change or failed line that affects the paper boundary, update the story or claim boundary.
 - If `ProjectName.m` or a `ProjectName_case*.m` run produces a paper-facing result, register it in `ProjectName_note.md`.
@@ -87,10 +88,11 @@ Before drafting with the paper-writing skill, load this material in order:
 3. `01_IDEA/story.md`
 4. `01_IDEA/claims.md`
 5. `01_IDEA/derivation.md`
-6. `01_IDEA/evidence_map.md`
-7. `01_IDEA/research_trace.yaml`
-8. relevant result files under `result/`
-9. closest-competitor notes or BibTeX under `03_REFERENCE/`
+6. `01_IDEA/symbols.md`
+7. `01_IDEA/evidence_map.md`
+8. `01_IDEA/research_trace.yaml`
+9. relevant result files under `result/`
+10. closest-competitor notes or BibTeX under `03_REFERENCE/`
 
 The writing skill should convert the public note into manuscript prose and keep every contribution tied to the archive evidence.
 

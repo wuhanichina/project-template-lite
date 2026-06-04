@@ -42,13 +42,14 @@ Avoid unnamed magic numbers in model-building code.
 - Function names: lower snake case, verb-oriented when possible.
 - Struct fields: lower camel case.
 - Constants and tolerances: named fields under `config` rather than global constants.
-- Mathematical variables should match `01_IDEA/derivation.md` whenever practical.
+- Mathematical variables should match `01_IDEA/symbols.md` and `01_IDEA/derivation.md` whenever practical.
 
 ## Code-Document Consistency
 
 - A core method function should cite the relevant section or equation in `01_IDEA/derivation.md`.
 - A case entry should state which claim in `01_IDEA/claims.md` it supports.
 - When a code change changes metrics, baseline definitions, or assumptions, update `01_IDEA/claims.md`.
+- When a code change introduces or renames mathematical variables, units, dimensions, or core metrics, update `01_IDEA/symbols.md`.
 - Shared core model, solver, and contribution-defining functions belong under `+ProjectName_core/`.
 - MC helpers, IO/export helpers, cache plumbing, and plotting helpers belong under `+ProjectName_utils/`.
 - SOTA and comparison-method helpers belong under `+ProjectName_sota/`.

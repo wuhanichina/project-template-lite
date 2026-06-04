@@ -31,7 +31,7 @@
 | 环节 | 当前内容 | 对应文件 |
 | --- | --- | --- |
 | 输入对象 | 【待补充】 | `data/` |
-| 核心建模对象 | 【待补充】 | `01_IDEA/derivation.md`; `+ProjectName_core/` |
+| 核心建模对象 | 【待补充】 | `01_IDEA/symbols.md`; `01_IDEA/derivation.md`; `+ProjectName_core/` |
 | 计算/优化/推断过程 | 【待补充】 | `ProjectName_case*.m`; `+ProjectName_core/` |
 | 可验证输出 | 【待补充】 | `result/<case>/`; `01_IDEA/evidence_map.md` |
 

@@ -19,7 +19,7 @@ Keep the visible root small:
 - `+ProjectName_sota/` holds reusable comparison-method code.
 - `data/`, `cache/`, and `result/` are fixed directories. The template may keep README placeholders under `result/`, but generated result artifacts should not be prefilled.
 - `tests/` holds tuning scripts, local checks, and temporary validation before a result becomes paper evidence.
-- `01_IDEA/` holds story, claims, derivations, the evidence map, and the lightweight research trace.
+- `01_IDEA/` holds story, claims, derivations, the unified symbols table, the evidence map, and the lightweight research trace.
 - `02_PAPER/` contains paper-facing material. Track only `config/author-profile.example.yaml`; keep the real local `config/author-profile.yaml` out of Git because it contains personal information.
 - `03_REFERENCE/` holds manually collected literature and BibTeX files.
 - Generated outputs go under `result/`; intermediate artifacts go under `cache/`.
@@ -34,6 +34,7 @@ Keep the visible root small:
 - Important failed approaches, abandoned alternatives, retained early ideas, pivots, and unresolved research questions should be recorded in `01_IDEA/research_trace.yaml`.
 - If a result changes the story, update `01_IDEA/story.md` or `01_IDEA/claims.md` in the same change.
 - If a formula or variable changes, update `01_IDEA/derivation.md` before treating the result as paper evidence.
+- If a symbol, unit, dimension, or code-variable mapping changes, update `01_IDEA/symbols.md` in the same change.
 - Do not write broad contribution claims that are not backed by a runnable entry or a derivation.
 - Research notes must be evidence-bound archives, not paper drafts or promotional summaries. Every important judgment should be marked with a status such as `已由理论推导支持`, `已由数值实验支持`, `尚未验证`, `当前证据不足`, `暂时放弃`, or `文献待核查`.
 

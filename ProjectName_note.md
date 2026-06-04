@@ -182,6 +182,7 @@
 | 故事线 | `01_IDEA/story.md` | 科学问题、技术矛盾、文章主线 |
 | 主张边界 | `01_IDEA/claims.md` | claim、证据、审稿风险 |
 | 数学推导 | `01_IDEA/derivation.md` | 公式、变量、假设、推导细节 |
+| 统一符号表 | `01_IDEA/symbols.md` | 全文符号、单位、维度和代码变量映射 |
 | 证据索引 | `01_IDEA/evidence_map.md` | claim、入口、原始结果和证据状态 |
 | 研究轨迹 | `01_IDEA/research_trace.yaml` | 关键决策、失败路径和路线转向 |
 | 核心代码 | `+ProjectName_core/` | 模型、算法、求解和指标函数 |
@@ -211,7 +212,7 @@
 | $\xi$ | 不确定变量 | 随机变量 | 待填写 | `xi` | 【待补充】 |
 | $\theta$ | 模型参数 | 确定性参数 | 待填写 | `theta` | 【待补充】 |
 
-每个主要符号都应有定义；同一符号在全文中保持含义一致。代码变量和数学符号不同的时候，在表中建立映射。
+每个主要符号都应有定义；同一符号在全文中保持含义一致。代码变量和数学符号不同的时候，在表中建立映射。本节只保留论文主线所需的高层符号摘要，完整符号、单位、维度和代码变量映射维护在 `01_IDEA/symbols.md`。
 
 ### 5.2 网络模型与物理约束
 
@@ -461,10 +462,11 @@ Commit 信息应反映研究含义，而不只是 `update code` 或 `fix bug`。
 3. `01_IDEA/story.md`
 4. `01_IDEA/claims.md`
 5. `01_IDEA/derivation.md`
-6. `01_IDEA/evidence_map.md`
-7. `01_IDEA/research_trace.yaml`
-8. `result/` 中已经登记的重要结果，尤其是 `result/<case>/figures/` 下带 manifest 和检查报告的正式图
-9. `03_REFERENCE/` 中最近竞争者和关键参考文献
+6. `01_IDEA/symbols.md`
+7. `01_IDEA/evidence_map.md`
+8. `01_IDEA/research_trace.yaml`
+9. `result/` 中已经登记的重要结果，尤其是 `result/<case>/figures/` 下带 manifest 和检查报告的正式图
+10. `03_REFERENCE/` 中最近竞争者和关键参考文献
 
 ### 12.2 审稿检查点
 
@@ -475,7 +477,7 @@ Commit 信息应反映研究含义，而不只是 `update code` 或 `fix bug`。
 | 是否记录研究思路演变过程？ | 待填写 |
 | 是否说明旧思路为什么转向新思路？ | 待填写 |
 | 是否完整列出当前数学模型？ | 待填写 |
-| 是否定义所有主要符号？ | 待填写 |
+| 是否定义所有主要符号并同步到 `01_IDEA/symbols.md`？ | 待填写 |
 | 是否说明所有关键假设？ | 待填写 |
 | 是否记录归档路线及其启示？ | 待填写 |
 | 是否记录阶段性验证，并说明它对下一步研究的影响？ | 待填写 |
