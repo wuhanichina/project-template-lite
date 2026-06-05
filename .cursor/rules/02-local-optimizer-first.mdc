@@ -1,5 +1,5 @@
 ---
-description: Local MATLAB optimizer policy. Prefer CVX, MOSEK, and Gurobi on this machine; keep GAMS as optional legacy or comparison tooling only.
+description: Local MATLAB optimizer policy. Prefer CVX, MOSEK, and Gurobi while keeping the default workflow portable to Apple Silicon macOS when practical.
 globs: "**/*.m,**/*.gms"
 alwaysApply: false
 ---
@@ -17,6 +17,14 @@ For new optimization code, prefer the local MATLAB optimization stack:
 5. `GAMS` only for legacy reproduction, external-author baselines, or models that are genuinely not yet rewritten in MATLAB.
 
 Do not introduce a new GAMS dependency by default.
+
+## Platform Boundary
+
+Solver and software choices should consider Apple Silicon macOS compatibility before they become part of the main workflow.
+
+- Prefer MATLAB-native modeling and solver APIs with documented macOS support.
+- Do not make Windows-only executables, x86-only binaries, or a local Windows license path mandatory for the paper-facing entry.
+- If a legacy baseline requires a platform-limited tool, keep it optional, isolate it behind an adapter, and document the limitation in the result or evidence record.
 
 ## Dependency Checks
 

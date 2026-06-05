@@ -17,12 +17,12 @@ Keep the visible root small:
 - `+ProjectName_core/` holds reusable model, algorithm, solver, and metric functions. Replace `ProjectName` with the actual project prefix when the template is copied.
 - `+ProjectName_utils/` holds non-core utilities such as MC helpers, IO/export helpers, plotting helpers, and cache support. It must not define the paper's core model or contribution.
 - `+ProjectName_sota/` holds reusable comparison-method code.
-- `data/`, `cache/`, and `result/` are fixed directories. The template may keep README placeholders under `result/`, but generated result artifacts should not be prefilled.
+- `data/`, `cache/`, and `result/` are fixed directories. `data/` is the complete reproducibility input boundary: formal entries must be able to start from code plus `data/` after existing `cache/` files are removed. The template may keep README placeholders under `result/`, but generated result artifacts should not be prefilled.
 - `tests/` holds tuning scripts, local checks, and temporary validation before a result becomes paper evidence.
 - `01_IDEA/` holds story, claims, derivations, the unified symbols table, the evidence map, and the lightweight research trace.
 - `02_PAPER/` contains paper-facing material. Track only `config/author-profile.example.yaml`; keep the real local `config/author-profile.yaml` out of Git because it contains personal information.
 - `03_REFERENCE/` holds manually collected literature and BibTeX files.
-- Generated outputs go under `result/`; intermediate artifacts go under `cache/`.
+- Generated outputs go under `result/`; intermediate artifacts go under `cache/`. Do not make an existing cache file a required startup input.
 - Each runnable case owns one result subtree: `result/<case_name>/` for numerical outputs, tables, and logs, plus `result/<case_name>/figures/` for formal case-specific figures.
 - Do not add new root-level or sidecar folders by default. In particular, do not create `scripts/`, `tools/`, or another utility folder unless the author explicitly asks for that structure.
 
@@ -49,8 +49,16 @@ Keep the visible root small:
 - Do not create another stage folder for reusable code.
 - Do not create a separate `scripts/` folder for runnable MATLAB helpers; use the root case entries, `tests/` for temporary validation, or the existing package folders.
 
+## Platform Compatibility
+
+- Default to code and dependency choices that can run on Windows MATLAB and Apple Silicon macOS.
+- Use `fullfile`, `filesep`, `ispc`, `ismac`, or `computer` checks instead of hardcoding Windows separators, drive letters, or `.exe` paths in reusable code.
+- Do not make Windows-only binaries, x86-only solver builds, local absolute package paths, or GAMS licensing part of the mandatory paper workflow.
+- If a legacy or comparison path is platform-limited, isolate it behind a clearly named optional adapter and document the limitation near the entry point and evidence map.
+
 ## Result Discipline
 
+- Before project submission or handoff, clear or rename `cache/` and verify that `ProjectName` or each formal `ProjectName_case*.m` can start a full computation using only code plus `data/`.
 - A runnable case may create `result/<case_name>/`.
 - A runnable case should create `result/<case_name>/figures/` and write all formal figures for that case there.
 - Each formal result should be traceable to the entry file, config, solver, and data version that produced it.

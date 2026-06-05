@@ -9,16 +9,18 @@ alwaysApply: false
 ## Paths And Startup
 
 - Build absolute paths from the entry file location, not from `pwd`.
+- Build paths with `fullfile` or `filesep`; do not hardcode Windows separators in reusable code.
 - Keep machine-specific paths in a short startup or config block near the top of the entry.
 - For paths containing spaces or Chinese characters, avoid long inline `matlab -batch` commands; prefer a small `.m` entry script.
 - When calling external commands, quote paths explicitly.
+- If an external executable or package path is platform-specific, guard it with `ispc`, `ismac`, or `computer` checks and keep it optional unless the project author has documented it as a required dependency.
 
 ## Configuration
 
 Use a named `config` or `caseConfig` struct for all tunable values:
 
 - case name
-- data source
+- data source under `data/`, not under `cache/`
 - solver family
 - random seed
 - result directory
@@ -36,6 +38,7 @@ Avoid unnamed magic numbers in model-building code.
 - Use `assert` for physical, dimensional, and solver-precondition checks.
 - Error messages should say what failed, which object failed, and what path or variable should be checked.
 - Do not use `try/catch` to hide infeasibility, missing dependencies, or solver failures.
+- Before submission, validate at least one cold start with existing `cache/` removed or renamed. Cache misses should trigger recomputation from `data/`, not a fatal missing-input error.
 
 ## Naming
 

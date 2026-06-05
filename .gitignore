@@ -20,6 +20,6 @@ tmp/
 *.fig
 *.mat
 !data/
-!data/Load_Data.mat
+!data/**
 *.log
 *.tmp

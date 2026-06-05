@@ -30,9 +30,10 @@ fprintf("Figure directory: %s\n", caseConfig.figureDir);
 
 % TODO: replace this minimal scaffold with the actual case33bw workflow.
 % Suggested order:
-% 1. load case33bw input data from data/
+% 1. load all formal case33bw input data from data/
 % 2. call +ProjectName_core functions to build the proposed-method model
 % 3. solve the model and cache reusable intermediate artifacts under cache/case33bw
+%    cache misses should trigger recomputation from data/, not a missing-input failure
 % 4. export tables under result/case33bw and formal figures under
 %    result/case33bw/figures with ProjectName_utils.plotting.save_figure.
 %    Formal figure metadata must include the scientific question, data files,
