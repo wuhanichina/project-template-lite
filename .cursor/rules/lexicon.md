@@ -1,8 +1,8 @@
 # Writing Lexicon
 
-This file defines wording checks for AI-generated research notes, manuscript
-drafts, README text, code comments, review responses, and figure captions in this
-template.
+This rule file defines wording checks for AI-generated research notes,
+manuscript drafts, README text, code comments, review responses, and figure
+captions in this template.
 
 ## Preferred Style
 

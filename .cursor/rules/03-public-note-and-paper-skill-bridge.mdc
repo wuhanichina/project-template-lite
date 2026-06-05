@@ -48,12 +48,12 @@ check reports. Apply this gate to Chinese and English text before release.
 - Use complete declarative sentences. Negative buildup, dramatic fragments, and isolated emphasis phrases should be rewritten as one specific statement.
 - Start with the system object, model term, constraint, data source, metric, or numerical result. Rhetorical questions, prompting phrases, and explanatory setup phrases should be removed.
 - Remove meta commentary about the section, future explanation, or authorial process. The sentence should begin with the technical object or formulation.
-- Use plain technical verbs. Promotional or business phrasing should be replaced with domain verbs listed in `lexicon.md`.
+- Use plain technical verbs. Promotional or business phrasing should be replaced with domain verbs listed in `.cursor/rules/lexicon.md`.
 - Replace vague consequence statements with the concrete implication, affected object, mechanism, case scope, metric, or number.
 - Replace scope-free extreme terms with the stated scope, such as the case set, time window, model class, solver, dataset, or assumption range.
 - Replace em dashes with commas or periods.
 - Delete empty intensifiers, or attach the modifier to a number, tolerance, scale, or evidence source.
-- Run a final wording scan against `lexicon.md` before treating AI-generated text as ready.
+- Run a final wording scan against `.cursor/rules/lexicon.md` before treating AI-generated text as ready.
 
 ## Evidence-State Labels
 
