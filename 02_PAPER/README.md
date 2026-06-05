@@ -7,6 +7,11 @@ Drafts in this folder should be distilled from `ProjectName_note.md`,
 and registered outputs under `result/`. Keep claims, figures, numbers,
 references, and Git/version statements traceable to those files.
 
+AI-generated manuscript text, captions, review responses, and author-facing
+notes should pass the writing style gate in
+`.cursor/rules/03-public-note-and-paper-skill-bridge.mdc` and the project
+wording scan in `lexicon.md` before release.
+
 Formal manuscript figures should come from `result/<case>/figures/` bundles
 exported by `ProjectName_utils.plotting.save_figure`, so source figures,
 preview images, vector outputs, plot data, manifest rows, and check reports stay

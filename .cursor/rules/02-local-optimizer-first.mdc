@@ -31,9 +31,9 @@ Solver and software choices should consider Apple Silicon macOS compatibility be
 Do not infer solver availability from installer folders alone. Check MATLAB visibility first:
 
 ```matlab
-assert(exist('cvx_begin', 'file') == 2, 'CVX is not visible on the MATLAB path.');
-assert(exist('mosekopt', 'file') == 3 || exist('mosekopt', 'file') == 2, 'MOSEK is not visible on the MATLAB path.');
-assert(exist('gurobi', 'file') == 3 || exist('gurobi', 'file') == 2, 'Gurobi is not visible on the MATLAB path.');
+assert(exist('cvx_begin', 'file') == 2, 'CVX is missing from the MATLAB path.');
+assert(exist('mosekopt', 'file') == 3 || exist('mosekopt', 'file') == 2, 'MOSEK is missing from the MATLAB path.');
+assert(exist('gurobi', 'file') == 3 || exist('gurobi', 'file') == 2, 'Gurobi is missing from the MATLAB path.');
 ```
 
 For CVX, a robust local startup pattern is:

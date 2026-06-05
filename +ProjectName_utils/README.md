@@ -10,6 +10,11 @@ Keep this package for implementation support that should not define the paper's 
   `methodStyle`, `plot_method_line`, and `save_figure`, and should be written to
   `result/<case>/figures/`.
 
+Add new utilities by support process, not as generic loose helpers. Good
+subpackage names describe the workflow support they provide, such as `+cache/`,
+`+logging/`, `+validation/`, or `+tables/`. File names should describe the
+actual IO, export, plotting, sampling, or validation step they perform.
+
 `save_figure` is intentionally strict. Formal exports must provide metadata for
 the scientific question, data files, field/unit/dimension description, visual
 encoding, target layout, command, key parameters, and random seed/status. Keep

@@ -1,5 +1,5 @@
 ---
-description: Lightweight research-coding rules for this project template. The project root is the code root, and every computation must stay tied to idea claims.
+description: Lightweight research-coding rules for this project template. The project root is the code root, and formal computations must stay tied to idea claims.
 alwaysApply: true
 ---
 
@@ -14,9 +14,9 @@ Keep the visible root small:
 - `ProjectName_note.md` is the project research note and should stay synchronized with the idea files, math derivation, and important results.
 - `ProjectName.m` is the unified runnable entry for paper figures and tables. It should orchestrate the proposed method and SOTA comparison, not hide core algorithm logic in a long script.
 - `ProjectName_case33bw.m` and `ProjectName_case123.m` are the default case entries for the proposed method on the two example networks. Replace `ProjectName` with the actual project prefix when the template is copied.
-- `+ProjectName_core/` holds reusable model, algorithm, solver, and metric functions. Replace `ProjectName` with the actual project prefix when the template is copied.
-- `+ProjectName_utils/` holds non-core utilities such as MC helpers, IO/export helpers, plotting helpers, and cache support. It must not define the paper's core model or contribution.
-- `+ProjectName_sota/` holds reusable comparison-method code.
+- `+ProjectName_core/` holds contribution-defining core code such as physical models, mathematical models, core algorithms, solver wrappers, and paper metrics. Replace `ProjectName` with the actual project prefix when the template is copied.
+- `+ProjectName_utils/` holds support code such as MC helpers, IO/export helpers, plotting helpers, cache support, and logging. It must not define the paper's core model or contribution.
+- `+ProjectName_sota/` holds reusable comparison-algorithm and baseline code.
 - `data/`, `cache/`, and `result/` are fixed directories. `data/` is the complete reproducibility input boundary: formal entries must be able to start from code plus `data/` after existing `cache/` files are removed. The template may keep README placeholders under `result/`, but generated result artifacts should not be prefilled.
 - `tests/` holds tuning scripts, local checks, and temporary validation before a result becomes paper evidence.
 - `01_IDEA/` holds story, claims, derivations, the unified symbols table, the evidence map, and the lightweight research trace.
@@ -42,10 +42,12 @@ Keep the visible root small:
 
 - Keep configuration near the top of `ProjectName.m` and each `ProjectName_case*.m` entry.
 - Use `projectRoot = fileparts(mfilename('fullpath'))` instead of relying on the current MATLAB working directory.
-- Put shared model-building, solver, metric, and export logic in `+ProjectName_core/`.
-- Put MC sampling support, directory/file IO, cache plumbing, and plotting/export helpers in `+ProjectName_utils/`.
-- Put shared baseline or comparison method logic in `+ProjectName_sota/`.
+- Put shared model-building, solver, and metric logic in `+ProjectName_core/`, under semantic subpackages named for a physical object, mathematical component, or workflow stage.
+- Put MC sampling support, directory/file IO, cache plumbing, plotting/export helpers, logging, and validation helpers in `+ProjectName_utils/`, under semantic support-process subpackages such as `+mc/`, `+io/`, and `+plotting/`.
+- Put shared baseline or comparison method logic in `+ProjectName_sota/`, under subpackages named for the algorithm family or baseline.
 - Keep case-specific orchestration in `ProjectName_case*.m`.
+- Do not leave formal reusable functions as a loose pile in a package root. Package roots may contain README files, short package-level dispatchers, or registries only.
+- Subpackage and `.m` file names must describe a real physical object, mathematical operation, or workflow step. Avoid generic formal-code names such as `helper.m`, `utils.m`, `misc.m`, `temp.m`, `test1.m`, `new_method.m`, or `wrapper.m` unless the name is made specific.
 - Do not create another stage folder for reusable code.
 - Do not create a separate `scripts/` folder for runnable MATLAB helpers; use the root case entries, `tests/` for temporary validation, or the existing package folders.
 
@@ -60,7 +62,7 @@ Keep the visible root small:
 
 - Before project submission or handoff, clear or rename `cache/` and verify that `ProjectName` or each formal `ProjectName_case*.m` can start a full computation using only code plus `data/`.
 - A runnable case may create `result/<case_name>/`.
-- A runnable case should create `result/<case_name>/figures/` and write all formal figures for that case there.
+- A runnable case should create `result/<case_name>/figures/` and write its formal figures for that case there.
 - Each formal result should be traceable to the entry file, config, solver, and data version that produced it.
 - Each formal MATLAB figure should be exported through `ProjectName_utils.plotting.save_figure`, which produces `.fig`, `.png`, `.svg`, optional plot-data CSV, a JSONL manifest row, and a figure check report.
 - Each formal figure must declare its scientific question, data files, field/unit/dimension description, visual encoding, target layout, command, key parameters, and random seed/status before export.

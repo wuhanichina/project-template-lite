@@ -416,7 +416,7 @@ fprintf(fid, "| Legend does not cover key curves | REVIEW_REQUIRED |\n");
 fprintf(fid, "| X-axis labels are not too dense | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Structured labels use domain-readable forms | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Method color, line style, and marker match methodStyle | REVIEW_REQUIRED |\n");
-fprintf(fid, "| Formal figure is not a subplot/tiledlayout composite | REVIEW_REQUIRED |\n");
+fprintf(fid, "| Formal figure uses an independent exported subfigure layout | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Methods remain distinguishable in grayscale | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Log-axis zero handling and excluded points are declared | REVIEW_REQUIRED |\n\n");
 end

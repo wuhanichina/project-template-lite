@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## Project Research Note
 
-`ProjectName_note.md` is the project research note at the project root. When the template is copied, rename the `ProjectName` prefix if needed, or replace the title and all `ProjectName` placeholders.
+`ProjectName_note.md` is the project research note at the project root. When the template is copied, rename the `ProjectName` prefix if needed, or replace the title and each `ProjectName` placeholder.
 
 It is a traceable research archive. Its job is to turn a project idea into material that collaborators can inspect, continue, and later distill into manuscript prose: how the research question formed, how the route evolved, how the math model maps to code, which results support or revise current judgments, and what remains unresolved.
 
@@ -37,6 +37,23 @@ Keep `ProjectName_note.md` readable by a collaborator or reviewer-facing coautho
 - Prefer evidence-bound wording: "current evidence supports", "this remains to be verified", "this route was archived because", "this conclusion is only observed in", and "the assumption applies under".
 - Keep abandoned and archived routes. Record the original idea, attempted implementation, Git record if available, observed failure mode, reason for abandonment, retained lesson, and whether it may be reopened.
 - If Git history is unavailable or not yet committed, keep the Git fields and mark them with `【Git 信息待补充】` or `【Git 待提交】` so version linkage can be filled later.
+
+## AI Writing Style Gate
+
+AI-generated text in this template includes README text, research notes, idea
+files, manuscript drafts, review responses, code comments, captions, tables, and
+check reports. Apply this gate to Chinese and English text before release.
+
+- State the positive technical claim directly. Binary negative contrast should be rewritten as the target claim.
+- Use complete declarative sentences. Negative buildup, dramatic fragments, and isolated emphasis phrases should be rewritten as one specific statement.
+- Start with the system object, model term, constraint, data source, metric, or numerical result. Rhetorical questions, prompting phrases, and explanatory setup phrases should be removed.
+- Remove meta commentary about the section, future explanation, or authorial process. The sentence should begin with the technical object or formulation.
+- Use plain technical verbs. Promotional or business phrasing should be replaced with domain verbs listed in `lexicon.md`.
+- Replace vague consequence statements with the concrete implication, affected object, mechanism, case scope, metric, or number.
+- Replace scope-free extreme terms with the stated scope, such as the case set, time window, model class, solver, dataset, or assumption range.
+- Replace em dashes with commas or periods.
+- Delete empty intensifiers, or attach the modifier to a number, tolerance, scale, or evidence source.
+- Run a final wording scan against `lexicon.md` before treating AI-generated text as ready.
 
 ## Evidence-State Labels
 
@@ -94,14 +111,14 @@ Before drafting with the paper-writing skill, load this material in order:
 9. relevant result files under `result/`
 10. closest-competitor notes or BibTeX under `03_REFERENCE/`
 
-The writing skill should convert the public note into manuscript prose and keep every contribution tied to the archive evidence.
+The writing skill should convert the public note into manuscript prose and keep each contribution tied to the archive evidence.
 
 ## Paper Review Skill Interface
 
 Before reviewing with the paper-review skill, check:
 
-- whether every strong manuscript claim maps to `ProjectName_note.md` or `01_IDEA/claims.md`,
-- whether every equation has defined variables and physical meaning,
+- whether each strong manuscript claim maps to `ProjectName_note.md` or `01_IDEA/claims.md`,
+- whether each equation has defined variables and physical meaning,
 - whether the case studies verify the stated innovation rather than a different problem,
 - whether conclusions are supported by formulas, results, or explicit assumptions,
 - whether unsupported engineering implementation details should be removed from the manuscript body.

@@ -12,7 +12,7 @@ it from files kept here.
 
 Keep large or private datasets out of Git unless the project author explicitly
 decides they are publishable and lightweight enough for the repository.
-Even when public Git cannot carry every file, the final submission or handoff
+When public Git omits large or private inputs, the final submission or handoff
 package should include the complete `data/` tree needed for reproduction.
 
 By default, generic `.mat` files outside `data/` are ignored, while files under
