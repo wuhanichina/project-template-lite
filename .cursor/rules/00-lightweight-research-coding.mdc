@@ -12,10 +12,10 @@ This repository uses the project root as the MATLAB code root. Do not recreate l
 Keep the visible root small:
 
 - `ProjectName_note.md` is the project research note and should stay synchronized with the idea files, math derivation, and important results.
-- `ProjectName.m` is the unified runnable entry for paper figures and tables. It should orchestrate the proposed method and SOTA comparison, not hide core algorithm logic in a long script.
-- `ProjectName_case33bw.m` and `ProjectName_case123.m` are the default case entries for the proposed method on the two example networks. Replace `ProjectName` with the actual project prefix when the template is copied.
+- `ProjectName.m` is the project-level entry for registered case runs, cross-case summaries, and global figures. It must stay a small orchestrator.
+- `ProjectName_case33bw.m` and `ProjectName_case123.m` are formal case workflow entries for the two example networks. Each case entry should show the full step sequence and call package functions for implementation. Replace `ProjectName` with the actual project prefix when the template is copied.
 - `+ProjectName_core/` holds contribution-defining core code such as physical models, mathematical models, core algorithms, solver wrappers, and paper metrics. Replace `ProjectName` with the actual project prefix when the template is copied.
-- `+ProjectName_utils/` holds support code such as MC helpers, IO/export helpers, plotting helpers, cache support, and logging. It must not define the paper's core model or contribution.
+- `+ProjectName_utils/` holds support code such as MC helpers, IO/export helpers, plotting helpers, workflow tracking, local task progress UI, cache support, and logging. It must not define the paper's core model or contribution.
 - `+ProjectName_sota/` holds reusable comparison-algorithm and baseline code.
 - `data/`, `cache/`, and `result/` are fixed directories. `data/` is the complete reproducibility input boundary: formal entries must be able to start from code plus `data/` after existing `cache/` files are removed. The template may keep README placeholders under `result/`, but generated result artifacts should not be prefilled.
 - `tests/` holds tuning scripts, local checks, and temporary validation before a result becomes paper evidence.
@@ -42,12 +42,15 @@ Keep the visible root small:
 
 - Keep configuration near the top of `ProjectName.m` and each `ProjectName_case*.m` entry.
 - Use `projectRoot = fileparts(mfilename('fullpath'))` instead of relying on the current MATLAB working directory.
-- Put shared model-building, solver, and metric logic in `+ProjectName_core/`, under semantic subpackages named for a physical object, mathematical component, or workflow stage.
+- Put shared model-building, solver, and metric logic in `+ProjectName_core/`, under semantic subpackages named for a physical object, mathematical component, method family, or solution stage.
 - Put MC sampling support, directory/file IO, cache plumbing, plotting/export helpers, logging, and validation helpers in `+ProjectName_utils/`, under semantic support-process subpackages such as `+mc/`, `+io/`, and `+plotting/`.
 - Put shared baseline or comparison method logic in `+ProjectName_sota/`, under subpackages named for the algorithm family or baseline.
 - Keep case-specific orchestration in `ProjectName_case*.m`.
+- Keep root MATLAB files limited to project-level or case-level orchestration. New run logic belongs in semantic package subfolders.
+- Each formal case entry should list its workflow steps in comments and execute those steps through package calls.
+- Use terminal step tracking for case-level workflow progress. Use `+ProjectName_utils/+ui/create_task_waitbar.m` only inside long-running package functions.
 - Do not leave formal reusable functions as a loose pile in a package root. Package roots may contain README files, short package-level dispatchers, or registries only.
-- Subpackage and `.m` file names must describe a real physical object, mathematical operation, or workflow step. Avoid generic formal-code names such as `helper.m`, `utils.m`, `misc.m`, `temp.m`, `test1.m`, `new_method.m`, or `wrapper.m` unless the name is made specific.
+- Subpackage and `.m` file names must describe a real physical object, mathematical operation, method family, comparison procedure, or solution stage. Avoid generic formal-code names such as `helper.m`, `utils.m`, `misc.m`, `temp.m`, `test1.m`, `new_method.m`, or `wrapper.m` unless the name is made specific.
 - Do not create another stage folder for reusable code.
 - Do not create a separate `scripts/` folder for runnable MATLAB helpers; use the root case entries, `tests/` for temporary validation, or the existing package folders.
 

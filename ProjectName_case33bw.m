@@ -1,15 +1,70 @@
+function runSummary = ProjectName_case33bw()
 %% ProjectName_case33bw
-% Proposed-method entry for the case33bw network.
-% Keep this file as the readable map from the case33bw evidence claim to code.
+% Formal case workflow for the case33bw network.
+%
+% This root entry orchestrates the full case33bw formal workflow. Package
+% functions implement data loading, proposed-method computation, baselines,
+% metrics, output writing, and figure export.
+%
+% Workflow steps:
+% 1. Define case configuration.
+% 2. Prepare directories, seed, and run state.
+% 3. Load and validate data inputs.
+% 4. Run the proposed method.
+% 5. Run SOTA or baseline methods.
+% 6. Evaluate case metrics.
+% 7. Write tables, summary, and run manifest.
+% 8. Export formal case figures.
+% 9. Finalize the run and report evidence registration status.
 
-clear; clc;
+projectRoot = fileparts(mfilename("fullpath"));
 
-projectRoot = fileparts(mfilename('fullpath'));
+caseConfig = local_case_config(projectRoot);
+tracker = ProjectName_utils.workflow.create_step_tracker(9, caseConfig.name);
+trackerCleanup = onCleanup(@() tracker.close());
 
+tracker.update(1, "Define case configuration");
+
+tracker.update(2, "Prepare directories, seed, and run state");
+runState = ProjectName_utils.workflow.prepare_case_run(caseConfig);
+
+tracker.update(3, "Load and validate data inputs");
+caseData = ProjectName_utils.io.load_case_inputs(caseConfig);
+
+tracker.update(4, "Run the proposed method");
+proposedResults = ProjectName_core.methods.run_proposed_case(caseConfig, caseData);
+
+tracker.update(5, "Run SOTA or baseline methods");
+baselineResults = ProjectName_sota.baselines.run_case_baselines(caseConfig, caseData, proposedResults);
+
+tracker.update(6, "Evaluate case metrics");
+metrics = ProjectName_core.metrics.evaluate_case_metrics(caseConfig, proposedResults, baselineResults);
+
+tracker.update(7, "Write tables, summary, and run manifest");
+outputFiles = ProjectName_utils.io.write_case_outputs( ...
+    caseConfig, caseData, proposedResults, baselineResults, metrics);
+
+tracker.update(8, "Export formal case figures");
+figureOutputs = ProjectName_utils.plotting.export_case_figures(caseConfig, metrics);
+
+tracker.update(9, "Finalize run and report evidence registration status");
+runSummary = ProjectName_utils.workflow.finalize_case_run( ...
+    caseConfig, runState, caseData, proposedResults, baselineResults, ...
+    metrics, outputFiles, figureOutputs);
+
+tracker.close();
+clear trackerCleanup
+
+fprintf("Evidence reminder: register %s in 01_IDEA/evidence_map.md when results become formal.\n", ...
+    caseConfig.evidenceId);
+end
+
+function caseConfig = local_case_config(projectRoot)
 caseConfig = struct();
+caseConfig.projectRoot = string(projectRoot);
 caseConfig.name = "case33bw";
 caseConfig.network = "case33bw";
-caseConfig.description = "Proposed method on the case33bw network";
+caseConfig.description = "Proposed method and registered baselines on the case33bw network";
 caseConfig.seed = 33;
 caseConfig.dataDir = fullfile(projectRoot, "data");
 caseConfig.cacheDir = fullfile(projectRoot, "cache", caseConfig.name);
@@ -18,38 +73,6 @@ caseConfig.figureDir = fullfile(caseConfig.resultDir, "figures");
 caseConfig.claim = "C1";
 caseConfig.evidenceId = "E01";
 caseConfig.optimizerPriority = ["cvx_mosek", "gurobi", "mosek_direct"];
-
-ProjectName_utils.mc.init_seed(caseConfig.seed);
-ProjectName_utils.io.ensure_dir(caseConfig.cacheDir);
-ProjectName_utils.io.ensure_dir(caseConfig.resultDir);
-ProjectName_utils.io.ensure_dir(caseConfig.figureDir);
-
-fprintf("Running %s\n", caseConfig.name);
-fprintf("Result directory: %s\n", caseConfig.resultDir);
-fprintf("Figure directory: %s\n", caseConfig.figureDir);
-
-% TODO: replace this minimal scaffold with the actual case33bw workflow.
-% Suggested order:
-% 1. load all formal case33bw input data from data/
-% 2. call +ProjectName_core functions to build the proposed-method model
-% 3. solve the model and cache reusable intermediate artifacts under cache/case33bw
-%    cache misses should trigger recomputation from data/, not a missing-input failure
-% 4. export tables under result/case33bw and formal figures under
-%    result/case33bw/figures with ProjectName_utils.plotting.save_figure.
-%    Formal figure metadata must include the scientific question, data files,
-%    field/unit/dimension description, visual encoding, target layout, command,
-%    key parameters, and random seed/status.
-% 5. register the formal result in 01_IDEA/evidence_map.md
-
-summaryFile = fullfile(caseConfig.resultDir, "summary.txt");
-summary = struct();
-summary.case = caseConfig.name;
-summary.network = caseConfig.network;
-summary.description = caseConfig.description;
-summary.claim = caseConfig.claim;
-summary.evidenceId = caseConfig.evidenceId;
-summary.figureDir = caseConfig.figureDir;
-summary.status = "scaffold only; fill in the actual case33bw computation.";
-ProjectName_utils.io.write_summary(summaryFile, summary);
-
-fprintf("Done. Wrote %s\n", summaryFile);
+caseConfig.showTaskWaitbar = usejava("desktop");
+caseConfig.workflowStatus = "scaffold";
+end

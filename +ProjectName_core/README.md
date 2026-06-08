@@ -5,9 +5,9 @@ wrappers, and paper metrics here.
 
 Organize implementation code into semantic subpackages instead of leaving many
 loose functions in this package root. Subpackage names should describe the
-physical object, mathematical component, or workflow stage they own, for example
+physical object, mathematical component, or solution stage they own, for example
 `+network_model/`, `+power_flow/`, `+optimization/`, `+risk_metrics/`, or
-`+diagnostics/`.
+`+methods/`.
 
 File names should say what the function physically or procedurally does, such as
 `build_power_flow_model.m`, `solve_dispatch_subproblem.m`, or

@@ -6,6 +6,8 @@ Keep this package for implementation support that should not define the paper's 
 
 - `+mc/`: Monte Carlo seeds, sampling helpers, empirical validation drivers, and cache keys.
 - `+io/`: directory creation, result export, summary writing, table IO, and cache IO helpers.
+- `+workflow/`: case-run preparation, terminal step tracking, and run finalization helpers.
+- `+ui/`: local task progress UI for long-running package functions such as Monte Carlo or batch scenario evaluation.
 - `+plotting/`: paper figure style and export helpers. Formal figures should use
   `methodStyle`, `plot_method_line`, and `save_figure`, and should be written to
   `result/<case>/figures/`.

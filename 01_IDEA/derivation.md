@@ -50,11 +50,11 @@ $$
 
 | 推导对象 | 代码位置 | 说明 |
 | --- | --- | --- |
-| 统一运行 | `ProjectName.m` | 汇总本文方法和 SOTA 对比，支撑论文图表 |
-| case33bw 数据输入 | `ProjectName_case33bw.m` | case33bw 算例数据入口 |
-| case123 数据输入 | `ProjectName_case123.m` | case123 算例数据入口 |
+| 项目级入口 | `ProjectName.m` | 串联模板登记 case，写入跨 case 汇总并预留全局图表出口 |
+| case33bw 正式入口 | `ProjectName_case33bw.m` | 编排 case33bw 下的 9 步正式流程 |
+| case123 正式入口 | `ProjectName_case123.m` | 编排 case123 下的 9 步正式流程 |
 | 模型构建 | `+ProjectName_core/` | 核心模型、算法和求解函数 |
-| 非核心工具 | `+ProjectName_utils/` | MC、IO、绘图、缓存读写等工程支撑函数 |
+| 非核心工具 | `+ProjectName_utils/` | 流程、IO、绘图、局部长耗时进度条等工程支撑函数 |
 | 对比方法 | `+ProjectName_sota/` | 基线方法、共同指标和对比逻辑 |
 
 ## 推导复核

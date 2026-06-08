@@ -6,7 +6,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | C1 | 本文方法能在 case33bw 主场景中解决核心计算或建模问题。 | 主算例 | E01 | `ProjectName_case33bw.m` | 稳定输出目标指标，并能解释核心工程结论。 | 待验证 | 模板占位 |
 | C2 | 本文方法能在 case123 扩展网架中保持有效。 | 扩展算例 | E02 | `ProjectName_case123.m` | 扩展算例可运行，规模指标和关键指标支撑 C1 的外推。 | 待验证 | 模板占位 |
-| C3 | 本文方法相对 SOTA 或最接近基线有明确改进。 | 对比改进 | E03 | `ProjectName.m` / `+ProjectName_sota/` | 同数据、同指标、同约束下给出可解释差异。 | 待验证 | 模板占位 |
+| C3 | 本文方法在跨 case 汇总和对比实验中呈现可解释差异。 | 跨 case 汇总与对比 | E03 | `ProjectName.m`; `+ProjectName_utils/+plotting/export_project_figures.m` | 模板登记 case 完成同口径结果汇总，并给出可解释差异。 | 待验证 | 模板占位 |
 
 ## 证据绑定
 
@@ -14,7 +14,7 @@
 | --- | --- | --- | --- |
 | E01 | `result/case33bw/summary.txt`; `result/case33bw/figures/` | 待填：case33bw 指标、图表和日志 | 待填：它具体支撑 C1 的哪一部分 |
 | E02 | `result/case123/summary.txt`; `result/case123/figures/` | 待填：case123 指标、规模和稳定性 | 待填：它支撑扩展性还是只支撑有限场景 |
-| E03 | `result/...` | 待填：SOTA 对比表或公平性说明 | 待填：改进来自模型、约束、求解还是评价口径 |
+| E03 | `result/project_summary.txt`; `result/project/figures/` | 待填：跨 case 汇总表、SOTA 对比表或公平性说明 | 待填：差异来自模型、约束、求解还是评价口径 |
 
 ## 证据状态
 

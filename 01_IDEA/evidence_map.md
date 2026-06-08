@@ -8,7 +8,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | E01 | C1 | `ProjectName_case33bw.m` | `result/case33bw/summary.txt`; `result/case33bw/figures/` | 主算例 | 待填 | 待填 | scaffold | case33bw 主场景 |
 | E02 | C2 | `ProjectName_case123.m` | `result/case123/summary.txt`; `result/case123/figures/` | 扩展算例 | 待填 | 待填 | scaffold | case123 扩展网架 |
-| E03 | C3 | `ProjectName.m` / `+ProjectName_sota/` | `result/...` | 对比证据 | 待填 | 待填 | 待验证 | 同数据、同指标、同约束下比较 |
+| E03 | C3 | `ProjectName.m`; `+ProjectName_utils/+plotting/export_project_figures.m` | `result/project_summary.txt`; `result/project/figures/` | 跨 case 汇总与对比证据 | 待填 | 待填 | scaffold | 模板登记 case 的同口径汇总 |
 
 ## 图表证据包
 

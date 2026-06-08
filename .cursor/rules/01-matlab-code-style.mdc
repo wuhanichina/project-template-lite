@@ -43,9 +43,9 @@ Avoid unnamed magic numbers in model-building code.
 ## Naming
 
 - Function names: lower snake case, verb-oriented when possible.
-- Function and file names should carry physical, mathematical, or workflow meaning, for example `build_power_flow_model`, `solve_dispatch_subproblem`, `evaluate_voltage_risk`, or `export_case_summary`.
+- Function and file names should carry physical, mathematical, or procedural meaning, for example `build_power_flow_model`, `solve_dispatch_subproblem`, `evaluate_voltage_risk`, or `export_case_summary`.
 - Avoid generic formal-code names such as `helper`, `utils`, `misc`, `temp`, `test1`, `new_method`, or vague `wrapper` names. If a wrapper is genuinely needed, name the wrapped method or interface explicitly.
-- Subpackage names should identify the domain object or workflow stage they hold. Implementation language and convenience role are secondary details.
+- Subpackage names should identify the domain object, method family, comparison procedure, or solution stage they hold. Implementation language and convenience role are secondary details.
 - Struct fields: lower camel case.
 - Constants and tolerances: named fields under `config` rather than global constants.
 - Mathematical variables should match `01_IDEA/symbols.md` and `01_IDEA/derivation.md` whenever practical.
@@ -60,6 +60,8 @@ Avoid unnamed magic numbers in model-building code.
 - MC helpers, IO/export helpers, cache plumbing, plotting helpers, and logging helpers belong under semantic support subpackages in `+ProjectName_utils/`.
 - SOTA and comparison-method helpers belong under algorithm- or baseline-named subpackages in `+ProjectName_sota/`.
 - Case scripts should stay readable rather than becoming large algorithm or utility files.
+- Case entries should show the formal workflow steps and call package functions for each step.
+- MATLAB waitbar UI is for local long-running tasks inside package functions. Case-level workflow progress belongs in terminal step tracking.
 - Do not introduce new helper folders such as `scripts/` unless the author deliberately chooses that layout.
 
 ## Paper Figure Discipline

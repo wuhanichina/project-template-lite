@@ -187,11 +187,11 @@
 | 证据索引 | `01_IDEA/evidence_map.md` | claim、入口、原始结果和证据状态 |
 | 研究轨迹 | `01_IDEA/research_trace.yaml` | 关键决策、失败路径和路线转向 |
 | 核心代码 | `+ProjectName_core/` | 模型、算法、求解和指标函数 |
-| 工具代码 | `+ProjectName_utils/` | MC、IO、绘图、缓存读写等非核心工具函数 |
+| 工具代码 | `+ProjectName_utils/` | MC、IO、流程跟踪、局部长耗时进度条、绘图、缓存读写等非核心工具函数 |
 | 对比代码 | `+ProjectName_sota/` | 对比方法核心代码 |
-| 统一入口 | `ProjectName.m` | 一键组织本文方法和 SOTA 对比，支撑论文图表 |
-| case33bw 算例 | `ProjectName_case33bw.m` | case33bw 算例入口 |
-| case123 算例 | `ProjectName_case123.m` | case123 算例入口 |
+| 项目级入口 | `ProjectName.m` | 串联模板登记 case，并生成跨 case 汇总和全局图表 |
+| case33bw 算例 | `ProjectName_case33bw.m` | case33bw 完整正式流程入口 |
+| case123 算例 | `ProjectName_case123.m` | case123 完整正式流程入口 |
 | 输入数据 | `data/` | 数据源和算例输入 |
 | 中间缓存 | `cache/` | 可复用中间结果 |
 | 结果输出 | `result/` | 每个 case 单独保存图表、表格和数值证据 |
@@ -336,9 +336,9 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 
 | 入口 | 验证目的 | 支持主张 | 输出 | 当前状态 |
 | --- | --- | --- | --- | --- |
-| `ProjectName_case33bw.m` | 本方法在 case33bw 网架上的主算例 | C1 | 主表、主图、关键数值 | scaffold |
-| `ProjectName_case123.m` | 本方法在 case123 网架上的扩展算例 | C2 | 扩展算例表、规模指标、关键数值 | scaffold |
-| `ProjectName.m` | 汇总本文方法和 SOTA 对比，生成论文图表证据 | C3 | 对比表、误差/成本/风险差异 | scaffold |
+| `ProjectName_case33bw.m` | 编排 case33bw 下的正式测试、结果输出和绘图 | C1 | 主表、主图、关键数值 | scaffold |
+| `ProjectName_case123.m` | 编排 case123 下的正式测试、结果输出和绘图 | C2 | 扩展算例表、规模指标、关键数值 | scaffold |
+| `ProjectName.m` | 串联模板登记 case 并生成跨 case 汇总与全局图表 | C3 | 跨 case 汇总表、规模扩展对比、总体性能对比 | scaffold |
 
 ### 7.2 阶段性验证记录
 

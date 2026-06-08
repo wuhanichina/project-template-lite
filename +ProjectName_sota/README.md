@@ -4,7 +4,7 @@ Put reusable comparison-method and baseline implementations here.
 
 Organize comparison code into semantic subpackages, usually one subpackage per
 algorithm family, baseline, or reproduced external method. Subpackage and file
-names should identify the method or workflow step, for example
+names should identify the method or comparison procedure, for example
 `+dcopf_baseline/`, `+saa_monte_carlo/`, `+linearized_power_flow/`, or
 `solve_reference_baseline.m`.
 
