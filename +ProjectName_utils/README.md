@@ -9,8 +9,8 @@ Keep this package for implementation support that should not define the paper's 
 - `+workflow/`: case-run preparation, terminal step tracking, and run finalization helpers.
 - `+ui/`: local task progress UI for long-running package functions such as Monte Carlo or batch scenario evaluation.
 - `+plotting/`: paper figure style and export helpers. Formal figures should use
-  `methodStyle`, `plot_method_line`, and `save_figure`, and should be written to
-  `result/<case>/figures/`.
+  `figure_profile`, `create_figure`, `methodStyle`, `plot_method_line`, and
+  `save_figure`, and should be written to `result/<case>/figures/`.
 
 Add new utilities by support process, not as generic loose helpers. Good
 subpackage names describe the workflow support they provide, such as `+cache/`,
@@ -22,6 +22,13 @@ the scientific question, data files, field/unit/dimension description, visual
 encoding, target layout, command, key parameters, and random seed/status. Keep
 data transformations, excluded points, and log-axis zero handling explicit in
 the manifest and check report.
+
+The default figure profile is `ieee`. It records IEEE-oriented column widths,
+font candidates, preview resolution, accepted submission formats, and the rule
+that color must not be the only visual distinction. Profile values are defaults,
+not a substitute for checking the target journal's current author instructions.
+Use a venue-specific profile when a journal requires different sizes, fonts,
+formats, or axis conventions.
 
 Prefer adding shared helpers to this package instead of creating a separate
 `scripts/`, `tools/`, or parallel utility folder. Create a new folder only when

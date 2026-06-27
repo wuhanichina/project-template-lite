@@ -5,7 +5,7 @@ function outputs = save_figure(figHandle, outDirOrBase, figName, options)
 % from MATLAB, not from screenshots or external plotting tools.
 %
 % Example:
-%   fig = figure("Visible", "off");
+%   fig = ProjectName_utils.plotting.create_figure("single-column");
 %   ax = axes(fig);
 %   ProjectName_utils.plotting.plot_method_line(ax, x, y, "baseline");
 %   meta = struct( ...
@@ -34,6 +34,9 @@ arguments
     options.CheckReportFile = ""
     options.CloseFigure (1,1) logical = true
     options.ExtraFormats string = strings(1, 0)
+    options.FigureProfile (1,1) string = "ieee"
+    options.ApplyProfileSize (1,1) logical = false
+    options.UseProfileExtraFormats (1,1) logical = true
 end
 
 if isempty(figHandle)
@@ -47,7 +50,11 @@ end
 [outDir, figName] = resolve_output_target(outDirOrBase, figName);
 ProjectName_utils.io.ensure_dir(outDir);
 
-fontName = apply_export_style(figHandle);
+targetLayout = metadata_target_layout(options.Metadata);
+[fontName, profile] = ProjectName_utils.plotting.apply_figure_profile(figHandle, ...
+    "Profile", options.FigureProfile, ...
+    "TargetLayout", targetLayout, ...
+    "ApplySize", options.ApplyProfileSize);
 enforce_single_formal_axes(figHandle, options.IsDiagnostic);
 drawnow;
 
@@ -65,13 +72,11 @@ if ~isempty(options.PlotData)
     outputs.plotDataFile = fullfile(outDir, figName + "_plot_data.csv");
 end
 
-manifest = build_manifest(figHandle, figName, fontName, options, outputs);
-
 savefig(figHandle, char(outputs.figFile));
 
-dpi = 300;
+dpi = profile.previewDpi;
 if options.IsDiagnostic
-    dpi = 200;
+    dpi = profile.diagnosticDpi;
 end
 exportgraphics(figHandle, char(outputs.pngFile), "Resolution", dpi);
 
@@ -85,7 +90,9 @@ if strlength(outputs.plotDataFile) > 0
     write_plot_data(options.PlotData, outputs.plotDataFile);
 end
 
-outputs.extraFiles = export_extra_formats(figHandle, outDir, figName, options.ExtraFormats, dpi);
+extraFormats = resolve_extra_formats(options.ExtraFormats, profile, options.UseProfileExtraFormats);
+outputs.extraFiles = export_extra_formats(figHandle, outDir, figName, extraFormats, dpi);
+manifest = build_manifest(figHandle, figName, fontName, profile, options, outputs);
 append_jsonl(outputs.manifestFile, manifest);
 
 checks = run_quality_checks(outputs, manifest);
@@ -141,36 +148,6 @@ if strlength(string(parentDir)) > 0
 end
 end
 
-function fontName = apply_export_style(figHandle)
-fontName = "Times New Roman";
-availableFonts = string(listfonts);
-if ~any(availableFonts == fontName)
-    warning("ProjectName_utils:plotting:FontFallback", ...
-        "Font %s is unavailable. Falling back to Times.", fontName);
-    fontName = "Times";
-end
-
-try
-    figHandle.Visible = "off";
-catch
-end
-
-axesList = findall(figHandle, "Type", "axes");
-for k = 1:numel(axesList)
-    axesList(k).FontName = char(fontName);
-    if axesList(k).LineWidth < 1.0
-        axesList(k).LineWidth = 1.0;
-    end
-end
-
-lineList = findall(figHandle, "Type", "line");
-for k = 1:numel(lineList)
-    if lineList(k).LineWidth < 1.8
-        lineList(k).LineWidth = 1.8;
-    end
-end
-end
-
 function enforce_single_formal_axes(figHandle, isDiagnostic)
 if isDiagnostic
     return
@@ -190,6 +167,22 @@ if mainAxesCount > 1
     error("ProjectName_utils:plotting:CompositeFormalFigure", ...
         "Formal figures must be exported as independent subfigures, not subplot/tiledlayout-style composites.");
 end
+end
+
+function targetLayout = metadata_target_layout(metadata)
+targetLayout = "";
+if isfield(metadata, "targetLayout")
+    targetLayout = string(metadata.targetLayout);
+end
+end
+
+function extraFormats = resolve_extra_formats(extraFormats, profile, useProfileExtraFormats)
+extraFormats = string(extraFormats);
+if isempty(extraFormats) && useProfileExtraFormats
+    extraFormats = string(profile.defaultExtraFormats);
+end
+extraFormats = unique(lower(extraFormats), "stable");
+extraFormats(extraFormats == "") = [];
 end
 
 function write_plot_data(plotData, csvFile)
@@ -234,7 +227,7 @@ for k = 1:numel(extraFormats)
 end
 end
 
-function manifest = build_manifest(figHandle, figName, fontName, options, outputs)
+function manifest = build_manifest(figHandle, figName, fontName, profile, options, outputs)
 metadata = options.Metadata;
 metadata = set_default_field(metadata, "figNo", figName);
 metadata.figName = figName;
@@ -245,6 +238,16 @@ metadata = set_default_field(metadata, "excludedPoints", "none");
 metadata = set_default_field(metadata, "logAxisThreshold", "not_applicable");
 metadata.matlabVersion = string(version);
 metadata.font = fontName;
+metadata.figureProfile = profile.name;
+metadata.figureProfileSource = profile.source;
+metadata.profileFontSizePt = profile.fontSizePt;
+metadata.profileTickDir = profile.tickDir;
+metadata.profilePreviewDpi = profile.previewDpi;
+metadata.profileRasterColorGrayDpi = profile.rasterColorGrayDpi;
+metadata.profileRasterLineArtDpi = profile.rasterLineArtDpi;
+metadata.profileAcceptedSubmissionFormats = profile.acceptedSubmissionFormats;
+metadata.profileSingleColumnWidthCm = profile.singleColumnWidthCm;
+metadata.profileDoubleColumnWidthCm = profile.doubleColumnWidthCm;
 metadata.colormap = summarize_colormap(figHandle);
 metadata.isDiagnostic = options.IsDiagnostic;
 metadata.timestamp = string(datetime("now", "Format", "yyyy-MM-dd HH:mm:ss"));
@@ -252,7 +255,8 @@ metadata.outputFiles = struct( ...
     "fig", outputs.figFile, ...
     "png", outputs.pngFile, ...
     "svg", outputs.svgFile, ...
-    "plotData", outputs.plotDataFile);
+    "plotData", outputs.plotDataFile, ...
+    "extra", outputs.extraFiles);
 
 if strlength(string(options.Script)) > 0
     metadata.script = string(options.Script);
@@ -337,6 +341,7 @@ checks.pngNonblank = png_nonblank(outputs.pngFile);
 checks.svgReadable = svg_readable(outputs.svgFile);
 checks.plotDataExported = strlength(outputs.plotDataFile) == 0 || file_exists(outputs.plotDataFile);
 checks.manifestComplete = manifest_complete(manifest);
+checks.figureProfileRecorded = isfield(manifest, "figureProfile") && ~is_blank(manifest.figureProfile);
 checks.manualReadabilityReviewRequired = true;
 checks.manualLegendReviewRequired = true;
 checks.manualAxisLabelDensityReviewRequired = true;
@@ -380,6 +385,7 @@ function tf = manifest_complete(manifest)
 requiredFields = ["figNo", "figName", "sciQuestion", "dataFiles", ...
     "dataDescription", "visualEncoding", "targetLayout", "script", ...
     "command", "keyParams", "randomSeed", "matlabVersion", "font", ...
+    "figureProfile", "profilePreviewDpi", ...
     "colormap", "isDiagnostic", "excludedPoints", "logAxisThreshold", ...
     "timestamp"];
 tf = true;
@@ -410,8 +416,11 @@ fprintf(fid, "| PNG nonblank | %s |\n", status_text(checks.pngNonblank));
 fprintf(fid, "| SVG readable | %s |\n", status_text(checks.svgReadable));
 fprintf(fid, "| Plot data CSV exported when provided | %s |\n", status_text(checks.plotDataExported));
 fprintf(fid, "| Manifest fields complete | %s |\n", status_text(checks.manifestComplete));
+fprintf(fid, "| Figure profile recorded in manifest | %s |\n", status_text(checks.figureProfileRecorded));
 fprintf(fid, "| Data was not changed for visual effect; any filtering or transform is declared | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Text, axes, legend, lines, and markers readable at target size | REVIEW_REQUIRED |\n");
+fprintf(fid, "| Target journal instructions checked against the active figure profile | REVIEW_REQUIRED |\n");
+fprintf(fid, "| Final submission format and raster resolution satisfy the target venue | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Legend does not cover key curves | REVIEW_REQUIRED |\n");
 fprintf(fid, "| X-axis labels are not too dense | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Structured labels use domain-readable forms | REVIEW_REQUIRED |\n");

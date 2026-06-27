@@ -15,6 +15,7 @@ result/**
 tests/**
 !tests/
 !tests/README.md
+!tests/*.m
 tmp/
 *.asv
 *.fig

@@ -370,6 +370,7 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 | 数据文件 | 【待补充】 |
 | 字段含义、单位、维度、预处理状态 | 【待补充】 |
 | 全局视觉编码 | `ProjectName_utils.plotting.methodStyle` |
+| 默认图表 profile | `ProjectName_utils.plotting.figure_profile("ieee")` |
 | 目标排版尺寸 | 【待补充：single-column / double-column / journal-specific】 |
 | 运行命令 | 【待补充】 |
 | 关键参数 | 【待补充】 |
@@ -378,6 +379,7 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 ### 8.2 正式图输出要求
 
 - 每个 case 的正式图放入 `result/<case>/figures/`。
+- 新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 或 `create_figure("double-column")` 创建图窗；目标期刊给出更具体要求时，以目标期刊为准。
 - 使用 `ProjectName_utils.plotting.save_figure` 导出 `.fig`、`.png`、`.svg`、绘图数据、`figure_manifest.jsonl` 和 `figure_check_report.md`。
 - 保持原始数据含义稳定；筛选、变换、对数轴零值处理或异常点说明同步写入 manifest 和检查报告。
 - 异常点压缩主体细节时，可以额外生成诊断图；原始全量图和诊断图并列保留，正文需要使用诊断图时同步说明理由。

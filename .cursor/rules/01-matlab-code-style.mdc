@@ -72,6 +72,8 @@ Avoid unnamed magic numbers in model-building code.
 - Use explicit figure handles and offscreen rendering for formal figures.
 - Keep formal case figures under `result/<case_name>/figures/`.
 - Keep plotting code under `+ProjectName_utils/+plotting/`; do not move plotting helpers into a separate `scripts/` folder.
+- Use `ProjectName_utils.plotting.figure_profile("ieee")` as the default figure profile unless the target journal provides stricter author instructions. A venue-specific profile may override IEEE defaults for figure width, font, resolution, file formats, or axis conventions.
+- Prefer `ProjectName_utils.plotting.create_figure(targetLayout)` for new formal figures so the initial figure size matches the active profile before any plotting commands run.
 - Use `ProjectName_utils.plotting.methodStyle` as the project-level visual encoding registry. The camelCase name is intentional because the paper-figure prompt expects `methodStyle`.
 - Do not distinguish methods by color alone; use color, line style, and marker together for line plots.
 - For bar charts, use grayscale, edge lines, and hatch/fill-pattern metadata so the result remains distinguishable in black-and-white print.
@@ -80,6 +82,7 @@ Avoid unnamed magic numbers in model-building code.
 - Result comparison figures should include the baseline and compared methods. Error figures should omit the baseline's self-error. Cross-order error plots should use log axes only with explicit zero/negative-value handling. Distribution-distance metrics should be plotted by node or point when the claim depends on spatial variation.
 - Probability-density comparison figures should use the baseline histogram as the background and overlay method PDF curves. Export histogram bins and PDF sampling points as plot data.
 - Use target-layout font sizes and line widths directly in MATLAB; do not rely on later scaling in the manuscript editor to make labels readable.
-- Check Times New Roman availability and record the actual font in the manifest; fall back to Times or a serif font when needed.
+- Check the active profile's font candidates and record the actual font in the manifest. For the default IEEE profile, prefer IEEE-compatible fonts such as Times New Roman, Helvetica, Arial, or Cambria when available.
+- Do not hardcode tick direction as a universal style rule. Keep the profile default or use the target journal's requirement.
 - Export formal figures through `ProjectName_utils.plotting.save_figure` so `.fig`, `.png`, `.svg`, plot data, manifest, and check report stay synchronized.
 - Every formal figure needs explicit metadata: scientific/engineering question, data files, field/unit/dimension description, visual encoding, target layout, command, key parameters, and random seed or a declared `not_applicable` value.
