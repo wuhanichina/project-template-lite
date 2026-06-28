@@ -6,6 +6,7 @@ arguments
     options.Profile (1,1) string = "ieee"
     options.TargetLayout (1,1) string = ""
     options.ApplySize (1,1) logical = false
+    options.FontSizePt (1,1) double = NaN
 end
 
 if isempty(figHandle)
@@ -13,6 +14,7 @@ if isempty(figHandle)
 end
 
 profile = ProjectName_utils.plotting.figure_profile(options.Profile);
+profile.appliedFontSizePt = resolve_font_size(profile, options.FontSizePt);
 fontName = choose_font(profile.fontCandidates);
 
 try
@@ -28,10 +30,22 @@ if options.ApplySize && strlength(options.TargetLayout) > 0
     resize_figure(figHandle, profile, options.TargetLayout);
 end
 
-apply_font_defaults(figHandle, fontName, profile.fontSizePt);
+apply_font_defaults(figHandle, fontName, profile.appliedFontSizePt);
 apply_axes_defaults(figHandle, profile);
 apply_line_defaults(figHandle, profile);
 apply_marker_defaults(figHandle, profile);
+end
+
+function fontSizePt = resolve_font_size(profile, requestedFontSizePt)
+if isnan(requestedFontSizePt)
+    fontSizePt = profile.fontSizePt;
+elseif requestedFontSizePt < profile.minFontSizePt
+    error("ProjectName_utils:plotting:FontTooSmall", ...
+        "Formal figure font size %.1f pt is below the profile minimum %.1f pt.", ...
+        requestedFontSizePt, profile.minFontSizePt);
+else
+    fontSizePt = requestedFontSizePt;
+end
 end
 
 function fontName = choose_font(fontCandidates)
@@ -95,9 +109,7 @@ for k = 1:numel(fontObjects)
     end
     if isprop(fontObjects(k), "FontSize")
         try
-            if fontObjects(k).FontSize < fontSizePt
-                fontObjects(k).FontSize = fontSizePt;
-            end
+            fontObjects(k).FontSize = fontSizePt;
         catch
         end
     end

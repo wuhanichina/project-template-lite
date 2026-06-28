@@ -369,10 +369,12 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 | 科学或工程问题 | 【待补充】 |
 | 数据文件 | 【待补充】 |
 | 字段含义、单位、维度、预处理状态 | 【待补充】 |
+| 相关论文图表调研 | 【待补充：PowerLit / `03_REFERENCE/` / 联网检索；记录论文、图型、指标、baseline 和布局启发】 |
 | 全局视觉编码 | `ProjectName_utils.plotting.methodStyle` |
 | 默认图表 profile | `ProjectName_utils.plotting.figure_profile("ieee")` |
 | 目标排版尺寸 | 【默认 single-column：IEEE 双栏论文中的一栏宽度，不超过 8.89 cm】 |
-| 默认字号 | 14 pt |
+| 默认字号 | 10 pt；复杂小图可显式使用 8 pt，并在 manifest 中记录 |
+| 图例位置 | 折线图和柱状图优先图内，默认自动 `best` 位置；遮挡关键曲线、柱子、峰值或不确定性带时手动调整 |
 | 运行命令 | 【待补充】 |
 | 关键参数 | 【待补充】 |
 | 随机种子或 `not_applicable` | 【待补充】 |
@@ -380,7 +382,9 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 ### 8.2 正式图输出要求
 
 - 每个 case 的正式图放入 `result/<case>/figures/`。
-- 新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 创建图窗；默认 IEEE profile 使用 14 pt 字号，并把图宽限制在 IEEE 双栏论文的一栏宽度内。目标期刊给出更具体要求时，以目标期刊为准。
+- 生成绘图代码前，先查相近论文的结果图展示方式。优先使用 `03_REFERENCE/` 和 PowerLit；本地材料不足时联网检索，并把参考论文、图型和可借鉴的展示组织写入上方表格。
+- 新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 创建图窗；默认 IEEE profile 使用 10 pt 字号，并把图宽限制在 IEEE 双栏论文的一栏宽度内。复杂小图可以显式使用 8 pt，但需要在 manifest 中记录。目标期刊给出更具体要求时，以目标期刊为准。
+- 折线图和柱状图建议调用 `ProjectName_utils.plotting.place_legend(ax)`，默认把图例放在图内自动位置；正式使用前检查图例是否遮挡关键数据。
 - 使用 `ProjectName_utils.plotting.save_figure` 导出 `.fig`、`.png`、`.svg`、绘图数据、`figure_manifest.jsonl` 和 `figure_check_report.md`。
 - 保持原始数据含义稳定；筛选、变换、对数轴零值处理或异常点说明同步写入 manifest 和检查报告。
 - 异常点压缩主体细节时，可以额外生成诊断图；原始全量图和诊断图并列保留，正文需要使用诊断图时同步说明理由。

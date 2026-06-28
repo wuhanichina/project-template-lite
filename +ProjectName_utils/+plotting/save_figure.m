@@ -36,6 +36,7 @@ arguments
     options.ExtraFormats string = strings(1, 0)
     options.FigureProfile (1,1) string = "ieee"
     options.ApplyProfileSize (1,1) logical = true
+    options.FontSizePt (1,1) double = NaN
     options.UseProfileExtraFormats (1,1) logical = true
 end
 
@@ -54,7 +55,8 @@ targetLayout = metadata_target_layout(options.Metadata);
 [fontName, profile] = ProjectName_utils.plotting.apply_figure_profile(figHandle, ...
     "Profile", options.FigureProfile, ...
     "TargetLayout", targetLayout, ...
-    "ApplySize", options.ApplyProfileSize);
+    "ApplySize", options.ApplyProfileSize, ...
+    "FontSizePt", options.FontSizePt);
 enforce_single_formal_axes(figHandle, options.IsDiagnostic);
 drawnow;
 
@@ -242,6 +244,10 @@ metadata.figureProfile = profile.name;
 metadata.figureProfileSource = profile.source;
 metadata.profileDefaultLayout = profile.defaultLayout;
 metadata.profileFontSizePt = profile.fontSizePt;
+metadata.profileDefaultFontSizePt = profile.defaultFontSizePt;
+metadata.profileMinimumFontSizePt = profile.minFontSizePt;
+metadata.appliedFontSizePt = profile.appliedFontSizePt;
+metadata.profileLegendRule = profile.legendRule;
 metadata.profileTickDir = profile.tickDir;
 metadata.profilePreviewDpi = profile.previewDpi;
 metadata.profileRasterColorGrayDpi = profile.rasterColorGrayDpi;
@@ -423,7 +429,7 @@ fprintf(fid, "| Data was not changed for visual effect; any filtering or transfo
 fprintf(fid, "| Text, axes, legend, lines, and markers readable at target size | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Target journal instructions checked against the active figure profile | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Final submission format and raster resolution satisfy the target venue | REVIEW_REQUIRED |\n");
-fprintf(fid, "| Legend does not cover key curves | REVIEW_REQUIRED |\n");
+fprintf(fid, "| Legend is in-axes when suitable and does not cover key curves, bars, peaks, or uncertainty bands | REVIEW_REQUIRED |\n");
 fprintf(fid, "| X-axis labels are not too dense | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Structured labels use domain-readable forms | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Method color, line style, and marker match methodStyle | REVIEW_REQUIRED |\n");

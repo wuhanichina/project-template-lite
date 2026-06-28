@@ -67,13 +67,15 @@ Avoid unnamed magic numbers in model-building code.
 ## Paper Figure Discipline
 
 - Before making a formal figure, confirm the scientific/engineering question, data file paths, field meanings, units, dimensions, global visual encoding, target layout size, command, key parameters, and random seed/status. If any of these are missing, stop and ask or mark the result as non-formal diagnostic output.
+- Before writing formal plotting code, inspect how nearby papers present comparable results. Use project references, PowerLit retrieval, and live web search when local references are not enough. Record the checked papers, figure types, metrics, comparison groups, and layout lessons in the research note, caption notes, manifest, or evidence map before settling the plot design.
+- Literature figure review informs figure organization and visual choices, but it must not copy another paper's data, unsupported claim, exact visual styling, or caption wording.
 - Figure decisions follow this priority order: data truth, traceability, grayscale distinguishability, readable text size, target layout size, then aesthetics.
 - Never modify data for visual effect. Do not silently delete points, smooth curves, change coordinate ranges, or transform values. Any filtering, transform, zero-value replacement on log axes, or excluded point set must be declared in the plot data, manifest, and check report.
 - Use explicit figure handles and offscreen rendering for formal figures.
 - Keep formal case figures under `result/<case_name>/figures/`.
 - Keep plotting code under `+ProjectName_utils/+plotting/`; do not move plotting helpers into a separate `scripts/` folder.
 - Use `ProjectName_utils.plotting.figure_profile("ieee")` as the default figure profile unless the target journal provides stricter author instructions. A venue-specific profile may override IEEE defaults for figure width, font, resolution, file formats, or axis conventions.
-- The default IEEE profile uses 14 pt figure text and targets IEEE two-column manuscript layout by limiting formal figure width to one column, `8.89 cm`. Do not export default formal figures wider than one column unless a venue-specific instruction explicitly requires it.
+- The default IEEE profile uses 10 pt figure text and targets IEEE two-column manuscript layout by limiting formal figure width to one column, `8.89 cm`. Complex small figures may use 8 pt text when explicitly requested with `FontSizePt=8` and recorded in the manifest. Do not export default formal figures wider than one column unless a venue-specific instruction explicitly requires it.
 - Prefer `ProjectName_utils.plotting.create_figure(targetLayout)` for new formal figures so the initial figure size matches the active profile before any plotting commands run.
 - Use `ProjectName_utils.plotting.methodStyle` as the project-level visual encoding registry. The camelCase name is intentional because the paper-figure prompt expects `methodStyle`.
 - The template's formal figure workflow serves manuscript case-study and result-analysis content by default. It is not the default outlet for mechanism diagrams, algorithm-flow diagrams, theory-framework figures, or method-principle illustrations.
@@ -83,6 +85,7 @@ Avoid unnamed magic numbers in model-building code.
 - Keep external SOTA/baseline comparisons and proposed-method ablations in separate figure groups unless the manuscript explicitly needs a combined view. SOTA/baseline comparisons may cover primary metrics, secondary metrics, cross-case generalization, runtime, or other performance views.
 - Ablation figures are internal to the proposed method. Use `本文原始方法` for the complete method in ablation plots, and use short labels such as `去掉网络物理约束` or `去掉源荷不确定性建模` for ablation variants. Do not create ablations of external papers' methods.
 - Do not distinguish methods by color alone; use color, line style, and marker together for line plots.
+- For line charts and bar charts, prefer an in-axes legend with an automatic or `best` location. Use `ProjectName_utils.plotting.place_legend(ax)` for default MATLAB figures, and manually move the legend only when it covers important curves, bars, peaks, or uncertainty bands.
 - For bar charts, use grayscale, edge lines, and hatch/fill-pattern metadata so the result remains distinguishable in black-and-white print.
 - For dense line plots, use sparse markers through `ProjectName_utils.plotting.plot_method_line` or equivalent `MarkerIndices` logic.
 - Do not export a `subplot` or `tiledlayout` composite as a formal manuscript figure. Export independent subfigures such as `Fig05a`, `Fig05b`, and `Fig05c`, then combine during manuscript layout if needed.

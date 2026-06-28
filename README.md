@@ -19,7 +19,7 @@
 - 2026-06-08：增加项目约定入口和正式算例流程脚手架，覆盖输入读取、方法运行、指标汇总、结果写出、图表导出和步骤跟踪。
 - 2026-06-14：重写 README 为中文上手入口，按使用场景、三分钟上手、常见任务、推荐流程和提交前检查组织模板说明。
 - 2026-06-27：看完了《MATLAB×AI：科研绘图与学术图表智能绘制一本通》这本书，强化了模板的绘图功能，统一正式论文图的尺寸、字体、分辨率和导出配置。
-- 2026-06-28：细化正式论文图规则，默认使用 IEEE 双栏论文的一栏宽度和 14 pt 字号，并明确算例分析图组顺序、SOTA 对比图例、本文方法消融图例和中英文图例转换口径。
+- 2026-06-28：细化正式论文图规则，默认使用 IEEE 双栏论文的一栏宽度和 10 pt 字号，复杂小图可显式使用 8 pt，并明确算例分析图组顺序、SOTA 对比图例、本文方法消融图例、中英文图例转换口径、折线图/柱状图图内图例建议，以及生成绘图代码前的文献图表调研步骤。
 
 ---
 
@@ -254,7 +254,7 @@ result/<算例名>/figures/
 ProjectName_utils.plotting.save_figure(...)
 ```
 
-默认图表 profile 为 `ProjectName_utils.plotting.figure_profile("ieee")`。默认字号为 14 pt，图宽按 IEEE 双栏论文中的一栏设置，不超过 `8.89 cm`。新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 创建图窗，再调用 `save_figure` 导出证据包；默认 profile 会把更宽的 layout 请求截到一栏宽度。目标期刊给出更具体的字体、尺寸、分辨率、格式或坐标轴要求时，以目标期刊为准。
+默认图表 profile 为 `ProjectName_utils.plotting.figure_profile("ieee")`。默认字号为 10 pt，图宽按 IEEE 双栏论文中的一栏设置，不超过 `8.89 cm`。复杂小图可以显式使用 8 pt，例如 `save_figure(..., "FontSizePt", 8)`，并在 manifest 中记录实际字号。新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 创建图窗，再调用 `save_figure` 导出证据包；默认 profile 会把更宽的 layout 请求截到一栏宽度。目标期刊给出更具体的字体、尺寸、分辨率、格式或坐标轴要求时，以目标期刊为准。
 
 每张正式图至少生成：
 
@@ -275,7 +275,9 @@ ProjectName_utils.plotting.save_figure(...)
 
 `ProjectName_utils.plotting.save_figure` 会检查图表元信息。缺少 `sciQuestion`、`dataFiles`、`dataDescription`、`visualEncoding`、`targetLayout`、`command`、`keyParams` 或 `randomSeed` 时，不允许导出正式图。
 
-同一方法或类别的颜色、线型、marker、灰度和 hatch 在 `ProjectName_utils.plotting.methodStyle` 中统一登记。主图和 SOTA 对比图中，本文方法默认图例写成 `本文方法`，外部方法默认只写论文来源名，例如 `Pappu2017`。消融图中，完整方法写成 `本文原始方法`，消融版本写成 `去掉网络物理约束`、`去掉源荷不确定性建模` 这类短标签。折线图优先使用 `ProjectName_utils.plotting.plot_method_line`，通过稀疏 marker 避免节点或时间点过密。方法区分同时使用颜色、线型和 marker，方便彩色与黑白出版。
+生成正式绘图代码前，先看相近论文如何展示同类结果。优先查 `03_REFERENCE/` 中已收集文献和 PowerLit 检索结果；本地材料不足时，再联网检索最近或最接近的论文。调研时记录这些信息：论文来源、图型、指标组织、baseline 分组、消融是否单独成图、坐标轴与图例写法、是否使用多 case 或运行时间对比。模板只学习展示方式和组织逻辑，不照搬其他论文的数据、结论、caption 或完整视觉样式。
+
+同一方法或类别的颜色、线型、marker、灰度和 hatch 在 `ProjectName_utils.plotting.methodStyle` 中统一登记。主图和 SOTA 对比图中，本文方法默认图例写成 `本文方法`，外部方法默认只写论文来源名，例如 `Pappu2017`。消融图中，完整方法写成 `本文原始方法`，消融版本写成 `去掉网络物理约束`、`去掉源荷不确定性建模` 这类短标签。折线图优先使用 `ProjectName_utils.plotting.plot_method_line`，通过稀疏 marker 避免节点或时间点过密。折线图和柱状图优先把图例放在图内，可调用 `ProjectName_utils.plotting.place_legend(ax)` 使用自动 `best` 位置；若遮挡关键曲线、柱子、峰值或不确定性带，再手动调整。方法区分同时使用颜色、线型和 marker，方便彩色与黑白出版。
 
 ### 图组叙事和方法标注
 
