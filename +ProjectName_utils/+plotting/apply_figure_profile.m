@@ -62,6 +62,7 @@ end
 if isempty(widthCm)
     return
 end
+widthCm = min(widthCm, profile.maxWidthCm);
 
 figHandle.Units = "centimeters";
 pos = figHandle.Position;

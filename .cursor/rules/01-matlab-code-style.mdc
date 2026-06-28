@@ -73,8 +73,15 @@ Avoid unnamed magic numbers in model-building code.
 - Keep formal case figures under `result/<case_name>/figures/`.
 - Keep plotting code under `+ProjectName_utils/+plotting/`; do not move plotting helpers into a separate `scripts/` folder.
 - Use `ProjectName_utils.plotting.figure_profile("ieee")` as the default figure profile unless the target journal provides stricter author instructions. A venue-specific profile may override IEEE defaults for figure width, font, resolution, file formats, or axis conventions.
+- The default IEEE profile uses 14 pt figure text and targets IEEE two-column manuscript layout by limiting formal figure width to one column, `8.89 cm`. Do not export default formal figures wider than one column unless a venue-specific instruction explicitly requires it.
 - Prefer `ProjectName_utils.plotting.create_figure(targetLayout)` for new formal figures so the initial figure size matches the active profile before any plotting commands run.
 - Use `ProjectName_utils.plotting.methodStyle` as the project-level visual encoding registry. The camelCase name is intentional because the paper-figure prompt expects `methodStyle`.
+- The template's formal figure workflow serves manuscript case-study and result-analysis content by default. It is not the default outlet for mechanism diagrams, algorithm-flow diagrams, theory-framework figures, or method-principle illustrations.
+- Case-study introduction figures, such as the test system, source/load time series, probability distributions, scenario sets, or sample summaries, may appear before result figures.
+- Once result analysis begins, organize the first result group around the Chinese-facing label `本文方法` on the primary metric set. If the paper has multiple primary metrics, present them as a result group instead of forcing one first result figure.
+- Label the complete project method as `本文方法` in Chinese-facing main-result and SOTA-comparison legends, captions, plot data, and manifest metadata, and translate it to `Proposed method` only when converting to an English manuscript. Label external comparison methods by source only, for example `Pappu2017` or `AuthorYear`, and record the corresponding paper or reference in the caption, manifest, or evidence map.
+- Keep external SOTA/baseline comparisons and proposed-method ablations in separate figure groups unless the manuscript explicitly needs a combined view. SOTA/baseline comparisons may cover primary metrics, secondary metrics, cross-case generalization, runtime, or other performance views.
+- Ablation figures are internal to the proposed method. Use `本文原始方法` for the complete method in ablation plots, and use short labels such as `去掉网络物理约束` or `去掉源荷不确定性建模` for ablation variants. Do not create ablations of external papers' methods.
 - Do not distinguish methods by color alone; use color, line style, and marker together for line plots.
 - For bar charts, use grayscale, edge lines, and hatch/fill-pattern metadata so the result remains distinguishable in black-and-white print.
 - For dense line plots, use sparse markers through `ProjectName_utils.plotting.plot_method_line` or equivalent `MarkerIndices` logic.

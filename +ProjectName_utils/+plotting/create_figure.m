@@ -31,6 +31,7 @@ switch layout
         widthCm = parse_custom_width_cm(layout, profile.singleColumnWidthCm);
 end
 
+widthCm = min(widthCm, profile.maxWidthCm);
 heightCm = widthCm * aspectRatio;
 heightCm = min(heightCm, profile.maxHeightCm);
 end

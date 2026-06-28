@@ -35,7 +35,7 @@ arguments
     options.CloseFigure (1,1) logical = true
     options.ExtraFormats string = strings(1, 0)
     options.FigureProfile (1,1) string = "ieee"
-    options.ApplyProfileSize (1,1) logical = false
+    options.ApplyProfileSize (1,1) logical = true
     options.UseProfileExtraFormats (1,1) logical = true
 end
 
@@ -240,6 +240,7 @@ metadata.matlabVersion = string(version);
 metadata.font = fontName;
 metadata.figureProfile = profile.name;
 metadata.figureProfileSource = profile.source;
+metadata.profileDefaultLayout = profile.defaultLayout;
 metadata.profileFontSizePt = profile.fontSizePt;
 metadata.profileTickDir = profile.tickDir;
 metadata.profilePreviewDpi = profile.previewDpi;
@@ -248,6 +249,7 @@ metadata.profileRasterLineArtDpi = profile.rasterLineArtDpi;
 metadata.profileAcceptedSubmissionFormats = profile.acceptedSubmissionFormats;
 metadata.profileSingleColumnWidthCm = profile.singleColumnWidthCm;
 metadata.profileDoubleColumnWidthCm = profile.doubleColumnWidthCm;
+metadata.profileMaxWidthCm = profile.maxWidthCm;
 metadata.colormap = summarize_colormap(figHandle);
 metadata.isDiagnostic = options.IsDiagnostic;
 metadata.timestamp = string(datetime("now", "Format", "yyyy-MM-dd HH:mm:ss"));

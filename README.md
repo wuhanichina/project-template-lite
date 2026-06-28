@@ -19,6 +19,7 @@
 - 2026-06-08：增加项目约定入口和正式算例流程脚手架，覆盖输入读取、方法运行、指标汇总、结果写出、图表导出和步骤跟踪。
 - 2026-06-14：重写 README 为中文上手入口，按使用场景、三分钟上手、常见任务、推荐流程和提交前检查组织模板说明。
 - 2026-06-27：看完了《MATLAB×AI：科研绘图与学术图表智能绘制一本通》这本书，强化了模板的绘图功能，统一正式论文图的尺寸、字体、分辨率和导出配置。
+- 2026-06-28：细化正式论文图规则，默认使用 IEEE 双栏论文的一栏宽度和 14 pt 字号，并明确算例分析图组顺序、SOTA 对比图例、本文方法消融图例和中英文图例转换口径。
 
 ---
 
@@ -253,7 +254,7 @@ result/<算例名>/figures/
 ProjectName_utils.plotting.save_figure(...)
 ```
 
-默认图表 profile 为 `ProjectName_utils.plotting.figure_profile("ieee")`。新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 或 `create_figure("double-column")` 创建图窗，再调用 `save_figure` 导出证据包。目标期刊给出更具体的字体、尺寸、分辨率、格式或坐标轴要求时，以目标期刊为准。
+默认图表 profile 为 `ProjectName_utils.plotting.figure_profile("ieee")`。默认字号为 14 pt，图宽按 IEEE 双栏论文中的一栏设置，不超过 `8.89 cm`。新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 创建图窗，再调用 `save_figure` 导出证据包；默认 profile 会把更宽的 layout 请求截到一栏宽度。目标期刊给出更具体的字体、尺寸、分辨率、格式或坐标轴要求时，以目标期刊为准。
 
 每张正式图至少生成：
 
@@ -269,12 +270,22 @@ ProjectName_utils.plotting.save_figure(...)
 - 图要回答的科学或工程问题。
 - 数据文件、字段含义、单位、维度和预处理状态。
 - 全局视觉编码。
-- 目标排版尺寸，例如 `single-column`、`double-column` 或目标期刊指定尺寸。
+- 目标排版尺寸，默认使用 `single-column`，即 IEEE 双栏论文中的一栏宽度。
 - 运行命令、关键参数和随机种子，或明确写 `not_applicable`。
 
 `ProjectName_utils.plotting.save_figure` 会检查图表元信息。缺少 `sciQuestion`、`dataFiles`、`dataDescription`、`visualEncoding`、`targetLayout`、`command`、`keyParams` 或 `randomSeed` 时，不允许导出正式图。
 
-同一方法或类别的颜色、线型、marker、灰度和 hatch 在 `ProjectName_utils.plotting.methodStyle` 中统一登记。折线图优先使用 `ProjectName_utils.plotting.plot_method_line`，通过稀疏 marker 避免节点或时间点过密。方法区分同时使用颜色、线型和 marker，方便彩色与黑白出版。
+同一方法或类别的颜色、线型、marker、灰度和 hatch 在 `ProjectName_utils.plotting.methodStyle` 中统一登记。主图和 SOTA 对比图中，本文方法默认图例写成 `本文方法`，外部方法默认只写论文来源名，例如 `Pappu2017`。消融图中，完整方法写成 `本文原始方法`，消融版本写成 `去掉网络物理约束`、`去掉源荷不确定性建模` 这类短标签。折线图优先使用 `ProjectName_utils.plotting.plot_method_line`，通过稀疏 marker 避免节点或时间点过密。方法区分同时使用颜色、线型和 marker，方便彩色与黑白出版。
+
+### 图组叙事和方法标注
+
+模板的正式出图默认服务于论文的算例分析或实验结果部分，不默认生成原理说明图、机制设计图、算法流程图或理论框架图。算例介绍需要的测试系统、源荷时序、概率分布、场景集和样本特征图，可以先于结果图出现。
+
+进入结果分析后，第一组结果图优先展示 `本文方法` 在核心指标组上的表现。核心指标不止一个时，按图组组织，不强行压成单张图。
+
+对比图按比较关系分组。外部 SOTA 或 baseline 对比可以覆盖主指标、其他性能指标、不同 case 泛化、运行时间和其他性能视角；图例和 caption 使用论文来源命名，例如 `Pappu2017` 或 `AuthorYear`，并在 manifest、caption 或 `01_IDEA/evidence_map.md` 中登记来源。
+
+消融图只比较本文方法内部版本。完整方法写成 `本文原始方法`，消融版本写成 `去掉<物理模块或机制>`，并说明在本文方法上去掉了什么。转成英文稿时，再把主图和 SOTA 对比中的 `本文方法` 统一替换为 `Proposed method`。正常情况下，SOTA 对比图组和消融图组分开组织，避免在同一张图中混入外部论文方法和本文方法删减版本。
 
 组合展示先分别输出独立子图，例如 `Fig05a`、`Fig05b`、`Fig05c`，再进入论文排版。
 

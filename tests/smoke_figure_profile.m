@@ -8,6 +8,16 @@ profile = ProjectName_utils.plotting.figure_profile("ieee");
 assert(profile.name == "IEEE", "Expected IEEE to be the default figure profile.");
 assert(abs(profile.singleColumnWidthCm - 8.89) < 0.02, ...
     "IEEE single-column width should be close to 3.5 inches.");
+assert(profile.fontSizePt == 14, "Default formal figure font size should be 14 pt.");
+assert(abs(profile.maxWidthCm - profile.singleColumnWidthCm) < 0.02, ...
+    "Default formal figure width should not exceed one IEEE column.");
+
+wideFig = ProjectName_utils.plotting.create_figure("double-column", ...
+    "Profile", "ieee");
+widePosition = wideFig.Position;
+assert(widePosition(3) <= profile.singleColumnWidthCm + 0.02, ...
+    "Default IEEE profile should clamp double-column requests to one column.");
+close(wideFig);
 
 fig = ProjectName_utils.plotting.create_figure("single-column", ...
     "Profile", "ieee", ...
@@ -15,9 +25,19 @@ fig = ProjectName_utils.plotting.create_figure("single-column", ...
 ax = axes(fig);
 x = (1:5)';
 y = [1; 2; 1.5; 2.5; 3];
-plot(ax, x, y, "LineWidth", 0.5, "Marker", "o");
+h = ProjectName_utils.plotting.plot_method_line(ax, x, y, "proposed");
 xlabel(ax, "Sample index");
 ylabel(ax, "Metric (p.u.)");
+assert(string(h.DisplayName) == "本文方法", ...
+    "plot_method_line should use the Chinese methodStyle label as DisplayName.");
+
+styles = ProjectName_utils.plotting.methodStyle();
+assert(string(styles.proposed_original.label) == "本文原始方法", ...
+    "Ablation figures should have a short original-method label.");
+assert(string(styles.proposed_without_network_constraints.label) == "去掉网络物理约束", ...
+    "Ablation labels should be short and explicit.");
+assert(string(styles.pappu2017.label) == "Pappu2017", ...
+    "External SOTA labels should use compact author-year names.");
 
 plotData = table(x, y, 'VariableNames', {'sampleIndex', 'metricPu'});
 metadata = struct( ...
@@ -36,7 +56,13 @@ mkdir(outDir);
 outputs = ProjectName_utils.plotting.save_figure(fig, outDir, ...
     "FigSmoke_ieee_profile", ...
     "Metadata", metadata, ...
-    "PlotData", plotData);
+    "PlotData", plotData, ...
+    "CloseFigure", false);
+
+figPosition = fig.Position;
+assert(figPosition(3) <= profile.singleColumnWidthCm + 0.02, ...
+    "Exported formal figure width should not exceed one IEEE column.");
+assert(ax.FontSize >= 14, "Exported formal figure text should be at least 14 pt.");
 
 assert(exist(outputs.figFile, "file") == 2, "FIG export is missing.");
 assert(exist(outputs.pngFile, "file") == 2, "PNG export is missing.");
@@ -45,4 +71,5 @@ assert(exist(outputs.plotDataFile, "file") == 2, "Plot-data CSV export is missin
 assert(any(endsWith(outputs.extraFiles, ".pdf")), "Default IEEE PDF export is missing.");
 assert(exist(outputs.manifestFile, "file") == 2, "Figure manifest is missing.");
 assert(exist(outputs.checkReportFile, "file") == 2, "Figure check report is missing.");
+close(fig);
 end

@@ -22,17 +22,18 @@ end
 function profile = ieee_profile()
 profile = struct();
 profile.name = "IEEE";
-profile.source = "IEEE Author Center graphics guidance, checked 2026-06-27";
+profile.source = "IEEE-oriented project default for two-column manuscripts, updated 2026-06-28";
 profile.recommendedFonts = ["Helvetica", "Times New Roman", "Arial", "Cambria", "Symbol"];
 profile.fontCandidates = ["Times New Roman", "Helvetica", "Arial", "Cambria", "Times"];
-profile.fontSizePt = 9;
+profile.fontSizePt = 14;
 profile.axisLineWidthPt = 0.75;
 profile.lineWidthPt = 1.2;
 profile.markerSizePt = 5;
 profile.tickDir = "preserve";
+profile.defaultLayout = "single-column";
 profile.singleColumnWidthCm = 8.89;
 profile.doubleColumnWidthCm = 18.2;
-profile.maxWidthCm = 18.2;
+profile.maxWidthCm = profile.singleColumnWidthCm;
 profile.maxHeightCm = 22.0;
 profile.previewDpi = 300;
 profile.diagnosticDpi = 200;
@@ -43,4 +44,5 @@ profile.acceptedSubmissionFormats = ["ps", "eps", "pdf", "png", "tiff"];
 profile.vectorSubmissionFormats = ["ps", "eps", "pdf"];
 profile.accessibilityRule = "Do not rely on color alone; combine color with line style, marker, brightness, or fill pattern.";
 profile.axisLabelRule = "Use quantity names with units in parentheses, not units alone.";
+profile.widthRule = "Default manuscript figures target IEEE two-column papers and must not exceed one column width.";
 end

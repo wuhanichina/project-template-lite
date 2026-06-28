@@ -10,6 +10,10 @@ if nargin < 4 || strlength(string(methodName)) == 0
 end
 
 s = ProjectName_utils.plotting.methodStyle(methodName);
+displayName = string(methodName);
+if isfield(s, "label") && strlength(string(s.label)) > 0
+    displayName = string(s.label);
+end
 n = numel(x);
 markerIndices = unique(round(linspace(1, n, min(30, n))));
 
@@ -20,12 +24,32 @@ h = plot(ax, x, y, ...
     "LineWidth", 1.8, ...
     varargin{:});
 
+if ~has_name_value(varargin, "DisplayName")
+    try
+        set(h, "DisplayName", displayName);
+    catch
+    end
+end
+
 if n > 0
     for k = 1:numel(h)
         try
             h(k).MarkerIndices = markerIndices;
         catch
         end
+    end
+end
+end
+
+function tf = has_name_value(args, name)
+tf = false;
+for k = 1:2:numel(args)
+    try
+        if strcmpi(string(args{k}), name)
+            tf = true;
+            return
+        end
+    catch
     end
 end
 end

@@ -16,6 +16,7 @@ Keep original data unchanged. Diagnostic exclusions, log-axis zero handling, or
 other transforms must be recorded in `figure_manifest.jsonl` and
 `figure_check_report.md`.
 
-The default figure profile is `ieee`. Treat it as the project default unless
-the target journal gives stricter instructions for size, font, resolution,
-format, or axis conventions.
+The default figure profile is `ieee`. It uses 14 pt figure text and limits
+formal figures to one IEEE column width by default. Treat it as the project
+default unless the target journal gives stricter instructions for size, font,
+resolution, format, or axis conventions.
