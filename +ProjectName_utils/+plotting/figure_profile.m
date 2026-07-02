@@ -49,4 +49,5 @@ profile.axisLabelRule = "Use quantity names with units in parentheses, not units
 profile.widthRule = "Default manuscript figures target IEEE two-column papers and must not exceed one column width.";
 profile.fontSizeRule = "Default manuscript figure text is 10 pt; complex small figures may use 8 pt when explicitly recorded.";
 profile.legendRule = "Prefer in-axes legends for line and bar charts; use best/auto placement first and move only when the legend covers important data.";
+profile.narrativeRule = "Case-study result figures must show how proposed-model outputs reproduce actual or reference physical behavior before SOTA superiority comparisons.";
 end

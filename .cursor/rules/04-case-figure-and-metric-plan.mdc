@@ -1,0 +1,104 @@
+---
+description: Case-analysis figure and metric planning gate. Before exporting formal figures, pin the contribution, order figures by evidence role, and constrain metrics to claim-relevant, physically meaningful, recognized quantities.
+alwaysApply: true
+---
+
+# Case Figure And Metric Planning Gate
+
+This rule governs how case-study analysis figures and metrics are chosen. It
+exists because formal figures must follow the case-study narrative used by
+strong power-system papers: present the case, show the proposed model reproduces
+real or trusted-reference physical behavior, then compare against the closest
+baselines. Do not jump to superiority or ranking plots, and do not invent exotic
+indices to assert that a physical scenario was reproduced.
+
+The planning artifact for this rule is `01_IDEA/figure_plan.md`. Fill the plan
+for a case before exporting any formal figure for that case through
+`ProjectName_utils.plotting.save_figure`.
+
+## Step 0: Pin The Contribution Before Planning Figures
+
+Before listing figures for a case, state in `01_IDEA/figure_plan.md`:
+
+- which `01_IDEA/claims.md` claim id(s) the case answers,
+- what physical or mathematical structure is the actual innovation,
+- which physical scenario the proposed model must be shown to reproduce,
+- what would falsify the claim.
+
+Do not plan a figure that is not traceable to a claim id. A figure that does not
+support a registered claim is a diagnostic figure, not a formal case figure, and
+must be exported with `IsDiagnostic` set to true.
+
+## Step 1: Order Figures By Evidence Role
+
+Every formal case figure declares one `evidenceRole` from this closed
+vocabulary, and the manifest is built in this order per claim:
+
+1. `scenario-setup`: present the network, operating condition, input data, and
+   the physical scenario that must be reproduced. This figure orients the reader
+   and defines the reference behavior.
+2. `physical-reproduction`: show that proposed-model output reproduces actual
+   measured behavior or a trusted reference solution for the declared scenario.
+   The reference must be an external or independently trusted quantity, not a
+   score defined by this paper.
+3. `sota-comparison`: compare the proposed method against the closest baselines
+   at matched operating points, on claim-relevant metrics.
+4. `sensitivity-ablation`: sensitivity, ablation, scaling, runtime, or
+   generalization studies.
+
+A `sota-comparison` or `sensitivity-ablation` figure must not be registered for a
+claim before a `physical-reproduction` figure exists for that claim.
+`save_figure` enforces this ordering for non-diagnostic figures; override only
+with `AllowSotaBeforePhysical` set to true and a recorded reason in the plan.
+
+## Step 2: Metric Discipline
+
+Each metric attached to a figure must satisfy all of the following:
+
+- it is bound to a claim id in `01_IDEA/figure_plan.md`,
+- it is defined in `01_IDEA/symbols.md` or derived in `01_IDEA/derivation.md`
+  with explicit units, dimension, and physical meaning,
+- it is either a field-recognized metric for this problem class, or an
+  explicitly derived quantity whose definition is written down before use.
+
+Prohibited:
+
+- inventing a new composite index whose only purpose is to assert that a
+  physical scenario was reproduced,
+- using a self-defined score in place of an external or trusted reference for a
+  `physical-reproduction` figure,
+- ranking methods on a metric that is not tied to the stated contribution,
+- relabeling, smoothing, or rescaling data so a metric looks favorable.
+
+For a `physical-reproduction` figure, the comparison target must be actual data
+or a trusted reference solution, and the figure must report a recognized
+agreement quantity such as absolute or relative error against that reference.
+
+## Step 3: Figure Type By Evidence Role And Data Shape
+
+Choose the figure type from the evidence role and the data shape, not from visual
+appeal:
+
+- time series, profiles, or convergence over an index: line chart.
+- spatial or network state: network plot or heatmap over the network graph.
+- proposed-vs-reference agreement: overlaid line chart with the reference, or a
+  paired scatter against a y equals x reference line, plus a residual figure.
+- method comparison at matched operating points: grouped bar chart, or paired
+  scatter when points are matched one to one.
+- distribution, uncertainty, or Monte Carlo spread: ECDF, box, or violin plot.
+- ablation: small-multiple lines or grouped bars across variants, exported as
+  separate subfigures, not one composite index.
+
+Do not use `subplot` or `tiledlayout` composites as final formal figures. Export
+separate subfigures and combine them in the manuscript layout.
+
+## Synchronization
+
+- Register each formal figure's claim binding and evidence role in
+  `01_IDEA/figure_plan.md` before export, and in `01_IDEA/evidence_map.md` when
+  it becomes paper evidence.
+- If a `physical-reproduction` figure does not match the reference, revise the
+  claim in `01_IDEA/claims.md` and `ProjectName_note.md` before exporting any
+  `sota-comparison` figure for that claim.
+- Keep `evidenceRole`, `claimId`, and the metric definition in the
+  `save_figure` manifest consistent with the plan.

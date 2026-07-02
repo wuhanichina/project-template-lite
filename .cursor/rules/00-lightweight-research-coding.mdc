@@ -69,7 +69,7 @@ Keep the visible root small:
 - Each formal result should be traceable to the entry file, config, solver, and data version that produced it.
 - Each formal MATLAB figure should be exported through `ProjectName_utils.plotting.save_figure`, which produces `.fig`, `.png`, `.svg`, optional plot-data CSV, a JSONL manifest row, and a figure check report.
 - The default formal figure profile is `ProjectName_utils.plotting.figure_profile("ieee")`; target-journal instructions override this default when they are more specific.
-- Each formal figure must declare its scientific question, data files, field/unit/dimension description, visual encoding, target layout, command, key parameters, and random seed/status before export.
+- Each formal figure must declare its scientific question, physical reproduction target, evidence role, data files, field/unit/dimension description, visual encoding, target layout, command, key parameters, and random seed/status before export.
 - Do not alter, smooth, crop, or relabel data for visual appeal. Any diagnostic exclusion or log-axis zero handling must be explicit in the manifest and check report.
 - Do not use MATLAB `subplot` or `tiledlayout` composites as final formal figures; export separate subfigures and combine them later in the manuscript layout.
 - Do not use screenshots, copy/paste, Python/Matplotlib, Excel, or Origin as the formal paper-figure export path.

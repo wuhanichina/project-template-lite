@@ -12,6 +12,8 @@
 
 ## 图表证据包
 
+正式图在导出前先在 `figure_plan.md` 完成计划：锚定创新点、绑定 claim 编号、确定证据角色（`scenario-setup` → `physical-reproduction` → `sota-comparison` → `sensitivity-ablation`）、指标和图形类型。
+
 正式图按 case 保存到 `result/<case>/figures/`。每张图对应一个完整证据包：
 
 | 文件 | 作用 |

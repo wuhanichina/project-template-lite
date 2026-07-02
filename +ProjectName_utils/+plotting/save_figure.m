@@ -10,7 +10,10 @@ function outputs = save_figure(figHandle, outDirOrBase, figName, options)
 %   ProjectName_utils.plotting.plot_method_line(ax, x, y, "baseline");
 %   meta = struct( ...
 %       "figNo", "Fig01", ...
+%       "claimId", "C1", ...
 %       "sciQuestion", "What engineering question does this figure answer?", ...
+%       "physicsReproduction", "Which actual or reference physical behavior does this case-study result reproduce?", ...
+%       "evidenceRole", "physical-reproduction", ...
 %       "dataFiles", "result/case33bw/results.mat", ...
 %       "dataDescription", "Fields, units, dimensions, and preprocessing status.", ...
 %       "visualEncoding", ProjectName_utils.plotting.methodStyle(), ...
@@ -30,6 +33,7 @@ arguments
     options.Script = ""
     options.Command = ""
     options.IsDiagnostic (1,1) logical = false
+    options.AllowSotaBeforePhysical (1,1) logical = false
     options.ManifestFile = ""
     options.CheckReportFile = ""
     options.CloseFigure (1,1) logical = true
@@ -95,9 +99,10 @@ end
 extraFormats = resolve_extra_formats(options.ExtraFormats, profile, options.UseProfileExtraFormats);
 outputs.extraFiles = export_extra_formats(figHandle, outDir, figName, extraFormats, dpi);
 manifest = build_manifest(figHandle, figName, fontName, profile, options, outputs);
+narrativeOk = enforce_evidence_narrative(outputs.manifestFile, manifest, options.AllowSotaBeforePhysical);
 append_jsonl(outputs.manifestFile, manifest);
 
-checks = run_quality_checks(outputs, manifest);
+checks = run_quality_checks(outputs, manifest, narrativeOk);
 write_check_report(outputs.checkReportFile, figName, checks);
 outputs.checks = checks;
 
@@ -248,6 +253,7 @@ metadata.profileDefaultFontSizePt = profile.defaultFontSizePt;
 metadata.profileMinimumFontSizePt = profile.minFontSizePt;
 metadata.appliedFontSizePt = profile.appliedFontSizePt;
 metadata.profileLegendRule = profile.legendRule;
+metadata.profileNarrativeRule = profile.narrativeRule;
 metadata.profileTickDir = profile.tickDir;
 metadata.profilePreviewDpi = profile.previewDpi;
 metadata.profileRasterColorGrayDpi = profile.rasterColorGrayDpi;
@@ -273,7 +279,8 @@ if strlength(string(options.Command)) > 0
     metadata.command = string(options.Command);
 end
 
-requiredFields = ["sciQuestion", "dataFiles", "dataDescription", ...
+requiredFields = ["claimId", "sciQuestion", "physicsReproduction", "evidenceRole", ...
+    "dataFiles", "dataDescription", ...
     "visualEncoding", "targetLayout", "command", "keyParams", "randomSeed"];
 missingFields = strings(1, 0);
 for k = 1:numel(requiredFields)
@@ -284,8 +291,18 @@ for k = 1:numel(requiredFields)
 end
 if ~isempty(missingFields)
     error("ProjectName_utils:plotting:MissingMetadata", ...
-        "Missing figure metadata: %s. Do not export formal figures until the scientific question, data source, data fields/units, visual encoding, target layout, command, key parameters, and random seed/status are explicit.", ...
+        "Missing figure metadata: %s. Do not export formal figures until the claim id, scientific question, physical reproduction target, evidence role, data source, data fields/units, visual encoding, target layout, command, key parameters, and random seed/status are explicit.", ...
         strjoin(missingFields, ", "));
+end
+
+if ~options.IsDiagnostic
+    validRoles = canonical_evidence_roles();
+    role = string(metadata.evidenceRole);
+    if ~ismember(role, validRoles)
+        error("ProjectName_utils:plotting:InvalidEvidenceRole", ...
+            "evidenceRole '%s' is not allowed. Formal figures must use one of: %s. See .cursor/rules/04-case-figure-and-metric-plan.mdc and 01_IDEA/figure_plan.md.", ...
+            role, strjoin(validRoles, ", "));
+    end
 end
 
 manifest = orderfields(metadata);
@@ -340,7 +357,70 @@ cleanup = onCleanup(@() fclose(fid));
 fprintf(fid, "%s\n", jsonencode(manifest));
 end
 
-function checks = run_quality_checks(outputs, manifest)
+function roles = canonical_evidence_roles()
+roles = ["scenario-setup", "physical-reproduction", "sota-comparison", ...
+    "sensitivity-ablation"];
+end
+
+function narrativeOk = enforce_evidence_narrative(manifestFile, manifest, allowSotaBeforePhysical)
+narrativeOk = true;
+if manifest.isDiagnostic
+    return
+end
+role = string(manifest.evidenceRole);
+if ~ismember(role, ["sota-comparison", "sensitivity-ablation"])
+    return
+end
+
+claimId = string(manifest.claimId);
+existing = read_existing_manifest(manifestFile);
+hasPhysical = false;
+for k = 1:numel(existing)
+    if existing(k).evidenceRole ~= "physical-reproduction"
+        continue
+    end
+    if strlength(claimId) == 0 || existing(k).claimId == "" || existing(k).claimId == claimId
+        hasPhysical = true;
+        break
+    end
+end
+
+if ~hasPhysical
+    narrativeOk = false;
+    if ~allowSotaBeforePhysical
+        error("ProjectName_utils:plotting:NarrativeOrder", ...
+            "Evidence role '%s' for claim '%s' requires a prior 'physical-reproduction' figure for the same claim in %s. Register a case-study physical-reproduction figure first, or set AllowSotaBeforePhysical to true with a recorded reason in 01_IDEA/figure_plan.md.", ...
+            role, claimId, manifestFile);
+    end
+end
+end
+
+function info = read_existing_manifest(manifestFile)
+info = struct("evidenceRole", {}, "claimId", {});
+if exist(char(manifestFile), "file") ~= 2
+    return
+end
+lines = splitlines(string(fileread(char(manifestFile))));
+lines = lines(strlength(strtrim(lines)) > 0);
+for k = 1:numel(lines)
+    try
+        row = jsondecode(char(lines(k)));
+    catch
+        continue
+    end
+    role = "";
+    if isfield(row, "evidenceRole")
+        role = string(row.evidenceRole);
+    end
+    claim = "";
+    if isfield(row, "claimId")
+        claim = string(row.claimId);
+    end
+    info(end + 1) = struct("evidenceRole", role, "claimId", claim); %#ok<AGROW>
+end
+end
+
+function checks = run_quality_checks(outputs, manifest, narrativeOk)
 checks = struct();
 checks.figGenerated = file_exists(outputs.figFile);
 checks.pngGenerated = file_exists(outputs.pngFile);
@@ -350,6 +430,8 @@ checks.svgReadable = svg_readable(outputs.svgFile);
 checks.plotDataExported = strlength(outputs.plotDataFile) == 0 || file_exists(outputs.plotDataFile);
 checks.manifestComplete = manifest_complete(manifest);
 checks.figureProfileRecorded = isfield(manifest, "figureProfile") && ~is_blank(manifest.figureProfile);
+checks.claimBound = isfield(manifest, "claimId") && ~is_blank(manifest.claimId);
+checks.evidenceNarrativeOrdered = narrativeOk;
 checks.manualReadabilityReviewRequired = true;
 checks.manualLegendReviewRequired = true;
 checks.manualAxisLabelDensityReviewRequired = true;
@@ -390,7 +472,8 @@ end
 end
 
 function tf = manifest_complete(manifest)
-requiredFields = ["figNo", "figName", "sciQuestion", "dataFiles", ...
+requiredFields = ["figNo", "figName", "claimId", "sciQuestion", "physicsReproduction", ...
+    "evidenceRole", "dataFiles", ...
     "dataDescription", "visualEncoding", "targetLayout", "script", ...
     "command", "keyParams", "randomSeed", "matlabVersion", "font", ...
     "figureProfile", "profilePreviewDpi", ...
@@ -425,10 +508,13 @@ fprintf(fid, "| SVG readable | %s |\n", status_text(checks.svgReadable));
 fprintf(fid, "| Plot data CSV exported when provided | %s |\n", status_text(checks.plotDataExported));
 fprintf(fid, "| Manifest fields complete | %s |\n", status_text(checks.manifestComplete));
 fprintf(fid, "| Figure profile recorded in manifest | %s |\n", status_text(checks.figureProfileRecorded));
+fprintf(fid, "| Figure bound to a claim id | %s |\n", status_text(checks.claimBound));
+fprintf(fid, "| Evidence-role narrative ordered (physical reproduction before SOTA/sensitivity) | %s |\n", status_text(checks.evidenceNarrativeOrdered));
 fprintf(fid, "| Data was not changed for visual effect; any filtering or transform is declared | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Text, axes, legend, lines, and markers readable at target size | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Target journal instructions checked against the active figure profile | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Final submission format and raster resolution satisfy the target venue | REVIEW_REQUIRED |\n");
+fprintf(fid, "| Metric is claim-relevant, defined in symbols/derivation, and a recognized or derived quantity | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Legend is in-axes when suitable and does not cover key curves, bars, peaks, or uncertainty bands | REVIEW_REQUIRED |\n");
 fprintf(fid, "| X-axis labels are not too dense | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Structured labels use domain-readable forms | REVIEW_REQUIRED |\n");

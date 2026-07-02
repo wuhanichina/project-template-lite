@@ -21,10 +21,18 @@ subpackage names describe the workflow support they provide, such as `+cache/`,
 actual IO, export, plotting, sampling, or validation step they perform.
 
 `save_figure` is intentionally strict. Formal exports must provide metadata for
-the scientific question, data files, field/unit/dimension description, visual
-encoding, target layout, command, key parameters, and random seed/status. Keep
-data transformations, excluded points, and log-axis zero handling explicit in
-the manifest and check report.
+the claim id, scientific question, physical reproduction target, figure evidence
+role, data files, field/unit/dimension description, visual encoding, target
+layout, command, key parameters, and random seed/status. The `evidenceRole` must
+be one of `scenario-setup`, `physical-reproduction`, `sota-comparison`, or
+`sensitivity-ablation`. For non-diagnostic figures, `save_figure` rejects other
+roles and errors when a `sota-comparison` or `sensitivity-ablation` figure is
+exported for a claim before a `physical-reproduction` figure exists for that
+claim (override with `AllowSotaBeforePhysical` and a recorded reason). Plan the
+figure set in `01_IDEA/figure_plan.md` and follow
+`.cursor/rules/04-case-figure-and-metric-plan.mdc`. Keep data transformations,
+excluded points, and log-axis zero handling explicit in the manifest and check
+report.
 
 The default figure profile is `ieee`. It records IEEE-oriented column widths,
 10 pt figure text, optional 8 pt text for complex small figures,

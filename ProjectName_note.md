@@ -367,9 +367,13 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 | 项目 | 当前记录 |
 | --- | --- |
 | 科学或工程问题 | 【待补充】 |
+| 对应 claim 编号 | 【待补充：如 C1，见 `01_IDEA/figure_plan.md`】 |
+| 物理复现对象 | 【待补充：本文方法输出要复现的真实测量、高保真仿真、解析参考、可信 benchmark 或已知物理约束】 |
+| 图组证据角色 | 【按顺序登记 scenario-setup → physical-reproduction → sota-comparison → sensitivity-ablation；同一 claim 的对比/消融图不得早于其物理复现图】 |
 | 数据文件 | 【待补充】 |
 | 字段含义、单位、维度、预处理状态 | 【待补充】 |
 | 相关论文图表调研 | 【待补充：PowerLit / `03_REFERENCE/` / 联网检索；记录论文、图型、指标、baseline 和布局启发】 |
+| 参数图 SOTA 调研 | 【待补充：SOTA 常比较的参数、范围、步长、归一化方式、默认值和横轴组织】 |
 | 全局视觉编码 | `ProjectName_utils.plotting.methodStyle` |
 | 默认图表 profile | `ProjectName_utils.plotting.figure_profile("ieee")` |
 | 目标排版尺寸 | 【默认 single-column：IEEE 双栏论文中的一栏宽度，不超过 8.89 cm】 |
@@ -383,9 +387,10 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 
 - 每个 case 的正式图放入 `result/<case>/figures/`。
 - 生成绘图代码前，先查相近论文的结果图展示方式。优先使用 `03_REFERENCE/` 和 PowerLit；本地材料不足时联网检索，并把参考论文、图型和可借鉴的展示组织写入上方表格。
+- 绘制参数图、灵敏度图或参数扫描图前，先查 SOTA 论文一般比较哪些参数、范围、步长、归一化方式、默认值和横轴组织；本文采用不同参数或范围时，在研究笔记、manifest 或 caption 草稿中说明原因。
 - 新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 创建图窗；默认 IEEE profile 使用 10 pt 字号，并把图宽限制在 IEEE 双栏论文的一栏宽度内。复杂小图可以显式使用 8 pt，但需要在 manifest 中记录。目标期刊给出更具体要求时，以目标期刊为准。
 - 折线图和柱状图建议调用 `ProjectName_utils.plotting.place_legend(ax)`，默认把图例放在图内自动位置；正式使用前检查图例是否遮挡关键数据。
-- 使用 `ProjectName_utils.plotting.save_figure` 导出 `.fig`、`.png`、`.svg`、绘图数据、`figure_manifest.jsonl` 和 `figure_check_report.md`。
+- 使用 `ProjectName_utils.plotting.save_figure` 导出 `.fig`、`.png`、`.svg`、绘图数据、`figure_manifest.jsonl` 和 `figure_check_report.md`；正式图 metadata 必须填写 `claimId`、`physicsReproduction` 和 `evidenceRole`，`evidenceRole` 取上表的四个取值之一。
 - 保持原始数据含义稳定；筛选、变换、对数轴零值处理或异常点说明同步写入 manifest 和检查报告。
 - 异常点压缩主体细节时，可以额外生成诊断图；原始全量图和诊断图并列保留，正文需要使用诊断图时同步说明理由。
 - 组合展示先导出独立子图，例如 `Fig05a`、`Fig05b`、`Fig05c`，再进入论文排版。
@@ -393,12 +398,12 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 
 ### 8.3 图组叙事和方法标注
 
-正式图默认对应论文算例分析或实验结果部分。原理说明图、机制设计图、算法流程图和理论框架图如需绘制，应单独登记为方法说明材料，不混入算例结果图组。
+正式图默认对应论文算例分析或实验结果部分。物理复现图组不是原理说明图、机制设计图、算法流程图或理论框架图，而是在算例分析中用 `本文方法` 的模型输出复现真实测量、高保真仿真、解析参考、可信 benchmark 或已知物理约束下的实际物理行为。
 
 | 图组类型 | 记录规则 |
 | --- | --- |
 | 算例介绍图 | 可先于结果图出现，说明测试系统、源荷时序、概率分布、场景集或样本特征 |
-| 第一组结果图 | 展示 `本文方法` 在核心指标组上的表现；核心指标不止一个时按图组登记 |
+| 第一组结果图：物理复现 | 强制先登记；展示 `本文方法` 对算例物理实际的复现能力，例如状态量、约束边界、源荷时序响应、概率分布、空间趋势或可行运行状态 |
 | 外部 SOTA / baseline 对比 | 可覆盖主指标、其他指标、跨 case 泛化、运行时间等；方法名用 `Pappu2017` 或 `AuthorYear` 这类来源标注，并登记对应文献 |
 | 本文方法消融 | 只比较 `本文原始方法` 和 `去掉<物理模块或机制>`；写清楚在本文方法上去掉了什么 |
 
@@ -413,13 +418,14 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 | 跨数量级误差 | 使用对数纵轴，并记录零值或负值处理阈值 |
 | 分布距离指标 | 按节点或逐点绘制；带物理量纲时标单位 |
 | 概率密度对比图 | 以基准 histogram 为底，叠加各方法 PDF 曲线；每个代表点单独出图 |
+| 参数图 | 先查 SOTA 常比较的参数、范围、默认值和横轴组织；本文参数选择不同于常用设置时写明原因 |
 
 ### 8.5 当前候选图表
 
 | 图号 | 科学问题 | 支持 claim | 数据文件 | 脚本 | 输出目录 | 检查状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | FigIntro01 | 【待补充：测试系统、源荷时序、概率分布或场景集说明】 | C? | `result/...` | `ProjectName_case*.m` | `result/<case>/figures/` | 【结果待复核】 |
-| FigResult01a | 【待补充：`本文方法` 在核心指标组上的表现】 | C1 | `result/...` | `ProjectName_case33bw.m` | `result/case33bw/figures/` | 【结果待复核】 |
+| FigResult01a | 【待补充：`本文方法` 对算例物理实际的复现，例如状态量、约束边界、时序响应、概率分布或空间趋势】 | C1 | `result/...` | `ProjectName_case33bw.m` | `result/case33bw/figures/` | 【结果待复核】 |
 
 ## 9. 与已有工作的关系
 
