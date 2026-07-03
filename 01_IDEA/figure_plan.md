@@ -1,10 +1,12 @@
 # Figure Plan
 
-## PowerLit 默认规划入口
+## 图表计划的产出方式
 
-使用本模板时，正式算例图默认先由 `$powerlit-power-systems-paper-writing` 生成或修订本文件的 figure plan。PowerLit 应先检索目标期刊和问题近邻论文，提炼近邻论文通常展示哪些图、每类图回答什么审稿问题、使用哪些公认指标、baseline 如何分组、参数/灵敏度图通常比较哪些范围和横轴组织，再把结论落到下方模板字段中。
+本文件的 figure plan 默认由 `$powerlit-power-systems-paper-writing` 技能生成或修订。该技能的 `references/figures-tables-results.md` 内置「Project-Template Figure Plan Bridge」：检测到 `01_IDEA/figure_plan.md`、`.cursor/rules/04-case-figure-and-metric-plan.mdc` 或 `save_figure` 时，先用 PowerLit 检索目标期刊和问题近邻论文的图表证据实践（该 claim 类通常展示哪些图、每类图回答什么审稿问题、使用哪些公认指标、baseline 如何分组、参数/灵敏度图比较哪些范围和横轴组织），再结合本模板规则 `.cursor/rules/04` 的证据角色顺序（`scenario-setup → physical-reproduction → sota-comparison → sensitivity-ablation`）、按数据形状选图型和指标纪律，逐字段产出模板就绪的 case/图表计划。
 
-PowerLit 生成的计划必须能直接服务 `ProjectName_utils.plotting.save_figure`：每张正式图至少明确 `claim`、`evidenceRole`、`sciQuestion`、`physicsReproduction`、指标定义与单位、图形类型、数据文件、视觉编码和缺失结果 blocker。PowerLit 不可用时，在本节记录 fallback 来源，并只依据 `03_REFERENCE/`、用户提供文献或已有结果做保守规划。
+分工是：PowerLit 提出计划，规则 04 提供结构与强制顺序，`save_figure` 在导出时强制校验元信息与顺序。
+
+产出的计划必须能直接服务 `ProjectName_utils.plotting.save_figure`：每张正式图至少明确 `claim`、`evidenceRole`、`sciQuestion`、`physicsReproduction`、指标定义与单位、图形类型、数据文件、视觉编码和缺失结果 blocker。PowerLit 不可用时，在本节记录 fallback 来源，并只依据 `03_REFERENCE/`、用户提供文献或已有结果做保守规划。
 
 本文件在导出任何正式算例图之前，先确认创新点、再决定每张图的证据角色、指标和图形类型。
 它对应执行规则 `.cursor/rules/04-case-figure-and-metric-plan.mdc`。
@@ -31,6 +33,16 @@ PowerLit 生成的计划必须能直接服务 `ProjectName_utils.plotting.save_f
 | `physical-reproduction` | 证明本方法输出能复现真实测量或可信参照解 | 外部或独立可信数据，不得用本文自定义分数 |
 | `sota-comparison` | 在匹配工况下对比最近基线 | 同口径基线方法 |
 | `sensitivity-ablation` | 灵敏度、消融、规模、运行时间、外推 | 变体或参数扫描 |
+
+## 填写示例（勿作正式计划）
+
+下表是一行合格 `physical-reproduction` 图的示例，用来锚定填写标准，展示各字段应有的具体程度。它使用虚构的配电网电压场景，仅供参考，正式计划请删除或忽略本节。
+
+| Fig 编号 | claim | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| FigX（示例） | C1 | physical-reproduction | 本文方法重构的节点电压幅值能否复现全网潮流参照解？ | 参照数据为 MATPOWER 全网 AC 潮流解的各节点电压幅值 | 各节点电压幅值绝对误差 MAE（p.u.，定义见 `symbols.md`；电压幅值误差是配电网状态复现的公认一致性度量） | 叠加折线（本文方法 vs 参照）+ 独立残差子图 | `result/case33bw/voltage_profile.csv` | 示例 |
+
+说明：物理复现图的参照必须是外部/独立可信量（此处为 AC 潮流解），不能用本文自定义分数；指标要有单位、在 `symbols.md`/`derivation.md` 有定义，并说明为何公认。
 
 ## 图清单（按 case 填写）
 

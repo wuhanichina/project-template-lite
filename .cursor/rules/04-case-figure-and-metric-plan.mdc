@@ -18,13 +18,15 @@ for a case before exporting any formal figure for that case through
 
 Default planning route: use `$powerlit-power-systems-paper-writing` before
 editing `01_IDEA/figure_plan.md`, exporting formal figures, drafting figure
-captions, or writing figure-dependent case-analysis prose. PowerLit should
-inspect venue-near and problem-near papers, then return a template-ready
-case/figure plan with `claim`, `evidenceRole`, `sciQuestion`,
+captions, or writing figure-dependent case-analysis prose. Through its
+`figures-tables-results.md` Project-Template Figure Plan Bridge, that skill
+inspects venue-near and problem-near papers with PowerLit, then returns a
+template-ready case/figure plan with `claim`, `evidenceRole`, `sciQuestion`,
 `physicsReproduction`, metric definition, figure type, data files, visual
-encoding, and `save_figure` metadata fields. If PowerLit is unavailable, record
-that fallback explicitly in the plan and use supplied references or
-`03_REFERENCE/` only within a narrowed claim boundary.
+encoding, and `save_figure` metadata fields, ordered by the evidence-role
+sequence in this rule. If PowerLit is unavailable, record that fallback
+explicitly in the plan and use supplied references or `03_REFERENCE/` only
+within a narrowed claim boundary.
 
 ## Step 0: Pin The Contribution Before Planning Figures
 

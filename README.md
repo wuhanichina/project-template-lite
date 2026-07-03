@@ -12,7 +12,8 @@
 
 ## 版本更新记录
 
-- 2026-07-03：补齐算例级 `run_manifest.json`，记录入口命令、Git、MATLAB/平台、求解器可见性、输入/缓存/结果快照和图表证据路径；在 `research_trace.yaml` 中增加分叉探索记录；将 04 图表与指标规划规则纳入 agent 入口；默认使用 `$powerlit-power-systems-paper-writing` 生成 `01_IDEA/figure_plan.md`。
+- 2026-07-03：在 `01_IDEA/figure_plan.md` 增加一行填写示例锚定填写标准；引入 case 注册表并去掉 `ProjectName.m` 的 `cd` 副作用；`.gitignore` 结果目录规则与算例名解耦；统一 run manifest 与 trace 的 schema 命名。
+- 2026-07-03：补齐算例级 `run_manifest.json`，记录入口命令、Git、MATLAB/平台、求解器可见性、输入/缓存/结果快照和图表证据路径；在 `research_trace.yaml` 中增加分叉探索记录；将 04 图表与指标规划规则纳入 agent 入口。
 - 2026-06-30：将版本更新记录改为倒序，并补充参数图绘制前的 SOTA 参数调研规则。
 - 2026-06-28：细化正式论文图规则，默认使用 IEEE 双栏论文的一栏宽度和 10 pt 字号，复杂小图可显式使用 8 pt，并明确算例分析中物理复现优先的强制图组顺序、SOTA 对比图例、本文方法消融图例、中英文图例转换口径、折线图/柱状图图内图例建议，以及生成绘图代码前的文献图表调研步骤。
 - 2026-06-27：看完了《MATLAB×AI：科研绘图与学术图表智能绘制一本通》这本书，强化了模板的绘图功能，统一正式论文图的尺寸、字体、分辨率和导出配置。
@@ -65,6 +66,52 @@ ProjectName_case33bw
 10. 提交前临时移走或清空 `cache/`，确认 `ProjectName` 或正式 `ProjectName_case*.m` 能只依赖代码和 `data/` 重新开始。
 
 如果需要作者信息配置，复制 `02_PAPER/config/author-profile.example.yaml` 为本地的 `author-profile.yaml` 后填写个人信息。真实 `author-profile.yaml` 保留在本地，不进入 Git。
+
+### 批量替换 ProjectName 前缀
+
+`ProjectName` 前缀出现在文件名、包目录名和每个函数体内的包限定调用（如 `ProjectName_utils.io.ensure_dir`）中，手工替换容易漏改并导致包调用报错。建议用下面的脚本一次性替换文件内容和文件/目录名。先在干净的 Git 工作区执行，替换后用最后一步的检查命令确认没有残留。项目简称需是合法 MATLAB 名称：字母开头，只含字母、数字和下划线。
+
+Windows PowerShell（在项目根目录运行）：
+
+```powershell
+$New = "Abc"   # 改成你的项目简称
+
+# 1. 替换文本文件内容中的 ProjectName
+Get-ChildItem -Recurse -File -Include *.m,*.md,*.mdc,*.yaml,*.yml,*.json |
+  Where-Object { $_.FullName -notmatch '\\\.git\\' } |
+  ForEach-Object {
+    (Get-Content $_.FullName -Raw) -replace 'ProjectName', $New |
+      Set-Content $_.FullName -NoNewline
+  }
+
+# 2. 重命名含 ProjectName 的文件和目录（自底向上，先深后浅）
+Get-ChildItem -Recurse | Where-Object { $_.Name -match 'ProjectName' } |
+  Sort-Object { $_.FullName.Length } -Descending |
+  ForEach-Object { Rename-Item -LiteralPath $_.FullName ($_.Name -replace 'ProjectName', $New) }
+
+# 3. 检查是否还有残留
+Select-String -Path (Get-ChildItem -Recurse -File -Include *.m,*.md,*.mdc,*.yaml,*.yml,*.json).FullName -Pattern 'ProjectName' -List
+```
+
+macOS / Linux（在项目根目录运行）：
+
+```bash
+NEW=Abc   # 改成你的项目简称
+
+# 1. 替换文本文件内容中的 ProjectName（macOS 用 sed -i ''，Linux 用 sed -i）
+grep -rlZ --exclude-dir=.git 'ProjectName' . | \
+  xargs -0 sed -i '' 's/ProjectName/'"$NEW"'/g'
+
+# 2. 重命名含 ProjectName 的文件和目录（自底向上）
+find . -depth -name '*ProjectName*' -not -path './.git/*' | while read -r p; do
+  mv "$p" "$(dirname "$p")/$(basename "$p" | sed 's/ProjectName/'"$NEW"'/g')"
+done
+
+# 3. 检查是否还有残留
+grep -rn --exclude-dir=.git 'ProjectName' .
+```
+
+算例名（如 `case33bw`、`case123`）按项目实际网络单独重命名：改动对应的 `<简称>_case*.m` 文件名、`local_case_config` 中的 `name`/`network`，并同步 `result/<算例名>/` 目录和 `01_IDEA/` 中的引用。
 
 ---
 
@@ -280,7 +327,7 @@ ProjectName_utils.plotting.save_figure(...)
 
 `ProjectName_utils.plotting.save_figure` 会检查图表元信息。缺少 `claimId`、`sciQuestion`、`physicsReproduction`、`evidenceRole`、`dataFiles`、`dataDescription`、`visualEncoding`、`targetLayout`、`command`、`keyParams` 或 `randomSeed` 时，不允许导出正式图。`evidenceRole` 必须取 `scenario-setup`、`physical-reproduction`、`sota-comparison` 或 `sensitivity-ablation`；同一 claim 的 `sota-comparison` 或 `sensitivity-ablation` 图不得早于其 `physical-reproduction` 图导出。导出前先在 `01_IDEA/figure_plan.md` 完成图与指标计划，见 `.cursor/rules/04-case-figure-and-metric-plan.mdc`。
 
-使用本模板时，默认调用 `$powerlit-power-systems-paper-writing` 生成或修订 `01_IDEA/figure_plan.md`。PowerLit 先从目标期刊和问题近邻文献学习图表证据链，再给出 claim、`evidenceRole`、`sciQuestion`、`physicsReproduction`、公认指标、图形类型、数据文件、视觉编码和 `save_figure` metadata；PowerLit 不可用时，才退回 `03_REFERENCE/`、用户提供文献或联网检索，并在计划中写明 fallback。
+使用本模板时，默认调用 `$powerlit-power-systems-paper-writing` 生成或修订 `01_IDEA/figure_plan.md`。该技能的 `figures-tables-results.md` 内置 Project-Template Figure Plan Bridge：先用 PowerLit 从目标期刊和问题近邻文献学习图表证据链，再按规则 04 的证据角色顺序给出 claim、`evidenceRole`、`sciQuestion`、`physicsReproduction`、公认指标、图形类型、数据文件、视觉编码和 `save_figure` metadata；PowerLit 不可用时，才退回 `03_REFERENCE/`、用户提供文献或联网检索，并在计划中写明 fallback。
 
 生成正式绘图代码前，先看相近论文如何展示同类结果。优先查 `03_REFERENCE/` 中已收集文献和 PowerLit 检索结果；本地材料不足时，再联网检索最近或最接近的论文。调研时记录这些信息：论文来源、图型、指标组织、baseline 分组、消融是否单独成图、坐标轴与图例写法、是否使用多 case 或运行时间对比。模板只学习展示方式和组织逻辑，不照搬其他论文的数据、结论、caption 或完整视觉样式。
 

@@ -7,14 +7,18 @@ function projectSummary = ProjectName()
 % computation, result export, and plotting logic.
 
 projectRoot = fileparts(mfilename("fullpath"));
-cd(projectRoot);
+addpath(projectRoot);
 
 fprintf("Running ProjectName project workflow\n");
 fprintf("Project root: %s\n", projectRoot);
 
-caseSummaries = repmat(ProjectName_utils.workflow.empty_run_summary(), 1, 2);
-caseSummaries(1) = ProjectName_case33bw();
-caseSummaries(2) = ProjectName_case123();
+% Registered case entries. Add a new case by appending its entry handle here.
+caseEntries = {@ProjectName_case33bw, @ProjectName_case123};
+
+caseSummaries = repmat(ProjectName_utils.workflow.empty_run_summary(), 1, numel(caseEntries));
+for caseIdx = 1:numel(caseEntries)
+    caseSummaries(caseIdx) = caseEntries{caseIdx}();
+end
 
 projectConfig = struct();
 projectConfig.projectRoot = string(projectRoot);

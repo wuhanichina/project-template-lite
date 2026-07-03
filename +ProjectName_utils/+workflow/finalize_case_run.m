@@ -34,7 +34,7 @@ entryFunction = get_optional_string(caseConfig, "entryFunction", string(caseConf
 manifestFile = string(outputFiles.manifestFile);
 
 manifest = struct();
-manifest.schemaVersion = "ara_lite_case_run_manifest_v1";
+manifest.schemaVersion = "research_template_lite_case_run_manifest_v1";
 manifest.generatedAt = completedAt;
 manifest.caseName = string(caseConfig.name);
 manifest.network = get_optional_string(caseConfig, "network", "");

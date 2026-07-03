@@ -1,7 +1,7 @@
 # Lightweight research trace for route evolution.
 # This file is a compact map of decisions, experiments, archived routes, and open questions that affect the paper line.
 
-schema_version: ara_lite_trace_v1
+schema_version: research_template_lite_trace_v1
 
 guide:
   purpose: "记录研究路线如何从初始问题演化到当前主线，并保留有价值的分支和归档路径。"

@@ -5,12 +5,9 @@ cache/**
 result/**
 !result/
 !result/README.md
-!result/case33bw/
-!result/case33bw/figures/
-!result/case33bw/figures/README.md
-!result/case123/
-!result/case123/figures/
-!result/case123/figures/README.md
+!result/*/
+!result/*/figures/
+!result/*/figures/README.md
 02_PAPER/config/author-profile.yaml
 tests/**
 !tests/
