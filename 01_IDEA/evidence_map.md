@@ -6,11 +6,13 @@
 
 | 证据编号 | 支撑 claim | 生成入口 | 原始结果文件 | 证据类型 | 关键指标/数值 | 求解器与配置 | 状态 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| E01 | C1 | `ProjectName_case33bw.m` | `result/case33bw/summary.txt`; `result/case33bw/figures/` | 主算例 | 待填 | 待填 | scaffold | case33bw 主场景 |
-| E02 | C2 | `ProjectName_case123.m` | `result/case123/summary.txt`; `result/case123/figures/` | 扩展算例 | 待填 | 待填 | scaffold | case123 扩展网架 |
+| E01 | C1 | `ProjectName_case33bw.m` | `result/case33bw/summary.txt`; `result/case33bw/run_manifest.json`; `result/case33bw/figures/` | 主算例 | 待填 | 待填 | scaffold | case33bw 主场景 |
+| E02 | C2 | `ProjectName_case123.m` | `result/case123/summary.txt`; `result/case123/run_manifest.json`; `result/case123/figures/` | 扩展算例 | 待填 | 待填 | scaffold | case123 扩展网架 |
 | E03 | C3 | `ProjectName.m`; `+ProjectName_utils/+plotting/export_project_figures.m` | `result/project_summary.txt`; `result/project/figures/` | 跨 case 汇总与对比证据 | 待填 | 待填 | scaffold | 模板登记 case 的同口径汇总 |
 
 ## 图表证据包
+
+每个正式算例先写出 `result/<case>/run_manifest.json`，记录入口命令、Git、MATLAB/平台、求解器可见性、配置、输入文件、缓存快照、summary、图表证据路径和证据登记提示。图表证据包记录单张图的科学问题、数据和导出质量；运行 manifest 记录整个 case 的复现边界。
 
 正式图在导出前先在 `figure_plan.md` 完成计划：锚定创新点、绑定 claim 编号、确定证据角色（`scenario-setup` → `physical-reproduction` → `sota-comparison` → `sensitivity-ablation`）、指标和图形类型。
 

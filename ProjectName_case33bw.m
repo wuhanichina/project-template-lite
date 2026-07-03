@@ -13,9 +13,9 @@ function runSummary = ProjectName_case33bw()
 % 4. Run the proposed method.
 % 5. Run SOTA or baseline methods.
 % 6. Evaluate case metrics.
-% 7. Write tables, summary, and run manifest.
+% 7. Write tables and summary.
 % 8. Export formal case figures.
-% 9. Finalize the run and report evidence registration status.
+% 9. Finalize the run, write run manifest, and report evidence registration status.
 
 projectRoot = fileparts(mfilename("fullpath"));
 
@@ -40,14 +40,14 @@ baselineResults = ProjectName_sota.baselines.run_case_baselines(caseConfig, case
 tracker.update(6, "Evaluate case metrics");
 metrics = ProjectName_core.metrics.evaluate_case_metrics(caseConfig, proposedResults, baselineResults);
 
-tracker.update(7, "Write tables, summary, and run manifest");
+tracker.update(7, "Write tables and summary");
 outputFiles = ProjectName_utils.io.write_case_outputs( ...
     caseConfig, caseData, proposedResults, baselineResults, metrics);
 
 tracker.update(8, "Export formal case figures");
 figureOutputs = ProjectName_utils.plotting.export_case_figures(caseConfig, metrics);
 
-tracker.update(9, "Finalize run and report evidence registration status");
+tracker.update(9, "Finalize run, write manifest, and report evidence registration status");
 runSummary = ProjectName_utils.workflow.finalize_case_run( ...
     caseConfig, runState, caseData, proposedResults, baselineResults, ...
     metrics, outputFiles, figureOutputs);
@@ -65,6 +65,7 @@ caseConfig.projectRoot = string(projectRoot);
 caseConfig.name = "case33bw";
 caseConfig.network = "case33bw";
 caseConfig.description = "Proposed method and registered baselines on the case33bw network";
+caseConfig.entryFunction = "ProjectName_case33bw";
 caseConfig.seed = 33;
 caseConfig.dataDir = fullfile(projectRoot, "data");
 caseConfig.cacheDir = fullfile(projectRoot, "cache", caseConfig.name);

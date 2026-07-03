@@ -23,7 +23,7 @@ Keep the visible root small:
 - `02_PAPER/` contains paper-facing material. Track only `config/author-profile.example.yaml`; keep the real local `config/author-profile.yaml` out of Git because it contains personal information.
 - `03_REFERENCE/` holds manually collected literature and BibTeX files.
 - Generated outputs go under `result/`; intermediate artifacts go under `cache/`. Do not make an existing cache file a required startup input.
-- Each runnable case owns one result subtree: `result/<case_name>/` for numerical outputs, tables, and logs, plus `result/<case_name>/figures/` for formal case-specific figures.
+- Each runnable case owns one result subtree: `result/<case_name>/` for numerical outputs, tables, logs, and `run_manifest.json`, plus `result/<case_name>/figures/` for formal case-specific figures.
 - Do not add new root-level or sidecar folders by default. In particular, do not create `scripts/`, `tools/`, or another utility folder unless the author explicitly asks for that structure.
 
 ## Research Workflow
@@ -31,7 +31,8 @@ Keep the visible root small:
 - Every main case should answer one evidence question in `01_IDEA/claims.md`.
 - Every public-facing research claim should also be reflected in `ProjectName_note.md`.
 - Every formal result should be registered in `01_IDEA/evidence_map.md` before it is used in paper prose.
-- Important failed approaches, abandoned alternatives, retained early ideas, pivots, and unresolved research questions should be recorded in `01_IDEA/research_trace.yaml`.
+- Important failed approaches, abandoned alternatives, retained early ideas, forked explorations, pivots, and unresolved research questions should be recorded in `01_IDEA/research_trace.yaml`.
+- A forked exploration should record its base route, hypothesis, Git branch, changed files, input or configuration difference, comparison target, result directory, run manifest, observed difference, and merge/archive decision.
 - If a result changes the story, update `01_IDEA/story.md` or `01_IDEA/claims.md` in the same change.
 - If a formula or variable changes, update `01_IDEA/derivation.md` before treating the result as paper evidence.
 - If a symbol, unit, dimension, or code-variable mapping changes, update `01_IDEA/symbols.md` in the same change.
@@ -66,7 +67,8 @@ Keep the visible root small:
 - Before project submission or handoff, clear or rename `cache/` and verify that `ProjectName` or each formal `ProjectName_case*.m` can start a full computation using only code plus `data/`.
 - A runnable case may create `result/<case_name>/`.
 - A runnable case should create `result/<case_name>/figures/` and write its formal figures for that case there.
-- Each formal result should be traceable to the entry file, config, solver, and data version that produced it.
+- A formal case run should write `result/<case_name>/run_manifest.json` after figures are exported so the manifest captures both numerical outputs and figure evidence paths.
+- Each formal result should be traceable to the entry file, config, solver, data version, Git state, environment, and run manifest that produced it.
 - Each formal MATLAB figure should be exported through `ProjectName_utils.plotting.save_figure`, which produces `.fig`, `.png`, `.svg`, optional plot-data CSV, a JSONL manifest row, and a figure check report.
 - The default formal figure profile is `ProjectName_utils.plotting.figure_profile("ieee")`; target-journal instructions override this default when they are more specific.
 - Each formal figure must declare its scientific question, physical reproduction target, evidence role, data files, field/unit/dimension description, visual encoding, target layout, command, key parameters, and random seed/status before export.

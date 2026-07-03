@@ -14,9 +14,21 @@ guide:
     - question
     - decision
     - experiment
+    - fork_exploration
     - retained_idea
     - archived_route
     - open_question
+  fork_exploration_required_fields:
+    - base_node
+    - hypothesis
+    - git_branch
+    - changed_files
+    - input_difference
+    - compared_with
+    - result_directory
+    - run_manifest
+    - observed_difference
+    - decision
 
 tree:
   - id: N01
@@ -63,6 +75,29 @@ tree:
         evidence:
           - E02
         result: "待填：运行后登记扩展性、规模和关键指标。"
+      - id: N08
+        type: fork_exploration
+        title: "待填：分叉探索路线"
+        provenance: ai-executed
+        status: open
+        base_node: N02
+        hypothesis: "待填：该分叉想验证的建模、求解、参数或对比路线假设。"
+        trigger: "待填：为什么需要从当前主线分叉，而不是直接修改主线。"
+        git_branch: "【Git 信息待补充】"
+        compared_with:
+          node: N02
+          branch: "【Git 信息待补充】"
+          run_manifest: "result/<case>/run_manifest.json"
+        changed_files:
+          - "待填：关键代码、配置、数据或文档文件"
+        input_difference: "待填：相对主线改变了哪些数据、参数、随机种子、solver 或实验条件。"
+        expected_signal: "待填：若假设成立，应在哪些指标、图或物理现象中出现差异。"
+        result_directory: "result/<case>/"
+        run_manifest: "result/<case>/run_manifest.json"
+        observed_difference: "待填：与主线相比的实际差异，需引用结果文件、图表或 manifest。"
+        decision: "待判断：merge_to_main / retain_as_alternative / archive / rerun_required"
+        retained_lesson: "待填：无论是否合并，该分叉对当前研究路线留下的启示。"
+        next_action: "待填：合并、补实验、归档或继续比较。"
       - id: N05
         type: retained_idea
         title: "待填：从早期方案保留下来的思路"

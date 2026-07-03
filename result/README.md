@@ -6,11 +6,18 @@ Generated numerical evidence stays under one case folder per runnable case.
 result/
 ├── case33bw/
 │   ├── summary.txt
+│   ├── run_manifest.json
 │   └── figures/
 └── case123/
     ├── summary.txt
+    ├── run_manifest.json
     └── figures/
 ```
+
+Each formal case run writes `run_manifest.json` during finalization. The
+manifest records the entry command, Git state, MATLAB/platform information,
+solver visibility, case configuration, input files, cache snapshot, output
+files, formal figure manifest paths, and evidence-registration reminder.
 
 Formal paper figures must be written to `result/<case>/figures/` through
 `ProjectName_utils.plotting.save_figure`. That helper exports the MATLAB source

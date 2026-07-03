@@ -124,19 +124,27 @@
 | 阶段 1：初始问题定义 | 【待补充】 | 【Git 信息待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 |
 | 阶段 2：第一次关键调整 | 【待补充】 | 【Git 信息待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 |
 
-### 2.3 被保留的思路
+### 2.3 分叉探索记录
+
+分叉探索用于记录从当前主线临时分出的建模、求解、参数或对比路线。每个分叉应在 `01_IDEA/research_trace.yaml` 中登记 `fork_exploration` 节点，并绑定 Git 分支、相对主线的输入差异、结果目录和 `run_manifest.json`。
+
+| 分叉 | 基准路线 | Git 分支 | 假设 | 输入或配置差异 | 对照结果 | run manifest | 当前决策 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 【待补充】 | 【待补充】 | 【Git 信息待补充】 | 【待补充】 | 【待补充】 | 【结果待复核】 | `result/<case>/run_manifest.json` | 待判断 |
+
+### 2.4 被保留的思路
 
 | 思路 | 原始来源 | 保留原因 | 对应代码或模型 | Git 记录 | 当前证据状态 |
 | --- | --- | --- | --- | --- | --- |
 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【Git 信息待补充】 | 尚未验证 |
 
-### 2.4 被放弃的思路
+### 2.5 被放弃的思路
 
 | 被放弃方案 | 原始设想 | 尝试方式 | 对应 Git 分支或 commit | 暴露问题 | 放弃原因 | 保留下来的启示 | 是否可能重新启用 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 【待补充】 | 【待补充】 | 【待补充】 | 【Git 信息待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待判断】 |
 
-### 2.5 尚未验证的思路
+### 2.6 尚未验证的思路
 
 | 思路 | 提出原因 | 需要的理论推导 | 需要的代码实现 | 需要的验证实验 | 当前优先级 |
 | --- | --- | --- | --- | --- | --- |
@@ -184,8 +192,8 @@
 | 主张边界 | `01_IDEA/claims.md` | claim、证据、审稿风险 |
 | 数学推导 | `01_IDEA/derivation.md` | 公式、变量、假设、推导细节 |
 | 统一符号表 | `01_IDEA/symbols.md` | 全文符号、单位、维度和代码变量映射 |
-| 证据索引 | `01_IDEA/evidence_map.md` | claim、入口、原始结果和证据状态 |
-| 研究轨迹 | `01_IDEA/research_trace.yaml` | 关键决策、失败路径和路线转向 |
+| 证据索引 | `01_IDEA/evidence_map.md` | claim、入口、运行 manifest、原始结果和证据状态 |
+| 研究轨迹 | `01_IDEA/research_trace.yaml` | 关键决策、分叉探索、失败路径和路线转向 |
 | 核心代码 | `+ProjectName_core/` | 模型、算法、求解和指标函数 |
 | 工具代码 | `+ProjectName_utils/` | MC、IO、流程跟踪、局部长耗时进度条、绘图、缓存读写等非核心工具函数 |
 | 对比代码 | `+ProjectName_sota/` | 对比方法核心代码 |
@@ -194,7 +202,7 @@
 | case123 算例 | `ProjectName_case123.m` | case123 完整正式流程入口 |
 | 输入数据 | `data/` | 数据源和算例输入 |
 | 中间缓存 | `cache/` | 可复用中间结果 |
-| 结果输出 | `result/` | 每个 case 单独保存图表、表格和数值证据 |
+| 结果输出 | `result/` | 每个 case 单独保存 summary、run manifest、图表、表格和数值证据 |
 | 调参与验证 | `tests/` | 调参、局部验证和临时修改验证 |
 | 论文写作 | `02_PAPER/` | 后续论文稿、审稿意见和回复 |
 | 作者配置示例 | `02_PAPER/config/author-profile.example.yaml` | 作者、单位、基金和写作工具链字段模板；真实 `author-profile.yaml` 本地保存且不进 Git |
@@ -325,10 +333,10 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 
 ### 6.4 结果目录与实验记录对应关系
 
-| 实验记录 | 结果目录 | 对应脚本 | 对应 commit | 当前状态 |
-| --- | --- | --- | --- | --- |
-| case33 初步测试 | `result/case33bw/` | `ProjectName_case33bw.m` | 【Git 信息待补充】 | scaffold |
-| case123 扩展测试 | `result/case123/` | `ProjectName_case123.m` | 【Git 信息待补充】 | scaffold |
+| 实验记录 | 结果目录 | run manifest | 对应脚本 | 对应 commit | 当前状态 |
+| --- | --- | --- | --- | --- | --- |
+| case33 初步测试 | `result/case33bw/` | `result/case33bw/run_manifest.json` | `ProjectName_case33bw.m` | 【Git 信息待补充】 | scaffold |
+| case123 扩展测试 | `result/case123/` | `result/case123/run_manifest.json` | `ProjectName_case123.m` | 【Git 信息待补充】 | scaffold |
 
 ## 7. 算例与阶段性验证
 
@@ -336,8 +344,8 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 
 | 入口 | 验证目的 | 支持主张 | 输出 | 当前状态 |
 | --- | --- | --- | --- | --- |
-| `ProjectName_case33bw.m` | 编排 case33bw 下的正式测试、结果输出和绘图 | C1 | 主表、主图、关键数值 | scaffold |
-| `ProjectName_case123.m` | 编排 case123 下的正式测试、结果输出和绘图 | C2 | 扩展算例表、规模指标、关键数值 | scaffold |
+| `ProjectName_case33bw.m` | 编排 case33bw 下的正式测试、结果输出和绘图 | C1 | summary、run manifest、主表、主图、关键数值 | scaffold |
+| `ProjectName_case123.m` | 编排 case123 下的正式测试、结果输出和绘图 | C2 | summary、run manifest、扩展算例表、规模指标、关键数值 | scaffold |
 | `ProjectName.m` | 串联模板登记 case 并生成跨 case 汇总与全局图表 | C3 | 跨 case 汇总表、规模扩展对比、总体性能对比 | scaffold |
 
 ### 7.2 阶段性验证记录
@@ -350,7 +358,7 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 
 ### 7.3 结果登记
 
-正式结果应同时登记到 `01_IDEA/evidence_map.md`。本节可以写解释和判断，但证据编号、原始文件和求解器配置以 `evidence_map.md` 为准。
+正式结果应同时登记到 `01_IDEA/evidence_map.md`。本节可以写解释和判断，但证据编号、`run_manifest.json`、原始文件和求解器配置以 `evidence_map.md` 为准。
 
 | 日期 | 证据编号 | 算例 | 结果文件 | 关键数字 | 支持/削弱的主张 | 结论 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -372,7 +380,7 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 | 图组证据角色 | 【按顺序登记 scenario-setup → physical-reproduction → sota-comparison → sensitivity-ablation；同一 claim 的对比/消融图不得早于其物理复现图】 |
 | 数据文件 | 【待补充】 |
 | 字段含义、单位、维度、预处理状态 | 【待补充】 |
-| 相关论文图表调研 | 【待补充：PowerLit / `03_REFERENCE/` / 联网检索；记录论文、图型、指标、baseline 和布局启发】 |
+| PowerLit 图表计划 | 【默认先用 `$powerlit-power-systems-paper-writing` 生成或修订 `01_IDEA/figure_plan.md`；记录近邻论文、图型、指标、baseline、evidenceRole 和布局启发】 |
 | 参数图 SOTA 调研 | 【待补充：SOTA 常比较的参数、范围、步长、归一化方式、默认值和横轴组织】 |
 | 全局视觉编码 | `ProjectName_utils.plotting.methodStyle` |
 | 默认图表 profile | `ProjectName_utils.plotting.figure_profile("ieee")` |
@@ -386,7 +394,7 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 ### 8.2 正式图输出要求
 
 - 每个 case 的正式图放入 `result/<case>/figures/`。
-- 生成绘图代码前，先查相近论文的结果图展示方式。优先使用 `03_REFERENCE/` 和 PowerLit；本地材料不足时联网检索，并把参考论文、图型和可借鉴的展示组织写入上方表格。
+- 生成绘图代码前，默认先用 `$powerlit-power-systems-paper-writing` 基于 PowerLit 近邻论文生成或修订 `01_IDEA/figure_plan.md`；本地 PowerLit 不可用时，再使用 `03_REFERENCE/`、用户提供文献或联网检索，并把 fallback 来源、图型和可借鉴的展示组织写入上方表格。
 - 绘制参数图、灵敏度图或参数扫描图前，先查 SOTA 论文一般比较哪些参数、范围、步长、归一化方式、默认值和横轴组织；本文采用不同参数或范围时，在研究笔记、manifest 或 caption 草稿中说明原因。
 - 新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 创建图窗；默认 IEEE profile 使用 10 pt 字号，并把图宽限制在 IEEE 双栏论文的一栏宽度内。复杂小图可以显式使用 8 pt，但需要在 manifest 中记录。目标期刊给出更具体要求时，以目标期刊为准。
 - 折线图和柱状图建议调用 `ProjectName_utils.plotting.place_legend(ax)`，默认把图例放在图内自动位置；正式使用前检查图例是否遮挡关键数据。
@@ -493,7 +501,7 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 6. `01_IDEA/symbols.md`
 7. `01_IDEA/evidence_map.md`
 8. `01_IDEA/research_trace.yaml`
-9. `result/` 中已经登记的重要结果，尤其是 `result/<case>/figures/` 下带 manifest 和检查报告的正式图
+9. `result/` 中已经登记的重要结果，尤其是 `result/<case>/run_manifest.json` 和 `result/<case>/figures/` 下带 manifest 与检查报告的正式图
 10. `03_REFERENCE/` 中最近竞争者和关键参考文献
 
 ### 12.2 审稿检查点
@@ -508,11 +516,13 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 | 是否定义所有主要符号并同步到 `01_IDEA/symbols.md`？ | 待填写 |
 | 是否说明所有关键假设？ | 待填写 |
 | 是否记录归档路线及其启示？ | 待填写 |
+| 是否记录分叉探索的假设、Git 分支、输入差异、对照结果和取舍？ | 待填写 |
 | 是否记录阶段性验证，并说明它对下一步研究的影响？ | 待填写 |
 | 是否标注每个重要判断的证据状态？ | 待填写 |
 | 是否关联 Git 分支、commit、tag、issue 或 PR？ | 待填写 |
 | 是否说明代码文件与数学模型的对应关系？ | 待填写 |
 | 是否说明实验结果与 Git 版本的对应关系？ | 待填写 |
+| 是否保存并登记每个正式算例的 `run_manifest.json`？ | 待填写 |
 | 表达是否克制、具体、可验证？ | 待填写 |
 | AI 生成文本是否已完成写作风格检查和 `.cursor/rules/lexicon.md` 词表筛查？ | 待填写 |
 | 是否保留当前局限和未解决问题？ | 待填写 |
@@ -522,4 +532,5 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 
 | 日期 | 更新内容 | 影响 |
 | --- | --- | --- |
+| 2026-07-03 | 增加算例运行 manifest 和分叉探索记录入口 | 算例证据可追溯到入口、环境、Git、输入、缓存、输出和分叉取舍 |
 | YYYY-MM-DD | 创建公开研究笔记模板 | 建立研究展示、路线追溯和论文写作入口 |

@@ -55,6 +55,7 @@ assert(exist('cvx_begin', 'file') == 2, 'CVX startup did not expose cvx_begin.')
 - If the model is an LP/QP/MIP subproblem, build the Gurobi model directly instead of routing through CVX.
 - If the model is nonlinear and nonconvex, do not pretend Gurobi or MOSEK can replace GAMS by changing a solver name. First reformulate or mark it as a legacy-GAMS path.
 - Record the solver family, solver version when available, tolerance, and status in the case output.
+- The case `run_manifest.json` should also record solver visibility from MATLAB, including whether `cvx_begin`, `mosekopt`, and `gurobi` are visible on the active path.
 
 ## GAMS Boundary
 

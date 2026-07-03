@@ -12,6 +12,7 @@ runSummary.resultDir = "";
 runSummary.figureDir = "";
 runSummary.summaryFile = "";
 runSummary.manifestFile = "";
+runSummary.runManifestFile = "";
 runSummary.inputStatus = "";
 runSummary.proposedStatus = "";
 runSummary.baselineStatus = "";

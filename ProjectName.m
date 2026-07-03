@@ -32,6 +32,7 @@ projectSummary.project = "ProjectName";
 projectSummary.status = "scaffold";
 projectSummary.caseNames = projectConfig.caseNames;
 projectSummary.caseSummaryFiles = [caseSummaries.summaryFile];
+projectSummary.caseRunManifestFiles = [caseSummaries.runManifestFile];
 projectSummary.projectFigureStatus = projectFigureOutputs.status;
 projectSummary.projectFigureDir = projectFigureOutputs.figureDir;
 projectSummary.summaryFile = string(projectConfig.summaryFile);

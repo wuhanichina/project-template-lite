@@ -16,6 +16,7 @@ It should contain:
 - engineering need, existing-method insufficiency, pain point, and scientific question,
 - current research positioning and claim boundary,
 - major research decisions, abandoned alternatives, retained ideas, and unverified ideas,
+- forked explorations with their hypothesis, Git branch, input differences, result directory, run manifest, observed difference, and decision,
 - route-evolution map from early ideas to the current line,
 - complete mathematical model and derivation,
 - assumptions, approximations, variable definitions, and code-variable mapping,
@@ -82,7 +83,7 @@ The note should preserve three threads:
 ```text
 Problem formation: engineering need -> existing insufficiency -> pain point -> scientific question
 Research evolution: initial idea -> exposed problem -> route adjustment -> current route
-Traceability: math model -> code implementation -> Git version -> staged validation -> evidence state
+Traceability: math model -> code implementation -> Git version -> run manifest -> staged validation -> evidence state
 ```
 
 ## Synchronization Rules
@@ -93,6 +94,7 @@ Traceability: math model -> code implementation -> Git version -> staged validat
 - If `01_IDEA/symbols.md` changes symbols, units, dimensions, or code-variable mappings, update the model and writing-check sections in `ProjectName_note.md`.
 - If `01_IDEA/evidence_map.md` registers or changes a formal result, update the result and claim-support sections in `ProjectName_note.md`.
 - If `01_IDEA/research_trace.yaml` records a route change or failed line that affects the paper boundary, update the story or claim boundary.
+- If `01_IDEA/research_trace.yaml` records a forked exploration, keep its run manifest, compared route, observed difference, and merge/archive decision aligned with `ProjectName_note.md` when it affects the current route.
 - If `ProjectName.m` or a `ProjectName_case*.m` run produces a paper-facing result, register it in `ProjectName_note.md`.
 - If a result weakens a claim, revise the claim before writing or polishing manuscript text.
 

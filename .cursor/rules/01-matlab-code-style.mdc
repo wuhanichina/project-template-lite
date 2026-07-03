@@ -20,6 +20,7 @@ alwaysApply: false
 Use a named `config` or `caseConfig` struct for case tunable values:
 
 - case name
+- entry function or command
 - data source under `data/`, not under `cache/`
 - solver family
 - random seed
