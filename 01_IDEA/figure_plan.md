@@ -1,5 +1,11 @@
 # Figure Plan
 
+## PowerLit 默认规划入口
+
+使用本模板时，正式算例图默认先由 `$powerlit-power-systems-paper-writing` 生成或修订本文件的 figure plan。PowerLit 应先检索目标期刊和问题近邻论文，提炼近邻论文通常展示哪些图、每类图回答什么审稿问题、使用哪些公认指标、baseline 如何分组、参数/灵敏度图通常比较哪些范围和横轴组织，再把结论落到下方模板字段中。
+
+PowerLit 生成的计划必须能直接服务 `ProjectName_utils.plotting.save_figure`：每张正式图至少明确 `claim`、`evidenceRole`、`sciQuestion`、`physicsReproduction`、指标定义与单位、图形类型、数据文件、视觉编码和缺失结果 blocker。PowerLit 不可用时，在本节记录 fallback 来源，并只依据 `03_REFERENCE/`、用户提供文献或已有结果做保守规划。
+
 本文件在导出任何正式算例图之前，先确认创新点、再决定每张图的证据角色、指标和图形类型。
 它对应执行规则 `.cursor/rules/04-case-figure-and-metric-plan.mdc`。
 
