@@ -12,6 +12,7 @@ This repository uses the project root as the MATLAB code root. Do not recreate l
 Keep the visible root small:
 
 - `ProjectName_note.md` is the project research note and should stay synchronized with the idea files, math derivation, and important results.
+- `ProjectName_changelog.md` is the research-content changelog. It should record substantive research changes with date-formatted versions, newest first, and stay synchronized with `ProjectName_note.md`.
 - `ProjectName.m` is the project-level entry for registered case runs, cross-case summaries, and global figures. It must stay a small orchestrator.
 - `ProjectName_case33bw.m` and `ProjectName_case123.m` are formal case workflow entries for the two example networks. Each case entry should show the full step sequence and call package functions for implementation. Replace `ProjectName` with the actual project prefix when the template is copied.
 - `+ProjectName_core/` holds contribution-defining core code such as physical models, mathematical models, core algorithms, solver wrappers, and paper metrics. Replace `ProjectName` with the actual project prefix when the template is copied.
@@ -30,6 +31,7 @@ Keep the visible root small:
 
 - Every main case should answer one evidence question in `01_IDEA/claims.md`.
 - Every public-facing research claim should also be reflected in `ProjectName_note.md`.
+- If a change alters the research question, route, model, assumption, experiment protocol, result interpretation, evidence status, figure plan, paper boundary, or handoff judgment, add or update a `ProjectName_changelog.md` entry for the current `YYYY-MM-DD` version. Keep entries newest first and start each entry with one concise sentence saying what changed.
 - Every formal result should be registered in `01_IDEA/evidence_map.md` before it is used in paper prose.
 - Important failed approaches, abandoned alternatives, retained early ideas, forked explorations, pivots, and unresolved research questions should be recorded in `01_IDEA/research_trace.yaml`.
 - A forked exploration should record its base route, hypothesis, Git branch, changed files, input or configuration difference, comparison target, result directory, run manifest, observed difference, and merge/archive decision.

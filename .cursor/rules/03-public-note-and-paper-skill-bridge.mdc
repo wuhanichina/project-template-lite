@@ -1,5 +1,5 @@
 ---
-description: Research-note and paper-skill bridge. Use ProjectName_note.md as the project research note and the primary input surface for paper writing and review skills.
+description: Research-note, research-content changelog, and paper-skill bridge. Use ProjectName_note.md as the project research note and the primary input surface for paper writing and review skills.
 alwaysApply: true
 ---
 
@@ -9,7 +9,9 @@ alwaysApply: true
 
 `ProjectName_note.md` is the project research note at the project root. When the template is copied, rename the `ProjectName` prefix if needed, or replace the title and each `ProjectName` placeholder.
 
-It is a traceable research archive. Its job is to turn a project idea into material that collaborators can inspect, continue, and later distill into manuscript prose: how the research question formed, how the route evolved, how the math model maps to code, which results support or revise current judgments, and what remains unresolved.
+`ProjectName_changelog.md` is the companion research-content changelog. It records substantive changes to the research object itself, not the template's own release history. It uses `YYYY-MM-DD` date versions, keeps the newest version first, and starts each entry with one concise sentence saying what changed.
+
+`ProjectName_note.md` is a traceable research archive. Its job is to turn a project idea into material that collaborators can inspect, continue, and later distill into manuscript prose: how the research question formed, how the route evolved, how the math model maps to code, which results support or revise current judgments, and what remains unresolved.
 
 It should contain:
 
@@ -23,6 +25,7 @@ It should contain:
 - solver and experiment protocol,
 - claim-evidence-code bindings,
 - Git branch, commit, tag, issue, and pull-request linkage when available,
+- current date-version and one-sentence current-version summary that points to `ProjectName_changelog.md`,
 - lightweight research trace for meaningful dead ends and pivots,
 - important results and claim support,
 - relation to closest competitors,
@@ -33,6 +36,7 @@ Keep `ProjectName_note.md` readable by a collaborator or reviewer-facing coautho
 ## Writing Practice
 
 - Keep human-facing files such as `ProjectName_note.md` and `01_IDEA/*` focused on research content: story, claims, derivation, symbols, evidence, route evolution, and next steps. Put agent execution rules, prohibitions, and process guardrails in `.cursor/rules/`, not in those human-facing files.
+- Keep long version-change tables out of `ProjectName_note.md`. Put research-content version history in `ProjectName_changelog.md`; keep only the current date-version and one-sentence current-version summary near the top of the note.
 - Start with problem formation and route evolution, then let paper sections be distilled later from the archive.
 - Use concrete, evidence-bound language. Strong contribution language should appear only when literature review, proof, and experiments support that exact claim.
 - Prefer evidence-bound wording: "current evidence supports", "this remains to be verified", "this route was archived because", "this conclusion is only observed in", and "the assumption applies under".
@@ -96,6 +100,7 @@ Traceability: math model -> code implementation -> Git version -> run manifest -
 - If `01_IDEA/research_trace.yaml` records a route change or failed line that affects the paper boundary, update the story or claim boundary.
 - If `01_IDEA/research_trace.yaml` records a forked exploration, keep its run manifest, compared route, observed difference, and merge/archive decision aligned with `ProjectName_note.md` when it affects the current route.
 - If `ProjectName.m` or a `ProjectName_case*.m` run produces a paper-facing result, register it in `ProjectName_note.md`.
+- If any synchronized change alters the research question, route, model, assumptions, experiment protocol, result interpretation, evidence status, figure plan, paper boundary, or handoff judgment, update `ProjectName_changelog.md` for the current date version. Do not use the changelog for pure formatting, typo fixes, or template-maintenance history unless they change the research-content boundary.
 - If a result weakens a claim, revise the claim before writing or polishing manuscript text.
 
 ## Paper Writing Skill Interface
@@ -103,15 +108,16 @@ Traceability: math model -> code implementation -> Git version -> run manifest -
 Before drafting with the paper-writing skill, load this material in order:
 
 1. `ProjectName_note.md`
-2. `02_PAPER/config/author-profile.yaml` if present locally, otherwise `02_PAPER/config/author-profile.example.yaml`
-3. `01_IDEA/story.md`
-4. `01_IDEA/claims.md`
-5. `01_IDEA/derivation.md`
-6. `01_IDEA/symbols.md`
-7. `01_IDEA/evidence_map.md`
-8. `01_IDEA/research_trace.yaml`
-9. relevant result files under `result/`
-10. closest-competitor notes or BibTeX under `03_REFERENCE/`
+2. `ProjectName_changelog.md`
+3. `02_PAPER/config/author-profile.yaml` if present locally, otherwise `02_PAPER/config/author-profile.example.yaml`
+4. `01_IDEA/story.md`
+5. `01_IDEA/claims.md`
+6. `01_IDEA/derivation.md`
+7. `01_IDEA/symbols.md`
+8. `01_IDEA/evidence_map.md`
+9. `01_IDEA/research_trace.yaml`
+10. relevant result files under `result/`
+11. closest-competitor notes or BibTeX under `03_REFERENCE/`
 
 The writing skill should convert the public note into manuscript prose and keep each contribution tied to the archive evidence.
 

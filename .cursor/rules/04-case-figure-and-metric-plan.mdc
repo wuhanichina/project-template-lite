@@ -110,7 +110,8 @@ separate subfigures and combine them in the manuscript layout.
   `01_IDEA/figure_plan.md` before export, and in `01_IDEA/evidence_map.md` when
   it becomes paper evidence.
 - If a `physical-reproduction` figure does not match the reference, revise the
-  claim in `01_IDEA/claims.md` and `ProjectName_note.md` before exporting any
-  `sota-comparison` figure for that claim.
+  claim in `01_IDEA/claims.md`, `ProjectName_note.md`, and
+  `ProjectName_changelog.md` before exporting any `sota-comparison` figure for
+  that claim.
 - Keep `evidenceRole`, `claimId`, and the metric definition in the
   `save_figure` manifest consistent with the plan.

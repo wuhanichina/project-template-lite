@@ -81,5 +81,5 @@
 ## 与其他文件的同步
 
 - 图变为论文证据后，在 `01_IDEA/evidence_map.md` 登记。
-- 若 `physical-reproduction` 图未能匹配参照，先在 `01_IDEA/claims.md` 和 `ProjectName_note.md` 修正 claim，再导出该 claim 的 `sota-comparison` 图。
+- 若 `physical-reproduction` 图未能匹配参照，先在 `01_IDEA/claims.md`、`ProjectName_note.md` 和 `ProjectName_changelog.md` 修正 claim 与研究内容版本记录，再导出该 claim 的 `sota-comparison` 图。
 - 保持 `save_figure` manifest 中的 `evidenceRole`、`claimId` 和指标定义与本计划一致。

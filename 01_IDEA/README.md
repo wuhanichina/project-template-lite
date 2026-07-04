@@ -25,4 +25,4 @@
 6. 运行 case 后，把 `result/<case>/run_manifest.json` 和正式结果登记到 `evidence_map.md`。
 7. 路线调整、分叉探索、失败方案和未解决问题同步写入 `research_trace.yaml`。
 
-如果公式、变量、主张或证据状态发生变化，应同步更新 `ProjectName_note.md`，使根目录研究笔记保持为当前公开研究边界。
+如果公式、变量、主张或证据状态发生变化，应同步更新 `ProjectName_note.md` 和 `ProjectName_changelog.md`，使根目录研究笔记保持为当前公开研究边界，并让研究内容版本记录可追溯。

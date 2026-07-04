@@ -1,6 +1,6 @@
 # Symbols
 
-本文统一符号表。新增公式、变量或指标前先检索本文件，避免同一符号被重复赋义。修改已有符号含义时，应同步更新 `derivation.md`、`ProjectName_note.md`、相关代码变量名说明和论文草稿。
+本文统一符号表。新增公式、变量或指标前先检索本文件，避免同一符号被重复赋义。修改已有符号含义时，应同步更新 `derivation.md`、`ProjectName_note.md`、`ProjectName_changelog.md`、相关代码变量名说明和论文草稿。
 
 ## 使用规则
 

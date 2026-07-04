@@ -2,6 +2,8 @@
 
 > 项目研究笔记。复制模板后，将 `ProjectName` 替换为真实项目名，并持续把研究问题、路线演变、数学模型、代码实现、Git 记录、阶段性验证、论文证据和后续计划同步到本文件。
 
+当前版本：`YYYY-MM-DD`。本版摘要：`【用一句话说明本版修改了什么】`。完整研究内容版本历史见 `ProjectName_changelog.md`。
+
 本文件定位为项目的可追溯研究档案，面向团队成员和小同行专家。写作目标是把研究从“一个想法”整理成可复核、可接力、可提炼为论文的材料：说明研究为什么开展、思路如何演变、模型如何落地、结果支持或修正了哪些判断，以及下一步应如何推进。
 
 ## 0. 写作目标与证据状态
@@ -188,6 +190,7 @@
 | 内容 | 文件或目录 | 作用 |
 | --- | --- | --- |
 | 研究笔记 | `ProjectName_note.md` | 研究进展、路线演化、模型、证据和论文边界总入口 |
+| 研究版本 | `ProjectName_changelog.md` | 按日期倒序记录研究内容的实质修改和追溯入口 |
 | 故事线 | `01_IDEA/story.md` | 科学问题、技术矛盾、文章主线 |
 | 主张边界 | `01_IDEA/claims.md` | claim、证据、审稿风险 |
 | 数学推导 | `01_IDEA/derivation.md` | 公式、变量、假设、推导细节 |
@@ -494,15 +497,16 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 写摘要、引言、方法、算例和结论前，应优先读取：
 
 1. `ProjectName_note.md`
-2. `02_PAPER/config/author-profile.yaml`（本地私有文件；若缺失则参考 `02_PAPER/config/author-profile.example.yaml`）
-3. `01_IDEA/story.md`
-4. `01_IDEA/claims.md`
-5. `01_IDEA/derivation.md`
-6. `01_IDEA/symbols.md`
-7. `01_IDEA/evidence_map.md`
-8. `01_IDEA/research_trace.yaml`
-9. `result/` 中已经登记的重要结果，尤其是 `result/<case>/run_manifest.json` 和 `result/<case>/figures/` 下带 manifest 与检查报告的正式图
-10. `03_REFERENCE/` 中最近竞争者和关键参考文献
+2. `ProjectName_changelog.md`
+3. `02_PAPER/config/author-profile.yaml`（本地私有文件；若缺失则参考 `02_PAPER/config/author-profile.example.yaml`）
+4. `01_IDEA/story.md`
+5. `01_IDEA/claims.md`
+6. `01_IDEA/derivation.md`
+7. `01_IDEA/symbols.md`
+8. `01_IDEA/evidence_map.md`
+9. `01_IDEA/research_trace.yaml`
+10. `result/` 中已经登记的重要结果，尤其是 `result/<case>/run_manifest.json` 和 `result/<case>/figures/` 下带 manifest 与检查报告的正式图
+11. `03_REFERENCE/` 中最近竞争者和关键参考文献
 
 ### 12.2 审稿检查点
 
@@ -527,10 +531,3 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 | AI 生成文本是否已完成写作风格检查和 `.cursor/rules/lexicon.md` 词表筛查？ | 待填写 |
 | 是否保留当前局限和未解决问题？ | 待填写 |
 | 文献、实验、图表、commit 和数值是否都可追溯？ | 待填写 |
-
-## 13. 更新记录
-
-| 日期 | 更新内容 | 影响 |
-| --- | --- | --- |
-| 2026-07-03 | 增加算例运行 manifest 和分叉探索记录入口 | 算例证据可追溯到入口、环境、Git、输入、缓存、输出和分叉取舍 |
-| YYYY-MM-DD | 创建公开研究笔记模板 | 建立研究展示、路线追溯和论文写作入口 |
