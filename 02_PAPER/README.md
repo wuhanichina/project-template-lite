@@ -4,8 +4,9 @@ Put manuscript-facing material here.
 
 Drafts in this folder should be distilled from `ProjectName_note.md`,
 `01_IDEA/claims.md`, `01_IDEA/evidence_map.md`, `01_IDEA/research_trace.yaml`,
-and registered outputs under `result/`. Keep claims, figures, numbers,
-references, and Git/version statements traceable to those files.
+and registered outputs under `result/`. Keep conclusions, figures, numbers,
+references, engineering scenarios, and Git/version statements traceable to
+those files.
 
 AI-generated manuscript text, captions, review responses, and author-facing
 notes should pass the writing style gate in

@@ -49,12 +49,12 @@ tree:
         title: "待填：选择最小可验证问题"
         provenance: user
         status: open
-        choice: "先收窄到一个能被 case33bw / case123 验证的主张。"
+        choice: "先聚焦到一个能由 case33bw / case123 支撑的研究问题。"
         alternatives:
           - "直接写成完整大框架"
-          - "先做无边界的工程实现"
+          - "先按目标工程对象和证据路线做工程实现"
         evidence: []
-        lesson: "待填：该选择如何帮助论文主张变得可验证。"
+        lesson: "待填：该选择如何帮助论文结论获得证据支撑。"
       - id: N03
         type: experiment
         title: "待填：case33bw 主算例"
@@ -82,7 +82,7 @@ tree:
         status: open
         base_node: N02
         hypothesis: "待填：该分叉想验证的建模、求解、参数或对比路线假设。"
-        trigger: "待填：为什么需要从当前主线分叉，而不是直接修改主线。"
+        trigger: "待填：该分叉要验证的新增对象、场景或指标，以及需要单独记录的证据路线。"
         git_branch: "【Git 信息待补充】"
         compared_with:
           node: N02

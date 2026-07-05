@@ -2,7 +2,7 @@
 
 Put raw input data, case files, and small template examples here.
 
-This directory is the reproducibility input boundary. A submitted project should
+This directory is the complete reproducibility input set. A submitted project should
 be able to start its full formal computation from the code plus files in
 `data/`, after `../cache/` has been removed or renamed.
 
@@ -18,4 +18,4 @@ package should include the complete `data/` tree needed for reproduction.
 By default, generic `.mat` files outside `data/` are ignored, while files under
 `data/` are allowed so curated reproduction inputs can travel with a specific
 research project. Add explicit ignore rules only for data files that must stay
-private or are intentionally excluded from a public Git mirror.
+private or intentionally omitted from a public Git mirror.

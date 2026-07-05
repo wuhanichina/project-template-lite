@@ -16,18 +16,18 @@ alwaysApply: true
 It should contain:
 
 - engineering need, existing-method insufficiency, pain point, and scientific question,
-- current research positioning and claim boundary,
+- minimum identifiable research object, current research positioning, positive contribution wording, engineering setting, and evidence state,
 - major research decisions, abandoned alternatives, retained ideas, and unverified ideas,
 - forked explorations with their hypothesis, Git branch, input differences, result directory, run manifest, observed difference, and decision,
 - route-evolution map from early ideas to the current line,
 - complete mathematical model and derivation,
 - assumptions, approximations, variable definitions, and code-variable mapping,
 - solver and experiment protocol,
-- claim-evidence-code bindings,
+- conclusion-evidence-code bindings,
 - Git branch, commit, tag, issue, and pull-request linkage when available,
 - current date-version and one-sentence current-version summary that points to `ProjectName_changelog.md`,
 - lightweight research trace for meaningful dead ends and pivots,
-- important results and claim support,
+- important results and conclusion support,
 - relation to closest competitors,
 - writing and review checkpoints.
 
@@ -37,11 +37,28 @@ Keep `ProjectName_note.md` readable by a collaborator or reviewer-facing coautho
 
 - Keep human-facing files such as `ProjectName_note.md` and `01_IDEA/*` focused on research content: story, claims, derivation, symbols, evidence, route evolution, and next steps. Put agent execution rules, prohibitions, and process guardrails in `.cursor/rules/`, not in those human-facing files.
 - Keep long version-change tables out of `ProjectName_note.md`. Put research-content version history in `ProjectName_changelog.md`; keep only the current date-version and one-sentence current-version summary near the top of the note.
-- Start with problem formation and route evolution, then let paper sections be distilled later from the archive.
-- Use concrete, evidence-bound language. Strong contribution language should appear only when literature review, proof, and experiments support that exact claim.
+- Start by locking the minimum identifiable research object, then record problem formation and route evolution. Paper sections should be distilled later from that object-bound archive.
+- Use concrete, evidence-bound language. Strong contribution language should appear only when literature review, proof, and experiments support that exact conclusion.
+- Write innovation points as positive technical statements: minimum identifiable research object, concrete engineering object, engineering pain point, model or physical relation, computation or validation output, evidence source, and next experiment.
+- When evidence is incomplete, add the next experiment, missing reference, or evidence state as explicit follow-up fields.
 - Prefer evidence-bound wording: "current evidence supports", "this remains to be verified", "this route was archived because", "this conclusion is only observed in", and "the assumption applies under".
 - Keep abandoned and archived routes. Record the original idea, attempted implementation, Git record if available, observed failure mode, reason for abandonment, retained lesson, and whether it may be reopened.
 - If Git history is unavailable or not yet committed, keep the Git fields and mark them with `【Git 信息待补充】` or `【Git 待提交】` so version linkage can be filled later.
+
+## Manuscript Introduction Guidance
+
+When distilling an introduction from `ProjectName_note.md`, write for a small-peer expert in the relevant power-system subfield.
+
+- First identify the minimum identifiable research object, then the research field, concrete engineering object, and direction. Use a small-peer object name such as transmission expansion planning, unit commitment, economic dispatch, distribution network planning, analytical AC probabilistic power flow, LRIC pricing, LMP pricing, or DLMP pricing. This object determines which engineering facts, model facts, literature facts, and evidence facts can enter the introduction. This private judgment may stay in the note or story file; do not copy it verbatim into manuscript prose.
+- Do not describe a function, metric, algorithm property, or software capability as an innovation unless it belongs to the declared research object and is backed by model, derivation, or case evidence.
+- Paragraph 1 starts from engineering background and importance: broad system background, narrower problem background, then the concrete problem and its consequence for the target object.
+- Paragraph 2 reviews existing methods and nearby papers, states what they already solve, and explains from the engineering object why they still leave the present problem open.
+- Paragraph 3 switches to the mechanism and model view: explain which physical relation, constraint, stochastic relation, or state mapping prevents the current methods from closing the problem, and what mathematical analysis is required.
+- Paragraph 4 states the research characteristics: from which angle the paper builds which model or computation relation, and which engineering problem it resolves.
+- Paragraph 5 may bridge the validation design, case object, or evidence route when the manuscript needs that transition.
+- Paragraph 6 states the contributions as positive technical statements tied to the model, engineering object, engineering scene, and evidence source.
+- The opening should be concise. Use a verifiable number or a direct definition when it clarifies the engineering pain point. Do not force an engineering motivation merely to introduce a method.
+- Power-system prose should keep physical concepts clear and mathematical logic concise. Avoid making over-mathematized or programming-shaped terms such as `算子`, `证书`, `可微`, `零空间`, `范式`, and `估计器` the public-facing carrier unless the exact formal term is necessary and defined in `01_IDEA/derivation.md`.
 
 ## AI Writing Style Gate
 
@@ -49,13 +66,14 @@ AI-generated text in this template includes README text, research notes, idea
 files, manuscript drafts, review responses, code comments, captions, tables, and
 check reports. Apply this gate to Chinese and English text before release.
 
-- State the positive technical claim directly. Binary negative contrast should be rewritten as the target claim.
+- State the positive technical conclusion directly. Make the target conclusion the grammatical center of the sentence.
 - Use complete declarative sentences. Negative buildup, dramatic fragments, and isolated emphasis phrases should be rewritten as one specific statement.
 - Start with the system object, model term, constraint, data source, metric, or numerical result. Rhetorical questions, prompting phrases, and explanatory setup phrases should be removed.
 - Remove meta commentary about the section, future explanation, or authorial process. The sentence should begin with the technical object or formulation.
 - Use plain technical verbs. Promotional or business phrasing should be replaced with domain verbs listed in `.cursor/rules/lexicon.md`.
-- Replace vague consequence statements with the concrete implication, affected object, mechanism, case scope, metric, or number.
-- Replace scope-free extreme terms with the stated scope, such as the case set, time window, model class, solver, dataset, or assumption range.
+- Prefer power-system objects and physical relations before abstract math or programming nouns. Name the bus, line, feeder, voltage, power flow, uncertainty source, operating scenario, constraint, probability distribution, or violation event when that is the real object.
+- Replace vague consequence statements with the concrete implication, affected object, mechanism, case set, metric, or number.
+- Replace extreme terms with the stated case set, time window, model class, solver, dataset, or assumption range.
 - Replace em dashes with commas or periods.
 - Delete empty intensifiers, or attach the modifier to a number, tolerance, scale, or evidence source.
 - Run a final wording scan against `.cursor/rules/lexicon.md` before treating AI-generated text as ready.
@@ -85,7 +103,7 @@ For missing information, use explicit placeholders such as `【待补充】`, `�
 The note should preserve three threads:
 
 ```text
-Problem formation: engineering need -> existing insufficiency -> pain point -> scientific question
+Problem formation: minimum identifiable research object -> concrete engineering object -> engineering need -> existing insufficiency -> pain point -> scientific question
 Research evolution: initial idea -> exposed problem -> route adjustment -> current route
 Traceability: math model -> code implementation -> Git version -> run manifest -> staged validation -> evidence state
 ```
@@ -93,15 +111,16 @@ Traceability: math model -> code implementation -> Git version -> run manifest -
 ## Synchronization Rules
 
 - If `01_IDEA/story.md` changes the main story, update `ProjectName_note.md`.
-- If `01_IDEA/claims.md` changes claim boundaries or evidence status, update `ProjectName_note.md`.
+- If `01_IDEA/claims.md` changes a conclusion wording, engineering scene, or evidence status, update `ProjectName_note.md`.
 - If `01_IDEA/derivation.md` changes variables, assumptions, or formulas, update the model section in `ProjectName_note.md`.
 - If `01_IDEA/symbols.md` changes symbols, units, dimensions, or code-variable mappings, update the model and writing-check sections in `ProjectName_note.md`.
-- If `01_IDEA/evidence_map.md` registers or changes a formal result, update the result and claim-support sections in `ProjectName_note.md`.
-- If `01_IDEA/research_trace.yaml` records a route change or failed line that affects the paper boundary, update the story or claim boundary.
+- If `01_IDEA/evidence_map.md` registers or changes a formal result, update the result and conclusion-support sections in `ProjectName_note.md`.
+- If `01_IDEA/research_trace.yaml` records a route change or failed line that affects the paper wording, update the story or conclusion file.
 - If `01_IDEA/research_trace.yaml` records a forked exploration, keep its run manifest, compared route, observed difference, and merge/archive decision aligned with `ProjectName_note.md` when it affects the current route.
 - If `ProjectName.m` or a `ProjectName_case*.m` run produces a paper-facing result, register it in `ProjectName_note.md`.
-- If any synchronized change alters the research question, route, model, assumptions, experiment protocol, result interpretation, evidence status, figure plan, paper boundary, or handoff judgment, update `ProjectName_changelog.md` for the current date version. Do not use the changelog for pure formatting, typo fixes, or template-maintenance history unless they change the research-content boundary.
-- If a result weakens a claim, revise the claim before writing or polishing manuscript text.
+- If any synchronized change alters the research question, route, model, assumptions, experiment protocol, result interpretation, evidence status, figure plan, paper wording, conclusion wording, or handoff judgment, update `ProjectName_changelog.md` for the current date version. Do not use the changelog for pure formatting, typo fixes, or template-maintenance history unless they change the research content.
+- If a result weakens a conclusion, revise the conclusion wording and evidence state before writing or polishing manuscript text.
+- If an agent entrypoint changes, keep `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, `.agents/rules/`, `.agent/rules/`, `.cursor/rules/`, and this README's AI compatibility section synchronized in the same change.
 
 ## Paper Writing Skill Interface
 
@@ -125,10 +144,10 @@ The writing skill should convert the public note into manuscript prose and keep 
 
 Before reviewing with the paper-review skill, check:
 
-- whether each strong manuscript claim maps to `ProjectName_note.md` or `01_IDEA/claims.md`,
+- whether each strong manuscript conclusion maps to `ProjectName_note.md` or `01_IDEA/claims.md`,
 - whether each equation has defined variables and physical meaning,
 - whether the case studies verify the stated innovation rather than a different problem,
 - whether conclusions are supported by formulas, results, or explicit assumptions,
 - whether unsupported engineering implementation details should be removed from the manuscript body.
 
-Review findings should feed back into `ProjectName_note.md` when they change the public claim boundary.
+Review findings should feed back into `ProjectName_note.md` when they change the public contribution wording, engineering scene, or evidence state.

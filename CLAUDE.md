@@ -13,9 +13,10 @@ structure in this repository, read and follow:
 - @.cursor/rules/lexicon.md
 
 Treat the imported files as repository policy for Claude Code work in this
-template.
+template. `AGENTS.md` is the shared coding-agent source of truth.
 
 ## Sync Policy
 
-Commit and push `.cursor/` changes together with template changes. Keep
-`.cursor/` as shared repository policy, rather than editor-only local state.
+Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`,
+`.agents/`, and `.agent/` changes together with template changes. Keep these
+files as shared repository policy, rather than editor-only local state.

@@ -1,5 +1,5 @@
 ---
-description: Case-analysis figure and metric planning gate. Before exporting formal figures, pin the contribution, order figures by evidence role, and constrain metrics to claim-relevant, physically meaningful, recognized quantities.
+description: Case-analysis figure and metric planning gate. Before exporting formal figures, pin the contribution, order figures by evidence role, and constrain metrics to conclusion-relevant, physically meaningful, recognized quantities.
 alwaysApply: true
 ---
 
@@ -21,30 +21,31 @@ editing `01_IDEA/figure_plan.md`, exporting formal figures, drafting figure
 captions, or writing figure-dependent case-analysis prose. Through its
 `figures-tables-results.md` Project-Template Figure Plan Bridge, that skill
 inspects venue-near and problem-near papers with PowerLit, then returns a
-template-ready case/figure plan with `claim`, `evidenceRole`, `sciQuestion`,
-`physicsReproduction`, metric definition, figure type, data files, visual
-encoding, and `save_figure` metadata fields, ordered by the evidence-role
+template-ready case/figure plan with a conclusion id (`claimId` metadata),
+`evidenceRole`, `sciQuestion`, `physicsReproduction`, metric definition,
+figure type, data files, visual encoding, and `save_figure` metadata fields,
+ordered by the evidence-role
 sequence in this rule. If PowerLit is unavailable, record that fallback
 explicitly in the plan and use supplied references or `03_REFERENCE/` only
-within a narrowed claim boundary.
+using the available references, result files, and evidence state.
 
 ## Step 0: Pin The Contribution Before Planning Figures
 
 Before listing figures for a case, state in `01_IDEA/figure_plan.md`:
 
-- which `01_IDEA/claims.md` claim id(s) the case answers,
+- which `01_IDEA/claims.md` conclusion id(s) the case answers,
 - what physical or mathematical structure is the actual innovation,
 - which physical scenario the proposed model must be shown to reproduce,
-- what would falsify the claim.
+- what result would require revising the conclusion wording, engineering scene, or evidence state.
 
-Do not plan a figure that is not traceable to a claim id. A figure that does not
-support a registered claim is a diagnostic figure, not a formal case figure, and
-must be exported with `IsDiagnostic` set to true.
+Do not plan a figure that is not traceable to a conclusion id. A figure that
+does not support a registered conclusion is a diagnostic figure, not a formal
+case figure, and must be exported with `IsDiagnostic` set to true.
 
 ## Step 1: Order Figures By Evidence Role
 
 Every formal case figure declares one `evidenceRole` from this closed
-vocabulary, and the manifest is built in this order per claim:
+vocabulary, and the manifest is built in this order per conclusion id:
 
 1. `scenario-setup`: present the network, operating condition, input data, and
    the physical scenario that must be reproduced. This figure orients the reader
@@ -54,12 +55,13 @@ vocabulary, and the manifest is built in this order per claim:
    The reference must be an external or independently trusted quantity, not a
    score defined by this paper.
 3. `sota-comparison`: compare the proposed method against the closest baselines
-   at matched operating points, on claim-relevant metrics.
+   at matched operating points, on conclusion-relevant metrics.
 4. `sensitivity-ablation`: sensitivity, ablation, scaling, runtime, or
    generalization studies.
 
 A `sota-comparison` or `sensitivity-ablation` figure must not be registered for a
-claim before a `physical-reproduction` figure exists for that claim.
+conclusion id before a `physical-reproduction` figure exists for that
+conclusion id.
 `save_figure` enforces this ordering for non-diagnostic figures; override only
 with `AllowSotaBeforePhysical` set to true and a recorded reason in the plan.
 
@@ -67,7 +69,7 @@ with `AllowSotaBeforePhysical` set to true and a recorded reason in the plan.
 
 Each metric attached to a figure must satisfy all of the following:
 
-- it is bound to a claim id in `01_IDEA/figure_plan.md`,
+- it is bound to a conclusion id in `01_IDEA/figure_plan.md`,
 - it is defined in `01_IDEA/symbols.md` or derived in `01_IDEA/derivation.md`
   with explicit units, dimension, and physical meaning,
 - it is either a field-recognized metric for this problem class, or an
@@ -106,12 +108,12 @@ separate subfigures and combine them in the manuscript layout.
 
 ## Synchronization
 
-- Register each formal figure's claim binding and evidence role in
+- Register each formal figure's conclusion binding and evidence role in
   `01_IDEA/figure_plan.md` before export, and in `01_IDEA/evidence_map.md` when
   it becomes paper evidence.
 - If a `physical-reproduction` figure does not match the reference, revise the
-  claim in `01_IDEA/claims.md`, `ProjectName_note.md`, and
+  conclusion wording, engineering scene, or evidence state in `01_IDEA/claims.md`, `ProjectName_note.md`, and
   `ProjectName_changelog.md` before exporting any `sota-comparison` figure for
-  that claim.
+  that conclusion id.
 - Keep `evidenceRole`, `claimId`, and the metric definition in the
   `save_figure` manifest consistent with the plan.
