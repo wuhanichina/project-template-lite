@@ -2,8 +2,10 @@
 
 ## Project Rules
 
-This file is a thin compatibility entry for Gemini CLI and Google Antigravity
-contexts that read `GEMINI.md` at the workspace root.
+This file is the compatibility entry for Gemini CLI and Google Antigravity
+contexts that read `GEMINI.md` at the workspace root. Antigravity should use
+this file to load the shared `.cursor/rules/` policy; this template does not
+maintain separate `.agents/` or `.agent/` workspace-rule directories.
 
 Before editing code, documentation, comments, generated prose, or template
 structure in this repository, read and follow:
@@ -21,6 +23,7 @@ file short so Antigravity, Gemini, Codex, and Claude entrypoints do not drift.
 
 ## Sync Policy
 
-Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, `.agents/`,
-and `.agent/` changes together with template changes. Do not treat agent rule
-files as editor-only local state.
+Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
+together with template changes. Do not treat agent rule files as editor-only
+local state. Do not recreate `.agents/` or `.agent/` unless the project owner
+explicitly reintroduces those Antigravity paths.

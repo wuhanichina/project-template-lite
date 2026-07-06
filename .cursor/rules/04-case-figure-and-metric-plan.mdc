@@ -38,6 +38,8 @@ Before listing figures for a case, state in `01_IDEA/figure_plan.md`:
 - which physical scenario the proposed model must be shown to reproduce,
 - what result would require revising the conclusion wording, engineering scene, or evidence state.
 
+The innovation anchor should use field-recognized research-object names, engineering objects, physical quantities, model relations, and verifiable case names. Internal experiment configuration aliases, temporary parameter-group names, branch names, and script abbreviations belong in `claimId`, data-file, run-manifest, Git, or configuration fields, not in the innovation text.
+
 Do not plan a figure that is not traceable to a conclusion id. A figure that
 does not support a registered conclusion is a diagnostic figure, not a formal
 case figure, and must be exported with `IsDiagnostic` set to true.

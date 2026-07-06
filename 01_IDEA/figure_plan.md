@@ -2,7 +2,7 @@
 
 ## 图表计划的产出方式
 
-本文件的 figure plan 默认由 `$powerlit-power-systems-paper-writing` 技能生成或修订。该技能的 `references/figures-tables-results.md` 内置「Project-Template Figure Plan Bridge」：检测到 `01_IDEA/figure_plan.md`、`.cursor/rules/04-case-figure-and-metric-plan.mdc` 或 `save_figure` 时，先用 PowerLit 检索目标期刊和问题近邻论文的图表证据实践（该结论类型通常展示哪些图、每类图回答什么审稿问题、使用哪些公认指标、baseline 如何分组、参数/灵敏度图比较哪些范围和横轴组织），再结合本模板规则 `.cursor/rules/04` 的证据角色顺序（`scenario-setup → physical-reproduction → sota-comparison → sensitivity-ablation`）、按数据形状选图型和指标纪律，逐字段产出模板就绪的 case/图表计划。
+本文件的 figure plan 默认由 `$powerlit-power-systems-paper-writing` 技能生成或修订。该技能的 `references/figures-tables-results.md` 内置「Project-Template Figure Plan Bridge」：检测到 `01_IDEA/figure_plan.md`、`.cursor/rules/04-case-figure-and-metric-plan.mdc` 或 `save_figure` 时，先用 PowerLit 检索目标期刊和问题近邻论文的图表证据实践（该结论类型通常展示哪些图、每类图回答什么审稿问题、使用哪些公认指标、baseline 如何分组、参数/灵敏度图比较哪些范围和横轴组织），再结合本模板规则 `.cursor/rules/04` 的证据角色顺序（`scenario-setup → physical-reproduction → sota-comparison → sensitivity-ablation`）、按数据形状选图型和指标纪律，逐字段产出模板就绪的算例图表计划。
 
 分工是：PowerLit 提出计划，规则 04 提供结构与强制顺序，`save_figure` 在导出时强制校验元信息与顺序。
 
@@ -11,9 +11,11 @@
 本文件在导出任何正式算例图之前，先确认正向创新点、再决定每张图的证据角色、指标和图形类型。
 它对应执行规则 `.cursor/rules/04-case-figure-and-metric-plan.mdc`。
 
-填写顺序：先填「创新点锚定」，再按 case 填「图清单」。未绑定结论编号的图按诊断图导出（`save_figure(..., "IsDiagnostic", true)`）。
+填写顺序：先填「创新点锚定」，再按算例填「图清单」。未绑定结论编号的图按诊断图导出（`save_figure(..., "IsDiagnostic", true)`）。
 
 ## 创新点锚定
+
+创新点锚定正文使用最小可辨识研究对象、工程对象、物理量、模型关系和可查证算例名称。内部实验配置代号、临时参数组名、分支名或脚本缩写只写入 `claimId`、数据文件、run manifest、Git 记录或配置字段。
 
 | 项目 | 当前内容 |
 | --- | --- |
@@ -44,9 +46,9 @@
 
 说明：物理复现图的参照必须是外部或独立可信量（此处为 AC 潮流解），不能用本文自定义分数；指标要有单位、在 `symbols.md`/`derivation.md` 有定义，并说明为何公认。
 
-## 图清单（按 case 填写）
+## 图清单（按算例填写）
 
-### case33bw（支撑 C1）
+### 33 节点配电网主算例（支撑 C1）
 
 | Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -54,7 +56,7 @@
 | 【待补充】 | C1 | physical-reproduction | 【待补充】 | 【待补充：真实/参照解】 | 【待补充：对参照的绝对或相对误差】 | 【待补充】 | `result/case33bw/figures/` | scaffold |
 | 【待补充】 | C1 | sota-comparison | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/case33bw/figures/` | scaffold |
 
-### case123（支撑 C2）
+### 123 节点配电网扩展算例（支撑 C2）
 
 | Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -62,7 +64,7 @@
 | 【待补充】 | C2 | physical-reproduction | 【待补充】 | 【待补充：真实/参照解】 | 【待补充：对参照的绝对或相对误差】 | 【待补充】 | `result/case123/figures/` | scaffold |
 | 【待补充】 | C2 | sota-comparison | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/case123/figures/` | scaffold |
 
-### 跨 case 汇总（支撑 C3）
+### 跨算例汇总（支撑 C3）
 
 | Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |

@@ -12,11 +12,12 @@ structure in this repository, read and follow:
 - `.cursor/rules/04-case-figure-and-metric-plan.mdc`
 - `.cursor/rules/lexicon.md`
 
-Treat these files as repository policy for Codex, Antigravity, Gemini CLI, and
-other coding-agent work in this template.
+Treat these files as repository policy for Codex, Gemini CLI, Antigravity, and
+other coding-agent work in this template. Antigravity compatibility is routed
+through `GEMINI.md`.
 
 ## Sync Policy
 
-Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`,
-`.agents/`, and `.agent/` changes together with template changes. Do not treat
-agent rule files as editor-only local state.
+Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
+together with template changes. Do not treat agent rule files as editor-only
+local state.

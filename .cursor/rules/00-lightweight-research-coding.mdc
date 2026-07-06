@@ -26,7 +26,7 @@ Keep the visible root small:
 - Generated outputs go under `result/`; intermediate artifacts go under `cache/`. Do not make an existing cache file a required startup input.
 - Each runnable case owns one result subtree: `result/<case_name>/` for numerical outputs, tables, logs, and `run_manifest.json`, plus `result/<case_name>/figures/` for formal case-specific figures.
 - Do not add new root-level or sidecar folders by default. In particular, do not create `scripts/`, `tools/`, or another utility folder unless the author explicitly asks for that structure.
-- Agent compatibility entrypoints are part of shared repository policy. Keep `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, `.agents/rules/`, `.agent/rules/`, and `.cursor/rules/` synchronized when any one of them changes.
+- Agent compatibility entrypoints are part of shared repository policy. Keep `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, and `.cursor/rules/` synchronized when any one of them changes. Antigravity is guided through `GEMINI.md`; do not maintain `.agents/` or `.agent/` in this template unless the project owner explicitly reintroduces those paths.
 
 ## Research Workflow
 

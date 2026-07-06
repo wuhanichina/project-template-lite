@@ -17,6 +17,6 @@ template. `AGENTS.md` is the shared coding-agent source of truth.
 
 ## Sync Policy
 
-Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`,
-`.agents/`, and `.agent/` changes together with template changes. Keep these
-files as shared repository policy, rather than editor-only local state.
+Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
+together with template changes. Keep these files as shared repository policy,
+rather than editor-only local state.

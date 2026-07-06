@@ -40,6 +40,7 @@ Keep `ProjectName_note.md` readable by a collaborator or reviewer-facing coautho
 - Start by locking the minimum identifiable research object, then record problem formation and route evolution. Paper sections should be distilled later from that object-bound archive.
 - Use concrete, evidence-bound language. Strong contribution language should appear only when literature review, proof, and experiments support that exact conclusion.
 - Write innovation points as positive technical statements: minimum identifiable research object, concrete engineering object, engineering pain point, model or physical relation, computation or validation output, evidence source, and next experiment.
+- In the body text of `ProjectName_note.md`, `01_IDEA/story.md`, `01_IDEA/claims.md`, and innovation anchors, use field-recognized terms, engineering objects, physical quantities, model relations, and verifiable case names. Move coined method names, internal experiment configuration aliases, temporary parameter-group names, branch names, and script abbreviations to evidence ids, entry-file fields, result paths, run manifests, Git records, or configuration fields.
 - When evidence is incomplete, add the next experiment, missing reference, or evidence state as explicit follow-up fields.
 - Prefer evidence-bound wording: "current evidence supports", "this remains to be verified", "this route was archived because", "this conclusion is only observed in", and "the assumption applies under".
 - Keep abandoned and archived routes. Record the original idea, attempted implementation, Git record if available, observed failure mode, reason for abandonment, retained lesson, and whether it may be reopened.
@@ -49,6 +50,7 @@ Keep `ProjectName_note.md` readable by a collaborator or reviewer-facing coautho
 
 When distilling an introduction from `ProjectName_note.md`, write for a small-peer expert in the relevant power-system subfield.
 
+- Write the introduction workspace directly in `ProjectName_note.md` after identifying the minimum identifiable research object. Do not invoke `$powerlit-power-systems-paper-writing` or PowerLit for this introduction draft; PowerLit remains for `01_IDEA/figure_plan.md` and figure/table/result evidence planning under rule 04.
 - First identify the minimum identifiable research object, then the research field, concrete engineering object, and direction. Use a small-peer object name such as transmission expansion planning, unit commitment, economic dispatch, distribution network planning, analytical AC probabilistic power flow, LRIC pricing, LMP pricing, or DLMP pricing. This object determines which engineering facts, model facts, literature facts, and evidence facts can enter the introduction. This private judgment may stay in the note or story file; do not copy it verbatim into manuscript prose.
 - Do not describe a function, metric, algorithm property, or software capability as an innovation unless it belongs to the declared research object and is backed by model, derivation, or case evidence.
 - Paragraph 1 starts from engineering background and importance: broad system background, narrower problem background, then the concrete problem and its consequence for the target object.
@@ -58,7 +60,8 @@ When distilling an introduction from `ProjectName_note.md`, write for a small-pe
 - Paragraph 5 may bridge the validation design, case object, or evidence route when the manuscript needs that transition.
 - Paragraph 6 states the contributions as positive technical statements tied to the model, engineering object, engineering scene, and evidence source.
 - The opening should be concise. Use a verifiable number or a direct definition when it clarifies the engineering pain point. Do not force an engineering motivation merely to introduce a method.
-- Power-system prose should keep physical concepts clear and mathematical logic concise. Avoid making over-mathematized or programming-shaped terms such as `算子`, `证书`, `可微`, `零空间`, `范式`, and `估计器` the public-facing carrier unless the exact formal term is necessary and defined in `01_IDEA/derivation.md`.
+- Power-system prose should keep physical concepts clear and mathematical logic concise. Terms listed under `.cursor/rules/lexicon.md` `Hard Banned Terms` must not appear in reader-facing prose; rewrite them around power-system objects, equations, constraints, states, metrics, calculation procedures, or model parameters.
+- Terms listed under `.cursor/rules/lexicon.md` `Use With Care Terms` are allowed only when the mathematical object is necessary and defined; otherwise prefer the engineering object, physical relation, equation, constraint, state, metric, or calculation step.
 
 ## AI Writing Style Gate
 
@@ -72,6 +75,7 @@ check reports. Apply this gate to Chinese and English text before release.
 - Remove meta commentary about the section, future explanation, or authorial process. The sentence should begin with the technical object or formulation.
 - Use plain technical verbs. Promotional or business phrasing should be replaced with domain verbs listed in `.cursor/rules/lexicon.md`.
 - Prefer power-system objects and physical relations before abstract math or programming nouns. Name the bus, line, feeder, voltage, power flow, uncertainty source, operating scenario, constraint, probability distribution, or violation event when that is the real object.
+- Replace coined method names or internal experiment configuration aliases in reader-facing body text with the engineering object, physical relation, model name, case name, metric, and evidence source.
 - Replace vague consequence statements with the concrete implication, affected object, mechanism, case set, metric, or number.
 - Replace extreme terms with the stated case set, time window, model class, solver, dataset, or assumption range.
 - Replace em dashes with commas or periods.
@@ -120,7 +124,7 @@ Traceability: math model -> code implementation -> Git version -> run manifest -
 - If `ProjectName.m` or a `ProjectName_case*.m` run produces a paper-facing result, register it in `ProjectName_note.md`.
 - If any synchronized change alters the research question, route, model, assumptions, experiment protocol, result interpretation, evidence status, figure plan, paper wording, conclusion wording, or handoff judgment, update `ProjectName_changelog.md` for the current date version. Do not use the changelog for pure formatting, typo fixes, or template-maintenance history unless they change the research content.
 - If a result weakens a conclusion, revise the conclusion wording and evidence state before writing or polishing manuscript text.
-- If an agent entrypoint changes, keep `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, `.agents/rules/`, `.agent/rules/`, `.cursor/rules/`, and this README's AI compatibility section synchronized in the same change.
+- If an agent entrypoint changes, keep `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, `.cursor/rules/`, and this README's AI compatibility section synchronized in the same change. Antigravity is guided through `GEMINI.md`, not through `.agents/` or `.agent/` directories.
 
 ## Paper Writing Skill Interface
 

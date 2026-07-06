@@ -18,6 +18,9 @@ captions in this template.
 - In Chinese power-system prose, name the physical object first: bus, branch,
   feeder, source/load process, operating scenario, voltage, power flow, current,
   constraint, probability distribution, violation event, or recovery action.
+- In `ProjectName_note.md`, `01_IDEA/story.md`, `01_IDEA/claims.md`, and
+  innovation anchors, use field-recognized terms, engineering objects, physical
+  quantities, model relations, and verifiable case names in body text.
 - Use plain technical verbs such as compute, estimate, solve, bound, compare,
   validate, export, register, update, and test.
 - Attach an intensifier to a number, tolerance, scale, or explicit evidence
@@ -46,14 +49,46 @@ Before releasing AI-generated text, scan for these patterns:
 - Vague consequence statements. Name the concrete implication.
 - Scope-free extreme terms. State the case set, time window, model class, solver,
   dataset, or assumption range.
-- Reader-facing over-mathematized or code-like labels. Keep terms such as
-  operator, certificate, differentiable, nullspace, paradigm, and estimator only
-  when the paragraph defines or uses that exact mathematical object; otherwise
-  rewrite them as power-system quantities, equations, feasibility checks,
-  information carried by measurements, calculation procedures, or model
-  parameters.
+- Hard-banned over-mathematized or programming-shaped labels. If generated text
+  contains any token listed in `Hard Banned Terms`, rewrite it before release
+  around the power-system object, equation, constraint, state, metric,
+  calculation procedure, or model parameter.
+- Over-mathematized terms listed in `Use With Care Terms`. Prefer a
+  power-system object, equation, constraint, state, metric, calculation
+  procedure, or model parameter unless the term is mathematically necessary and
+  defined in the derivation.
+- Coined method names, internal experiment configuration aliases, temporary
+  parameter-group names, branch names, or script abbreviations in body text.
+  Move them to evidence ids, entry-file fields, result paths, run manifests,
+  Git records, or configuration fields, and rewrite the sentence around the
+  engineering object, physical relation, model name, metric, or case name.
 - Em dashes. Use commas or periods.
 - Empty intensifiers. Delete them or attach a number.
+
+## Use With Care Terms
+
+The following terms are not hard banned, but they should usually be rewritten in
+reader-facing prose because they often make a power-system claim sound more
+abstract than the engineering object requires.
+
+| Type | Terms | Prefer |
+| --- | --- | --- |
+| Over-mathematized Chinese labels | 算子, 可微 | equations, mappings, constraints, states, physical relations, model parameters, or calculation steps |
+| Over-mathematized English labels | operator, differentiable | equations, mappings, constraints, states, physical relations, model parameters, or calculation steps |
+
+## Hard Banned Terms
+
+The following terms may appear only in this lexicon or in a quoted source being
+criticized. They must not appear in `ProjectName_note.md`, `01_IDEA/story.md`,
+`01_IDEA/claims.md`, innovation anchors, introductions, abstracts,
+contribution lists, captions, or reader-facing README prose.
+
+| Type | Forbidden tokens | Rewrite around |
+| --- | --- | --- |
+| Over-mathematized Chinese labels | 证书, 零空间 | power-system equations, constraints, states, feasible checks, measurements, physical relations, or model parameters |
+| Programming-shaped Chinese labels | 范式 | methods, models, calculation procedures, input-output mappings, metrics, or engineering decisions |
+| Over-mathematized English labels | certificate, nullspace | power-system equations, constraints, states, feasible checks, measurements, physical relations, or model parameters |
+| Programming-shaped English labels | paradigm, estimator | methods, models, calculation procedures, input-output mappings, metrics, or engineering decisions |
 
 ## Avoid Terms
 
@@ -82,9 +117,3 @@ Use these tokens only when quoting source material or documenting a writing rule
 - always
 - never
 - all
-- 算子
-- 证书
-- 可微
-- 零空间
-- 范式
-- 估计器
