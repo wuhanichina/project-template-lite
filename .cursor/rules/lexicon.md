@@ -9,8 +9,8 @@ captions in this template.
 - State the technical conclusion directly.
 - Write innovation points as positive statements about the minimum identifiable
   research object, concrete engineering object, physical mechanism,
-  mathematical model, engineering setting, measurable result, and evidence
-  source.
+  theoretical significance, engineering value, mathematical model, engineering
+  setting, measurable result, and evidence source.
 - Use complete declarative sentences.
 - Start with the system object, model term, constraint, data source, metric, or
   numerical result.
@@ -34,8 +34,9 @@ Before releasing AI-generated text, scan for these patterns:
   model relation, measurable result, or evidence source. Add those elements
   directly.
 - Human-facing notes, story files, and manuscript prose should organize
-  innovation points as minimum identifiable research object, model, result,
-  engineering setting, evidence source, and next experiment.
+  innovation points as minimum identifiable research object, theoretical
+  significance, engineering value, model, result, engineering setting, evidence
+  source, and next experiment.
 - Negative buildup and fragmentary emphasis. Replace them with one complete
   sentence.
 - Rhetorical question setup. Replace it with the technical condition or result.
