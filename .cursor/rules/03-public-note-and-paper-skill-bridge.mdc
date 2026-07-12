@@ -177,7 +177,7 @@ Before drafting with the paper-writing skill, load this material in order:
 
 The writing skill should convert the public note into manuscript prose and keep each contribution tied to the archive evidence.
 
-`contracts/project-template-handoff.schema.yaml` is the local versioned
+`.cursor/contracts/project-template-handoff.schema.yaml` is the local versioned
 interface. The skill owns innovation diagnosis, narrative and evidence policy,
 consistency judgments, and revision reasoning. This template owns confirmed
 profile values, MATLAB execution, factual manifests, plot data, check reports,

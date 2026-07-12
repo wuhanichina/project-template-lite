@@ -36,6 +36,9 @@ Keep the visible root small:
 - Each runnable case owns one result subtree: `result/<case_name>/` for numerical outputs, tables, logs, and `run_manifest.json`, plus `result/<case_name>/figures/` for formal case-specific figures.
 - Do not add new root-level or sidecar folders by default. In particular, do not create `scripts/`, `tools/`, or another utility folder unless the author explicitly asks for that structure.
 - Agent compatibility entrypoints are part of shared repository policy. Keep `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, and `.cursor/rules/` synchronized when any one of them changes. Antigravity is guided through `GEMINI.md`; do not maintain `.agents/` or `.agent/` in this template unless the project owner explicitly reintroduces those paths.
+- Keep repository-managed AI rules and Skill handoff contracts under `.cursor/`.
+  Do not create root-level `.codex/` or `contracts/` directories for these
+  files.
 
 ## Research Workflow
 

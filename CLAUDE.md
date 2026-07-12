@@ -13,7 +13,9 @@ structure in this repository, read and follow:
 - @.cursor/rules/lexicon.md
 
 Treat the imported files as repository policy for Claude Code work in this
-template. `AGENTS.md` is the shared coding-agent source of truth.
+template. `AGENTS.md` is the shared coding-agent source of truth. PowerLit
+handoff contracts live under `.cursor/contracts/`; do not create root-level
+`.codex/` or `contracts/` directories for AI policy.
 
 ## Sync Policy
 

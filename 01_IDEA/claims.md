@@ -31,7 +31,7 @@
 | C3 | 多算例汇总用于比较【本文模型/方法】在不同系统对象或工况下的指标变化和物理解释。 | E03 | engineering-decision-loop | data-case-system | mixed | new-framework | scenario-setup; physical-reproduction; sota-comparison; sensitivity-ablation | zero-to-one-explore | boundary | unverified；【算例集合、比较口径、基线条件待补充】 | `ProjectName.m`; `+ProjectName_utils/+plotting/export_project_figures.m` |
 
 主创新轴、技术对象、创新幅度、生命周期、正文用途和证据状态使用
-`contracts/project-template-handoff.schema.yaml` 的闭合枚举。`caseContract`
+`.cursor/contracts/project-template-handoff.schema.yaml` 的闭合枚举。`caseContract`
 和 `requiredEvidenceRoles` 是模板的算例与图表执行字段。本文件只保存
 已确认取值和证据状态，不复制 PowerLit 的分类理由或写作政策。
 

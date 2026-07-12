@@ -17,7 +17,7 @@ other coding-agent work in this template. Antigravity compatibility is routed
 through `GEMINI.md`.
 
 For PowerLit writing/review handoff, also read
-`contracts/project-template-handoff.schema.yaml` and the active
+`.cursor/contracts/project-template-handoff.schema.yaml` and the active
 `02_PAPER/config/paper-profile.yaml` (or its example). Keep reasoning policy in
 the Skill and persistent state, MATLAB execution, manifests, and audit artifacts
 in this template.
