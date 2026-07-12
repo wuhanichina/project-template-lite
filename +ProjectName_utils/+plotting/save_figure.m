@@ -288,18 +288,64 @@ end
 end
 
 function canonicalPath = canonical_output_path(filePath)
-if ~usejava("jvm")
-    error("ProjectName_utils:plotting:PathCanonicalizationUnavailable", ...
-        "Safe figure export requires the MATLAB JVM to canonicalize output paths before writing files.");
+if usejava("jvm")
+    try
+        fileObject = javaObject("java.io.File", char(string(filePath)));
+        canonicalPath = string(char(fileObject.getCanonicalPath()));
+    catch cause
+        error("ProjectName_utils:plotting:PathCanonicalizationFailed", ...
+            "Could not canonicalize figure output path %s: %s", filePath, cause.message);
+    end
+else
+    canonicalPath = canonicalize_path_without_jvm(filePath);
 end
+canonicalPath = replace(canonicalPath, "\", "/");
+end
+
+function canonicalPath = canonicalize_path_without_jvm(filePath)
+pathText = char(string(filePath));
+if isempty(pathText)
+    error("ProjectName_utils:plotting:PathCanonicalizationFailed", ...
+        "Could not canonicalize an empty figure output path.");
+end
+if ~is_absolute_path(pathText)
+    pathText = fullfile(pwd, pathText);
+end
+
+existingAncestor = pathText;
+suffixParts = strings(1, 0);
+while exist(existingAncestor, "dir") ~= 7
+    [parentDir, baseName, extension] = fileparts(existingAncestor);
+    if isempty(parentDir) || strcmp(parentDir, existingAncestor)
+        error("ProjectName_utils:plotting:PathCanonicalizationFailed", ...
+            "Could not find an existing ancestor for figure output path %s.", filePath);
+    end
+    suffixParts = [string(baseName) + string(extension), suffixParts]; %#ok<AGROW>
+    existingAncestor = parentDir;
+end
+
+originalDir = pwd;
+restoreDir = onCleanup(@() cd(originalDir));
 try
-    fileObject = javaObject("java.io.File", char(string(filePath)));
-    canonicalPath = string(char(fileObject.getCanonicalPath()));
+    cd(existingAncestor);
+    canonicalPath = string(pwd);
 catch cause
     error("ProjectName_utils:plotting:PathCanonicalizationFailed", ...
         "Could not canonicalize figure output path %s: %s", filePath, cause.message);
 end
-canonicalPath = replace(canonicalPath, "\", "/");
+clear restoreDir
+for k = 1:numel(suffixParts)
+    canonicalPath = string(fullfile(canonicalPath, suffixParts(k)));
+end
+end
+
+function isAbsolute = is_absolute_path(filePath)
+if ispc
+    isAbsolute = ~isempty(regexp(filePath, ...
+        '^[A-Za-z]:[\\/]|^[\\/]{2}', 'once'));
+else
+    isAbsolute = startsWith(string(filePath), "/");
+end
 end
 
 function canonicalPath = canonical_comparison_path(filePath)
@@ -338,8 +384,7 @@ try
                     "Figure lock path is an existing file: %s", lockPath);
             end
 
-            lockObject = javaObject('java.io.File', char(lockPath));
-            acquired = logical(lockObject.mkdir());
+            acquired = create_directory_exclusively(lockPath);
             if acquired
                 try
                     write_lock_owner(lockPath, transactionId, current_lock_timestamp());
@@ -373,11 +418,30 @@ end
 end
 
 function transactionId = create_transaction_id()
-if ~usejava('jvm')
-    error("ProjectName_utils:plotting:TransactionIdUnavailable", ...
-        "Figure transactions require the MATLAB JVM.");
+if usejava("jvm")
+    transactionId = string(char(javaMethod('randomUUID', 'java.util.UUID')));
+else
+    [~, nativeToken] = fileparts(tempname);
+    transactionId = string(nativeToken);
 end
-transactionId = string(char(javaMethod('randomUUID', 'java.util.UUID')));
+end
+
+function acquired = create_directory_exclusively(directoryPath)
+if usejava("jvm")
+    directoryObject = javaObject('java.io.File', char(directoryPath));
+    acquired = logical(directoryObject.mkdir());
+    return
+end
+
+[created, message, messageId] = mkdir(char(directoryPath));
+if created && strlength(string(messageId)) == 0
+    acquired = true;
+elseif exist(char(directoryPath), "dir") == 7
+    acquired = false;
+else
+    error("ProjectName_utils:plotting:DirectoryCreateFailed", ...
+        "Could not create transaction directory %s: %s", directoryPath, message);
+end
 end
 
 function write_lock_owner(lockPath, token, timestamp)
@@ -446,9 +510,14 @@ if exist(char(lockPath), "dir") ~= 7 || lock_age_seconds(lockPath) <= staleSecon
 end
 
 quarantinePath = lockPath + ".stale." + create_transaction_id();
-sourceObject = javaObject('java.io.File', char(lockPath));
-quarantineObject = javaObject('java.io.File', char(quarantinePath));
-if ~logical(sourceObject.renameTo(quarantineObject))
+if usejava("jvm")
+    sourceObject = javaObject('java.io.File', char(lockPath));
+    quarantineObject = javaObject('java.io.File', char(quarantinePath));
+    moved = logical(sourceObject.renameTo(quarantineObject));
+else
+    [moved, ~] = movefile(char(lockPath), char(quarantinePath));
+end
+if ~moved
     return
 end
 recovered = true;
@@ -497,8 +566,7 @@ ProjectName_utils.io.ensure_dir(outDir);
 canonicalOutDir = canonical_output_path(outDir);
 stageRoot = fullfile(canonicalOutDir, ...
     ".ProjectName-figure-stage-" + transactionId);
-stageObject = javaObject('java.io.File', char(stageRoot));
-if ~logical(stageObject.mkdir())
+if ~create_directory_exclusively(stageRoot)
     error("ProjectName_utils:plotting:StageCreateFailed", ...
         "Could not create unique figure staging directory %s.", stageRoot);
 end
