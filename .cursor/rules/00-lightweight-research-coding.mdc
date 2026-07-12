@@ -12,6 +12,15 @@ This repository uses the project root as the MATLAB code root. Do not recreate l
 Keep the visible root small:
 
 - `ProjectName_note.md` is the project research note and should stay synchronized with the idea files, math derivation, and important results.
+- `ProjectName_blog.md` is an evidence-bounded public narrative reference. Its
+  angle follows the confirmed innovation axis, technical-object type, narrative
+  arc, novelty mode, and lifecycle stage. Use "起-承-转-合-升" as the recommended
+  macro logic from the actual engineering problem through the key relation,
+  physical mechanism, existing limitation, project treatment, evidence, and
+  bounded engineering implication. Innovation type controls the emphasis and
+  explanation depth within that logic. The blog is not an evidence index, an
+  introduction draft, or a contribution list. Every project-specific judgment
+  should remain traceable to its scope, evidence source, and evidence state.
 - `ProjectName_changelog.md` is the research-content changelog. It should record substantive research changes with date-formatted versions, newest first, and stay synchronized with `ProjectName_note.md`.
 - `ProjectName.m` is the project-level entry for registered case runs, cross-case summaries, and global figures. It must stay a small orchestrator.
 - `ProjectName_case33bw.m` and `ProjectName_case123.m` are formal case workflow entries for the two example networks. Each case entry should show the full step sequence and call package functions for implementation. Replace `ProjectName` with the actual project prefix when the template is copied.
@@ -32,6 +41,8 @@ Keep the visible root small:
 
 - Every main case should answer one evidence question in `01_IDEA/claims.md`.
 - Every public-facing research conclusion should also be reflected in `ProjectName_note.md`.
+- Treat author experience, engineering intuition, and an unregistered observation as a question or a `仅为当前假设` item. They cannot by themselves support a strong statement in `ProjectName_blog.md`, the research note, or manuscript prose.
+- Distill manuscript text from `ProjectName_note.md`, `01_IDEA/`, registered results, and checked references. The blog may provide narrative order only; do not lightly edit or copy it into an Introduction or Contributions section.
 - If a change alters the research question, route, model, assumption, experiment protocol, result interpretation, evidence status, figure plan, paper wording, or handoff judgment, add or update a `ProjectName_changelog.md` entry for the current `YYYY-MM-DD` version. Keep entries newest first and start each entry with one concise sentence saying what changed.
 - Every formal result should be registered in `01_IDEA/evidence_map.md` before it is used in paper prose.
 - Important failed approaches, abandoned alternatives, retained early ideas, forked explorations, pivots, and unresolved research questions should be recorded in `01_IDEA/research_trace.yaml`.

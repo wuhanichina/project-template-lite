@@ -5,7 +5,7 @@ function runSummary = finalize_case_run(caseConfig, runState, caseData, proposed
 completedAt = string(datetime("now", "Format", "yyyy-MM-dd HH:mm:ss"));
 runManifest = build_run_manifest(caseConfig, runState, caseData, proposedResults, ...
     baselineResults, metrics, outputFiles, figureOutputs, completedAt);
-write_json(outputFiles.manifestFile, runManifest);
+write_json_atomic(outputFiles.manifestFile, runManifest);
 
 runSummary = ProjectName_utils.workflow.empty_run_summary();
 runSummary.caseName = string(caseConfig.name);
@@ -24,7 +24,15 @@ runSummary.proposedStatus = string(proposedResults.status);
 runSummary.baselineStatus = string(baselineResults.status);
 runSummary.metricsStatus = string(metrics.status);
 runSummary.figureStatus = string(figureOutputs.status);
-runSummary.message = "Scaffold workflow completed and run_manifest.json was written. Replace package skeletons with project computation before claiming paper evidence.";
+if runSummary.status == "failed"
+    runSummary.message = "Workflow finalized with a failed stage status. This run is not paper evidence.";
+elseif runSummary.status == "running"
+    runSummary.message = "Workflow finalized with a nonterminal stage status. This run is incomplete and is not paper evidence.";
+elseif runSummary.status == "scaffold"
+    runSummary.message = "Scaffold workflow completed and run_manifest.json was written. Replace package skeletons with project computation before claiming paper evidence.";
+else
+    runSummary.message = "Workflow completed and run_manifest.json was written. Register the run before using it as paper evidence.";
+end
 end
 
 function manifest = build_run_manifest(caseConfig, runState, caseData, proposedResults, ...
@@ -34,7 +42,8 @@ entryFunction = get_optional_string(caseConfig, "entryFunction", string(caseConf
 manifestFile = string(outputFiles.manifestFile);
 
 manifest = struct();
-manifest.schemaVersion = "research_template_lite_case_run_manifest_v1";
+manifest.schemaVersion = "research_template_lite_case_run_manifest_v2";
+manifest.contractVersion = get_optional_string(caseConfig, "contractVersion", "2026.07.12");
 manifest.generatedAt = completedAt;
 manifest.caseName = string(caseConfig.name);
 manifest.network = get_optional_string(caseConfig, "network", "");
@@ -42,6 +51,9 @@ manifest.description = get_optional_string(caseConfig, "description", "");
 manifest.status = resolve_run_status(caseConfig, caseData, proposedResults, baselineResults, metrics, figureOutputs);
 manifest.claim = string(caseConfig.claim);
 manifest.evidenceId = string(caseConfig.evidenceId);
+manifest.lifecycleStage = get_optional_string(caseConfig, "lifecycleStage", "zero-to-one-explore");
+manifest.caseContract = get_optional_string(caseConfig, "caseContract", "");
+manifest.figurePlanId = get_optional_string(caseConfig, "figurePlanId", "");
 manifest.entryFunction = entryFunction;
 manifest.command = entryFunction + "()";
 manifest.projectRoot = projectRoot;
@@ -59,11 +71,17 @@ manifest.timing = struct( ...
 manifest.randomState = struct( ...
     "seed", runState.rngSeed, ...
     "rngType", string(runState.rngType));
-manifest.inputs = struct( ...
-    "status", string(caseData.status), ...
-    "dataDir", string(caseConfig.dataDir), ...
-    "inputFiles", get_optional_strings(caseData, "inputFiles"), ...
-    "warnings", get_optional_strings(caseData, "warnings"));
+manifest.inputs = struct();
+manifest.inputs.status = string(caseData.status);
+manifest.inputs.dataDir = string(caseConfig.dataDir);
+manifest.inputs.inputFiles = get_optional_strings(caseData, "inputFiles");
+manifest.inputs.inputFileRecords = get_optional_value( ...
+    caseData, "inputFileRecords", empty_input_file_records());
+manifest.inputs.dataVersionFingerprint = get_optional_string( ...
+    caseData, "dataVersionFingerprint", "");
+manifest.inputs.dataVersion = get_optional_value( ...
+    caseData, "dataVersion", empty_data_version());
+manifest.inputs.warnings = get_optional_strings(caseData, "warnings");
 manifest.cache = struct( ...
     "cacheDir", string(caseConfig.cacheDir), ...
     "snapshot", snapshot_directory(caseConfig.cacheDir));
@@ -144,6 +162,34 @@ if isfield(source, fieldName)
 else
     values = strings(0, 1);
 end
+end
+
+function value = get_optional_value(source, fieldName, defaultValue)
+fieldName = char(fieldName);
+if isfield(source, fieldName)
+    value = source.(fieldName);
+else
+    value = defaultValue;
+end
+end
+
+function records = empty_input_file_records()
+records = repmat(struct( ...
+    "relativePath", "", ...
+    "absolutePath", "", ...
+    "bytes", 0, ...
+    "mtime", "", ...
+    "mtimeDatenum", 0, ...
+    "sha256", ""), 0, 1);
+end
+
+function dataVersion = empty_data_version()
+dataVersion = struct( ...
+    "algorithm", "SHA-256", ...
+    "fingerprint", "", ...
+    "fileCount", 0, ...
+    "byteCount", 0, ...
+    "basis", "");
 end
 
 function files = collect_file_list(source)
@@ -234,13 +280,13 @@ end
 
 function [ok, text] = run_git(projectRoot, args)
 currentDir = pwd;
-cleanupObj = onCleanup(@() cd(currentDir)); %#ok<NASGU>
+cleanupObj = onCleanup(@() cd(currentDir));
 cd(char(projectRoot));
 
 command = sprintf("git %s", args);
 [statusCode, commandOutput] = system(char(command));
 ok = statusCode == 0;
-text = string(strtrim(commandOutput));
+text = string(regexprep(commandOutput, '[\r\n]+$', ''));
 end
 
 function snapshot = snapshot_directory(dirPath)
@@ -281,15 +327,45 @@ for k = 1:numel(entries)
 end
 end
 
-function write_json(filePath, value)
+function write_json_atomic(filePath, value)
+filePath = string(filePath);
+if isfolder(filePath)
+    error("ProjectName_utils:workflow:ManifestPathIsDirectory", ...
+        "The run manifest target is an existing directory: %s", filePath);
+end
 [parentDir, ~, ~] = fileparts(filePath);
 ProjectName_utils.io.ensure_dir(parentDir);
 
-fid = fopen(filePath, "w");
+temporaryFile = string(tempname(parentDir)) + ".json.tmp";
+temporaryCleanup = onCleanup(@() delete_if_exists(temporaryFile));
+
+fid = fopen(temporaryFile, "w", "n", "UTF-8");
 if fid < 0
-    error("ProjectName_utils:workflow:OpenFailed", "Could not open JSON file: %s", filePath);
+    error("ProjectName_utils:workflow:OpenFailed", ...
+        "Could not open temporary JSON file for manifest: %s", temporaryFile);
 end
 
-cleanupObj = onCleanup(@() fclose(fid)); %#ok<NASGU>
+cleanupObj = onCleanup(@() close_if_open(fid));
 fprintf(fid, "%s\n", jsonencode(value));
+fclose(fid);
+clear cleanupObj
+
+[moveOk, moveMessage] = movefile(temporaryFile, filePath, "f");
+if ~moveOk
+    error("ProjectName_utils:workflow:ManifestMoveFailed", ...
+        "Could not replace run manifest %s: %s", filePath, moveMessage);
+end
+clear temporaryCleanup
+end
+
+function close_if_open(fid)
+if ~isempty(fopen(fid))
+    fclose(fid);
+end
+end
+
+function delete_if_exists(filePath)
+if isfile(filePath)
+    delete(filePath);
+end
 end

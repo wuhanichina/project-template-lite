@@ -42,9 +42,9 @@
 
 下表是一行合格 `physical-reproduction` 图的示例，用来锚定填写标准，展示各字段应有的具体程度。它使用虚构的配电网电压场景，仅供参考，正式计划请删除或忽略本节。
 
-| Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
+| figurePlanId / Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| FigX（示例） | C1 | physical-reproduction | 本文方法重构的节点电压幅值能否复现全网潮流参照解？ | 参照数据为 MATPOWER 全网 AC 潮流解的各节点电压幅值 | 各节点电压幅值绝对误差 MAE（p.u.，定义见 `symbols.md`；电压幅值误差是配电网状态复现的公认一致性度量） | 叠加折线（本文方法 vs 参照）+ 独立残差子图 | `result/case33bw/voltage_profile.csv` | 示例 |
+| FP-EXAMPLE / FigX（示例） | C1 | physical-reproduction | 本文方法重构的节点电压幅值能否复现全网潮流参照解？ | 参照数据为 MATPOWER 全网 AC 潮流解的各节点电压幅值 | 各节点电压幅值绝对误差 MAE（p.u.，定义见 `symbols.md`；电压幅值误差是配电网状态复现的公认一致性度量） | 叠加折线（本文方法 vs 参照）+ 独立残差子图 | `result/case33bw/voltage_profile.csv` | 示例 |
 
 说明：物理复现图的参照必须是外部或独立可信量（此处为 AC 潮流解），不能用本文自定义分数；指标要有单位、在 `symbols.md`/`derivation.md` 有定义，并说明为何公认。
 
@@ -52,7 +52,7 @@
 
 ### 33 节点配电网主算例（支撑 C1）
 
-| Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
+| figurePlanId / Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 【待补充】 | C1 | scenario-setup | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/case33bw/figures/` | scaffold |
 | 【待补充】 | C1 | physical-reproduction | 【待补充】 | 【待补充：真实/参照解】 | 【待补充：对参照的绝对或相对误差】 | 【待补充】 | `result/case33bw/figures/` | scaffold |
@@ -60,7 +60,7 @@
 
 ### 123 节点配电网扩展算例（支撑 C2）
 
-| Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
+| figurePlanId / Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 【待补充】 | C2 | scenario-setup | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/case123/figures/` | scaffold |
 | 【待补充】 | C2 | physical-reproduction | 【待补充】 | 【待补充：真实/参照解】 | 【待补充：对参照的绝对或相对误差】 | 【待补充】 | `result/case123/figures/` | scaffold |
@@ -68,10 +68,32 @@
 
 ### 跨算例汇总（支撑 C3）
 
-| Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
+| figurePlanId / Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 【待补充】 | C3 | scenario-setup | 不同算例的系统规模、工况、参照解和评价口径是否满足同口径汇总条件？ | 列出 C1、C2 已登记的可信参照、输入范围和匹配条件 | 【待补充：系统规模、工况范围和共同评价量，定义见 `symbols.md`】 | 【待补充：表格或分组点图】 | `result/project/figures/` | scaffold |
+| 【待补充】 | C3 | physical-reproduction | 本文方法能否在全部登记算例中复现各算例对应的可信参照物理行为？ | 汇总 C1、C2 非诊断 `physical-reproduction` 结果所使用的真实数据、独立参考解或可信 benchmark；每个算例仍与自身参照逐点比较 | 【待补充：各算例相同定义和单位的绝对误差或相对误差；该量直接度量本文输出与可信参照的一致性】 | 【待补充：按算例分组的配对散点、残差或 ECDF】 | `result/project/figures/` | scaffold |
 | 【待补充】 | C3 | sota-comparison | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/project/figures/` | scaffold |
 | 【待补充】 | C3 | sensitivity-ablation | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/project/figures/` | scaffold |
+
+C3 的跨算例物理复现可以复用 C1、C2 已登记的参照数据与结果文件作为输入，但必须单独登记为 `claimId=C3` 的非诊断 `physical-reproduction` 图，并确认各输入图仍为当前版本、使用同定义指标且通过质量检查。C1 或 C2 的 manifest 行不能直接替代 C3 的顺序门禁。
+
+## Figure-first 解释契约
+
+每张正式图必须在导出前用唯一 `figurePlanId` 登记以下字段。它们是待
+检验计划，不是结果事实；MATLAB manifest 只保存 `contractVersion` 和
+`figurePlanId` 引用，不复制主观机理解释。
+
+| figurePlanId | noveltyMode | caseContract | lifecycleStage | expectedTrend | keyFeatureToInspect | mechanismToTest | advantageCriterion | boundaryTest |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| FP-C1 | one-to-hundred | new-method | one-to-hundred-evidence | 【待补充】 | 【阈值/峰值/交叉/尾部/空间簇/残差】 | 【待补充：中间物理量、约束或模块】 | 【待补充：相对哪个基线、何种同口径条件构成优势】 | 【待补充：趋势或优势应减弱、反转或不确定的条件】 |
+| FP-C2 | one-to-hundred | new-method | one-to-hundred-evidence | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 |
+| FP-C3 | mixed | new-framework | zero-to-one-explore | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 |
+
+Skill 读取实际 plot-data CSV、对应 `figure_manifest.jsonl`、检查报告和
+run manifest 后，按“条件 → 趋势 → 关键点 → 定量差异 → 机理 → 回答的
+问题 → 方法优势或权衡 → 工程启示 → 边界”写逐图解释。预期趋势没有被
+实际数据确认时，必须登记为偏离、反转或证据不足，不能按计划措辞写成
+观察结果。
 
 ## 指标白名单约束
 
@@ -86,4 +108,4 @@
 
 - 图变为论文证据后，在 `01_IDEA/evidence_map.md` 登记。
 - 若 `physical-reproduction` 图未能匹配参照，先在 `01_IDEA/claims.md`、`ProjectName_note.md` 和 `ProjectName_changelog.md` 修正结论表述、工程场景与研究内容版本记录，再导出该结论编号的 `sota-comparison` 图。
-- 保持 `save_figure` manifest 中的 `evidenceRole`、`claimId` 和指标定义与本计划一致。
+- 保持 `save_figure` manifest 中的 `contractVersion`、`figurePlanId`、`evidenceRole`、`claimId` 和指标定义与本计划一致。

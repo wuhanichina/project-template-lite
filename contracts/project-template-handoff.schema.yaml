@@ -1,0 +1,90 @@
+snapshot:
+  source: powerlit-power-systems-writing/contracts/project-template-handoff.schema.yaml
+  sourceVersion: "2026.07.12"
+  sourceSha256: d4de40ace15c00851f985fa69089baa285625df00fcda0fea46c42778aa87dc0
+  synchronizedAt: "2026-07-12"
+
+contract:
+  name: powerlit-project-template-handoff
+  version: "2026.07.12"
+  compatibility: "1.x"
+
+enums:
+  innovation_axis: [research-object, discovery-mechanism, technical-object, engineering-decision-loop]
+  novelty_mode: [zero-to-one, one-to-hundred, mixed]
+  technical_object_type: [model-formulation, control-strategy, algorithm-solution, theory-guarantee, data-case-system]
+  narrative_arc: [discovery-first, mechanism-first, method-first, engineering-first, validation-first, boundary-diagnosis, mixed]
+  lifecycle_stage: [zero-to-one-explore, zero-to-one-first-run, one-to-hundred-evidence, one-to-hundred-submission]
+  manuscript_use: [mainline, conditional, observed-phenomenon, boundary, future-work]
+  evidence_role: [scenario-setup, physical-reproduction, sota-comparison, sensitivity-ablation]
+  evidence_state: [unverified, theory-supported, numerical-supported, implementation-supported, review-pending, insufficient, excluded, archived]
+  revision_gap: [mechanism, assumption, model, comparison, evidence, boundary, wording]
+  revision_status: [open, manuscript-patched, requires-new-case, response-drafted, verified, closed]
+
+required_records:
+  paper_profile:
+    - contractVersion
+    - targetVenue
+    - workingLanguage
+    - minimumResearchObject
+    - paperSpine
+    - primaryInnovationAxis
+    - noveltyMode
+    - technicalObjectType
+    - narrativeArc
+    - lifecycleStage
+    - evidenceBoundary
+  claim:
+    - claimId
+    - evidenceId
+    - primaryInnovationAxis
+    - noveltyMode
+    - technicalObjectType
+    - manuscriptUse
+    - lifecycleStage
+    - evidenceState
+    - evidenceBoundary
+  figure:
+    - contractVersion
+    - figurePlanId
+    - claimId
+    - evidenceRole
+    - sciQuestion
+    - physicsReproduction
+    - metric
+    - dataFiles
+    - visualEncoding
+  revision:
+    - commentId
+    - reviewerConcern
+    - realGap
+    - manuscriptLocation
+    - repairStatus
+
+load_order:
+  - ProjectName_note.md
+  - ProjectName_changelog.md
+  - 02_PAPER/config/paper-profile.yaml
+  - 02_PAPER/config/author-profile.yaml
+  - 01_IDEA/story.md
+  - 01_IDEA/claims.md
+  - 01_IDEA/derivation.md
+  - 01_IDEA/symbols.md
+  - 01_IDEA/evidence_map.md
+  - 01_IDEA/research_trace.yaml
+  - 01_IDEA/figure_plan.md
+  - result/<case>/run_manifest.json
+  - result/<case>/figures/figure_manifest.jsonl
+  - 02_PAPER/revision/
+
+ownership:
+  skill:
+    - innovation diagnosis and narrative policy
+    - case-design reasoning
+    - evidence-strength wording
+    - consistency and revision reasoning
+  template:
+    - persistent project state
+    - MATLAB execution and exports
+    - factual manifests and audit artifacts
+    - revision status tracking

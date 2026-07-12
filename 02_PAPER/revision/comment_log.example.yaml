@@ -1,0 +1,28 @@
+contractVersion: "2026.07.12"
+revisionRound: 1
+decision: major-revision
+receivedAt: ""
+targetDueAt: ""
+
+comments:
+  - commentId: R1-C1
+    source: reviewer-1
+    reviewerConcern: "【待录入】"
+    realGap: mechanism
+    manuscriptLocation: "【section/page/line】"
+    claimIds: []
+    figurePlanIds: []
+    requiredEvidence: "【待补充】"
+    repairStatus: open
+    responseLocation: 02_PAPER/revision/response_matrix.md
+    manuscriptPatchedAt: ""
+    evidenceVerifiedAt: ""
+    closedAt: ""
+
+allowedRepairStatus:
+  - open
+  - manuscript-patched
+  - requires-new-case
+  - response-drafted
+  - verified
+  - closed

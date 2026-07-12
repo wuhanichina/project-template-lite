@@ -1,0 +1,45 @@
+contractVersion: "2026.07.12"
+profileVersion: "1.0"
+lastConfirmedAt: ""
+
+targetVenue: "IEEE TPWRS"
+workingLanguage: "zh-CN"
+minimumResearchObject: "【待补充】"
+paperSpine: "For [power-system object] under [condition], this paper [technical action] so that [conflict] can be addressed within [evidence boundary]."
+
+primaryInnovationAxis: technical-object
+secondaryInnovationAxes: []
+noveltyMode: one-to-hundred
+technicalObjectType: model-formulation
+narrativeArc: method-first
+lifecycleStage: one-to-hundred-evidence
+manuscriptUse: conditional
+
+caseContract: new-method
+requiredEvidenceRoles:
+  - scenario-setup
+  - physical-reproduction
+  - sota-comparison
+  - sensitivity-ablation
+
+evidenceBoundary: "【待补充：系统、场景、假设、数据窗口与未覆盖条件】"
+canonicalTerms:
+  projectSpecific: {}
+keyQuantities: []
+
+venuePolicy:
+  skillVersion: ""
+  checkedAt: ""
+
+lastConfirmedBrief:
+  engineeringPainPoint: ""
+  mainInnovation: ""
+  theoreticalValue: ""
+  engineeringValue: ""
+  framingsToDrop: []
+
+lastConsistencyVerdict:
+  checkedAt: ""
+  skillVersion: ""
+  verdict: not-run
+  report: 02_PAPER/submission_consistency.md

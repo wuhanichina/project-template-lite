@@ -20,3 +20,11 @@ template. `AGENTS.md` is the shared coding-agent source of truth.
 Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Keep these files as shared repository policy,
 rather than editor-only local state.
+
+## Validation
+
+After template code, rules, or documentation changes, run:
+
+```text
+matlab -batch "addpath(fullfile(pwd,'tests')); run_template_smoke_tests"
+```

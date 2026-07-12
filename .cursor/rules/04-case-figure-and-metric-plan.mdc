@@ -38,12 +38,22 @@ Before listing figures for a case, state in `01_IDEA/figure_plan.md`:
 - what theoretical significance and engineering value the case-study evidence should support,
 - which physical scenario the proposed model must be shown to reproduce,
 - what result would require revising the conclusion wording, engineering scene, or evidence state.
+- the contract version, unique `figurePlanId`, novelty mode, case contract, and
+  lifecycle stage;
+- `expectedTrend`, `keyFeatureToInspect`, `mechanismToTest`,
+  `advantageCriterion`, and `boundaryTest`.
 
 The innovation anchor should use field-recognized research-object names, engineering objects, physical quantities, model relations, theoretical significance, engineering value, and verifiable case names. Metrics are evidence for those statements. Internal experiment configuration aliases, temporary parameter-group names, branch names, and script abbreviations belong in `claimId`, data-file, run-manifest, Git, or configuration fields, not in the innovation text.
 
 Plan formal figures only when they are traceable to a conclusion id. A figure
 without a registered conclusion binding is a diagnostic figure and must be
 exported with `IsDiagnostic` set to true.
+
+The Figure-first plan must exist before a formal export. Planning fields are
+hypotheses; do not copy them into a manifest as observed facts. Formal export
+metadata must carry `contractVersion` and `figurePlanId`, while plot-data CSV,
+`figure_manifest.jsonl`, and the run manifest remain the factual evidence
+surface used by PowerLit for figure interpretation.
 
 ## Step 1: Order Figures By Evidence Role
 
@@ -120,3 +130,10 @@ separate subfigures and combine them in the manuscript layout.
   that conclusion id.
 - Keep `evidenceRole`, `claimId`, and the metric definition in the
   `save_figure` manifest consistent with the plan.
+- Keep `contractVersion` and `figurePlanId` in the manifest consistent with the
+  local handoff snapshot and the registered plan row.
+- Before manuscript use, interpret every main figure from its current plot data
+  through condition → trend → key feature → quantitative difference → mechanism
+  status → answered problem → advantage/tradeoff → engineering implication →
+  boundary. Caption restatement or a generic effectiveness sentence is not a
+  result explanation.

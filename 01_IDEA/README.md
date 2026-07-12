@@ -17,14 +17,17 @@
 
 ## 维护顺序
 
-1. 先在 `story.md` 判定最小可辨识研究对象、研究领域、具体工程对象和研究方向，写清工程需求、现有不足、核心痛点和科学问题。
+1. 先在 `story.md` 判定最小可辨识研究对象、研究领域、具体工程对象和研究方向，确认创新轴、技术对象、叙事路线与重点解释关系，并写清工程需求、现有不足、核心痛点和科学问题。
 2. 再在 `claims.md` 用正向技术句写出可验证研究结论、工程场景和证据编号。
 3. 在 `symbols.md` 登记核心符号、维度、单位和代码变量。
 4. 在 `derivation.md` 写推导、假设和代码位置。
 5. 导出正式算例图前，默认先用 `$powerlit-power-systems-paper-writing` 生成或修订 `figure_plan.md`，锚定正向创新点，并确定每张图的证据角色、指标、图形类型和 `save_figure` metadata。
 6. 运行 case 后，把 `result/<case>/run_manifest.json` 和正式结果登记到 `evidence_map.md`。
 7. 路线调整、分叉探索、失败方案和未解决问题同步写入 `research_trace.yaml`。
+8. `ProjectName_blog.md` 根据已确认的创新轴、技术对象和叙事路线，从上述材料提取有范围的对外说明；它不能替代结论、推导、证据索引、结果或参考文献，也不能轻量改写后直接进入 Introduction 或 Contributions。
 
 如果公式、变量、可验证结论或证据状态发生变化，应同步更新 `ProjectName_note.md` 和 `ProjectName_changelog.md`，使根目录研究笔记保持为当前最小可辨识研究对象、结论和证据状态，并让研究内容版本记录可追溯。
 
 `story.md`、`claims.md` 和 `figure_plan.md` 的创新点正文使用领域通用术语、工程对象、物理量、模型关系和可查证算例名称。内部实验配置代号、临时参数组名、分支名或脚本缩写只写入证据编号、入口文件、结果路径、run manifest、Git 记录或配置字段。
+
+判断性结论的默认证据状态使用 `尚未验证`。其他状态使用 `.cursor/rules/03-public-note-and-paper-skill-bridge.mdc` 的闭合词表；缺失信息使用 `【待补充】`、`【文献待核查】`、`【当前证据不足】`、`【尚未实现】` 或 `【结果待复核】` 等显式占位。

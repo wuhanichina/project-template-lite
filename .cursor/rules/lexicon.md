@@ -8,13 +8,17 @@ captions in this template.
 
 - State the technical conclusion directly.
 - Write innovation points as positive statements about the minimum identifiable
-  research object, concrete engineering object, physical mechanism,
-  theoretical significance, engineering value, mathematical model, engineering
-  setting, measurable result, and evidence source.
+  research object, concrete engineering object, contribution-appropriate
+  relation, theoretical significance, engineering value, mathematical model,
+  engineering setting, measurable result, and evidence source. The relation
+  may be physical causality, model mapping, computational property, control
+  response, validity condition, observability, or an engineering decision link.
 - Use complete declarative sentences.
 - Start with the system object, model term, constraint, data source, metric, or
   numerical result.
-- Name the mechanism, affected object, case set, metric, and evidence state.
+- Name the contribution-appropriate relation, affected object, case set,
+  metric, and evidence state. Use "physical mechanism" only when the evidence
+  establishes a physical causal chain and a testable prediction.
 - In Chinese power-system prose, name the physical object first: bus, branch,
   feeder, source/load process, operating scenario, voltage, power flow, current,
   constraint, probability distribution, violation event, or recovery action.

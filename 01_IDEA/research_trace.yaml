@@ -10,6 +10,7 @@ guide:
     - ai-suggested
     - ai-executed
     - user-revised
+  provenance_rule: "ai-executed 仅用于已经实际执行并登记结果或 run manifest 的节点；未执行、open 或仍含占位字段的模板节点使用 ai-suggested 或 user。"
   node_types:
     - question
     - decision
@@ -58,7 +59,7 @@ tree:
       - id: N03
         type: experiment
         title: "待填：case33bw 主算例"
-        provenance: ai-executed
+        provenance: ai-suggested
         status: open
         verifies:
           - C1
@@ -68,7 +69,7 @@ tree:
       - id: N04
         type: experiment
         title: "待填：case123 扩展算例"
-        provenance: ai-executed
+        provenance: ai-suggested
         status: open
         verifies:
           - C2
@@ -78,7 +79,7 @@ tree:
       - id: N08
         type: fork_exploration
         title: "待填：分叉探索路线"
-        provenance: ai-executed
+        provenance: ai-suggested
         status: open
         base_node: N02
         hypothesis: "待填：该分叉想验证的建模、求解、参数或对比路线假设。"

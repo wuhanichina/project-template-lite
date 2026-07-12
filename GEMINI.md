@@ -27,3 +27,11 @@ Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Do not treat agent rule files as editor-only
 local state. Do not recreate `.agents/` or `.agent/` unless the project owner
 explicitly reintroduces those Antigravity paths.
+
+## Validation
+
+After template code, rules, or documentation changes, run:
+
+```text
+matlab -batch "addpath(fullfile(pwd,'tests')); run_template_smoke_tests"
+```

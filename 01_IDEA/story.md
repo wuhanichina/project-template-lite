@@ -24,18 +24,43 @@
 | 引言可使用材料 | 【待补充：与本研究对象直接相关的背景、文献和数字】 |
 | 讨论或未来工作材料 | 【待补充：与主对象相关但暂时只用于讨论、对比或后续研究的内容】 |
 
+## 已确认叙事档案
+
+本节只保存经使用者确认的取值，通用分类和路由规则由 PowerLit Skill
+解释。完整机器可读状态见 `02_PAPER/config/paper-profile.yaml`。
+
+| 字段 | 当前值 |
+| --- | --- |
+| contractVersion | `2026.07.12` |
+| 主创新轴 | 【research-object / discovery-mechanism / technical-object / engineering-decision-loop】 |
+| 次创新轴 | 【待补充】 |
+| 创新幅度 | 【zero-to-one / one-to-hundred / mixed】 |
+| 技术对象类型 | 【model-formulation / control-strategy / algorithm-solution / theory-guarantee / data-case-system】 |
+| narrativeArc | 【discovery-first / mechanism-first / method-first / engineering-first / validation-first / boundary-diagnosis / mixed】 |
+| lifecycleStage | 【zero-to-one-explore / zero-to-one-first-run / one-to-hundred-evidence / one-to-hundred-submission】 |
+| 选定算例契约 | 【new-research-object / new-variable-scenario / new-method / new-discovery / new-mechanism / new-framework】 |
+| 正文用途 | 【mainline / conditional / observed-phenomenon / boundary / future-work】 |
+| 对外叙事中心 | 【待补充：研究对象、发现或机理、技术对象、工程决策中的一个中心】 |
+| 重点解释关系 | 【待补充：物理因果、模型映射、计算性质、观测能力或决策关系】 |
+| 证据边界 | 【待补充：系统、场景、假设、数据窗口与未覆盖条件】 |
+| 最近确认 brief | 【待补充：日期、确认人和一句话结论】 |
+
 ## 研究问题
 
 > 在【待补充：物理场景、工程约束或数据条件】下，本文面向【待补充：最小可辨识研究对象】，以【待补充：具体工程对象】为对象，建立【待补充：模型、约束或计算关系】，用于刻画【待补充：工程痛点或物理机制】，并输出【待补充：可验证结果】。
 
-## 工程痛点和物理原因
+## 工程痛点和关键关系
 
 用四句话锁定故事线：
 
 1. 工程系统在【待补充：场景】中需要对【待补充：对象】进行【待补充：计算、评估、优化或控制】。
 2. 已有工程流程或主流模型在【待补充：本文关注条件】下留下的关键缺口是【待补充：具体对象、指标或物理关系】。
-3. 这个缺口来自【待补充：物理约束、状态耦合、概率关系、时空相关性、近似误差或求解结构】。
+3. 这个缺口来自【待补充：物理约束、状态耦合、模型映射、概率关系、观测条件、近似误差、求解结构或决策信息缺口】。
 4. 本文从【待补充：建模角度】建立【待补充：数学模型或计算流程】，使【待补充：工程对象或物理关系】能够被【待补充：计算、解释、验证或控制】，并形成【待补充：理论意义或工程价值】。
+
+研究发现或新机理应解释物理因果和可验证预测。模型、算法、控制、理论
+或数据贡献则分别解释模型映射、计算性质、状态响应、成立条件或观测能力；
+没有相应证据时，不把这些关系统一表述为新物理机理。
 
 ## 方法主线
 

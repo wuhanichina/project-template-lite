@@ -1,0 +1,33 @@
+function status = assert_stage_ready(stageResult, stageIndex, stageName)
+%ASSERT_STAGE_READY Reject failed or nonterminal stage results.
+
+validateattributes(stageIndex, {'numeric'}, ...
+    {'scalar', 'integer', 'positive'}, mfilename, 'stageIndex');
+stageName = string(stageName);
+if ~isscalar(stageName) || strlength(stageName) == 0
+    error("ProjectName_utils:workflow:InvalidStageName", ...
+        "stageName must be a nonempty scalar string.");
+end
+if ~isstruct(stageResult) || ~isscalar(stageResult) || ...
+        ~isfield(stageResult, "status")
+    error("ProjectName_utils:workflow:MissingStageStatus", ...
+        "Stage %d (%s) did not return a scalar struct with a status field.", ...
+        stageIndex, stageName);
+end
+
+status = lower(strtrim(string(stageResult.status)));
+if ~isscalar(status) || ismissing(status) || strlength(status) == 0
+    error("ProjectName_utils:workflow:InvalidStageStatus", ...
+        "Stage %d (%s) returned an empty or nonscalar status.", ...
+        stageIndex, stageName);
+end
+if status == "failed"
+    error("ProjectName_utils:workflow:StageReportedFailure", ...
+        "Stage %d (%s) returned status 'failed'.", stageIndex, stageName);
+end
+if status == "running"
+    error("ProjectName_utils:workflow:StageNotTerminal", ...
+        "Stage %d (%s) returned nonterminal status 'running'.", ...
+        stageIndex, stageName);
+end
+end

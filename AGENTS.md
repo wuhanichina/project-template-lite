@@ -16,8 +16,22 @@ Treat these files as repository policy for Codex, Gemini CLI, Antigravity, and
 other coding-agent work in this template. Antigravity compatibility is routed
 through `GEMINI.md`.
 
+For PowerLit writing/review handoff, also read
+`contracts/project-template-handoff.schema.yaml` and the active
+`02_PAPER/config/paper-profile.yaml` (or its example). Keep reasoning policy in
+the Skill and persistent state, MATLAB execution, manifests, and audit artifacts
+in this template.
+
 ## Sync Policy
 
 Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Do not treat agent rule files as editor-only
 local state.
+
+## Validation
+
+After template code, rules, or documentation changes, run:
+
+```text
+matlab -batch "addpath(fullfile(pwd,'tests')); run_template_smoke_tests"
+```

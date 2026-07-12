@@ -33,6 +33,28 @@ It should contain:
 
 Keep `ProjectName_note.md` readable by a collaborator or reviewer-facing coauthor, while preserving immature models, unstable results, failed checks, and unresolved questions when they affect the research line.
 
+## Public Narrative Blog
+
+`ProjectName_blog.md` is an evidence-bounded public narrative reference. Select
+its angle from the confirmed `primaryInnovationAxis`, `technicalObjectType`,
+`narrativeArc`, `noveltyMode`, and `lifecycleStage` in the paper profile and
+story archive. Use "起-承-转-合-升" as the recommended macro logic: begin with
+an actual engineering object and problem, establish the research object and
+existing treatment, reveal the key relation or physical mechanism and current
+limitation, present the project's treatment and evidence, and close with a
+bounded engineering implication. Innovation type changes the angle, emphasis,
+and explanation depth within this sequence; it does not remove the engineering
+entry. Each project-specific judgment must name its applicable scope, evidence
+source, and one evidence-state label from this rule.
+
+- The blog does not create evidence and does not replace `ProjectName_note.md`, `01_IDEA/claims.md`, `01_IDEA/derivation.md`, `01_IDEA/evidence_map.md`, registered result files, or checked references.
+- Author experience, intuition, or an unregistered observation may motivate a research question. Record it as `仅为当前假设`, `尚未验证`, or `文献待核查`; do not use it alone to support a strong public or manuscript conclusion.
+- Let the primary innovation axis determine the story center, the technical-object type determine the explanation layer, the narrative arc determine paragraph order, and novelty mode plus lifecycle stage determine claim strength.
+- Do not force every contribution into a new-physical-mechanism story. Use physical causality for discovery or mechanism claims; model mapping for formulations; decomposition, approximation, error, convergence, or complexity for algorithms; state-observation-action-response relations for control; assumptions and validity conditions for theory; observability and coverage for data or case systems; and information-to-action relations for engineering decisions.
+- Keep audit fields out of the narrative flow. A short positioning card and a closing evidence-and-boundary table may carry claim ids, evidence ids, scope, source, and state while the body uses continuous technical prose.
+- Before transferring a blog idea into an Introduction or Contributions section, rewrite it from the evidence-bearing files, verify its literature and result scope, and retain the applicable evidence state. Do not lightly edit or copy blog paragraphs into manuscript prose.
+- The closing engineering implication must remain bounded by the declared systems, cases, assumptions, data, and time windows. It must not extrapolate a case result into an industry-wide or universal claim.
+
 ## Writing Practice
 
 - Keep human-facing files such as `ProjectName_note.md` and `01_IDEA/*` focused on research content: story, claims, derivation, symbols, evidence, route evolution, and next steps. Put agent execution rules, prohibitions, and process guardrails in `.cursor/rules/`, not in those human-facing files.
@@ -116,16 +138,21 @@ Traceability: math model -> code implementation -> Git version -> run manifest -
 
 ## Synchronization Rules
 
-- If `01_IDEA/story.md` changes the main story, update `ProjectName_note.md`.
-- If `01_IDEA/claims.md` changes a conclusion wording, engineering scene, or evidence status, update `ProjectName_note.md`.
+- If `01_IDEA/story.md` changes the main story, update `ProjectName_note.md` and review `ProjectName_blog.md` for public-facing narrative drift.
+- If `01_IDEA/claims.md` changes a conclusion wording, engineering scene, or evidence status, update `ProjectName_note.md` and review `ProjectName_blog.md` when the changed judgment appears in the public-facing blog narrative.
 - If `01_IDEA/derivation.md` changes variables, assumptions, or formulas, update the model section in `ProjectName_note.md`.
 - If `01_IDEA/symbols.md` changes symbols, units, dimensions, or code-variable mappings, update the model and writing-check sections in `ProjectName_note.md`.
-- If `01_IDEA/evidence_map.md` registers or changes a formal result, update the result and conclusion-support sections in `ProjectName_note.md`.
+- If `01_IDEA/evidence_map.md` registers or changes a formal result, update the result and conclusion-support sections in `ProjectName_note.md`, and revise `ProjectName_blog.md` when the public-facing explanation uses that result.
 - If `01_IDEA/research_trace.yaml` records a route change or failed line that affects the paper wording, update the story or conclusion file.
 - If `01_IDEA/research_trace.yaml` records a forked exploration, keep its run manifest, compared route, observed difference, and merge/archive decision aligned with `ProjectName_note.md` when it affects the current route.
-- If `ProjectName.m` or a `ProjectName_case*.m` run produces a paper-facing result, register it in `ProjectName_note.md`.
+- If `ProjectName.m` or a `ProjectName_case*.m` run produces a paper-facing result, register it in `ProjectName_note.md`; if the result changes the external story, update `ProjectName_blog.md` as well.
 - If any synchronized change alters the research question, route, model, assumptions, experiment protocol, result interpretation, evidence status, figure plan, paper wording, conclusion wording, or handoff judgment, update `ProjectName_changelog.md` for the current date version. Do not use the changelog for pure formatting, typo fixes, or template-maintenance history unless they change the research content.
 - If a result weakens a conclusion, revise the conclusion wording and evidence state before writing or polishing manuscript text.
+- If a reviewer comment changes a claim, mechanism, assumption, evidence
+  boundary, or figure interpretation, update `02_PAPER/revision/`,
+  `01_IDEA/claims.md`, `ProjectName_note.md`, and
+  `ProjectName_changelog.md` together. The response is not closed until the
+  manuscript location and linked evidence are verified.
 - If an agent entrypoint changes, keep `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, `.cursor/rules/`, and this README's AI compatibility section synchronized in the same change. Antigravity is guided through `GEMINI.md`, not through `.agents/` or `.agent/` directories.
 
 ## Paper Writing Skill Interface
@@ -134,17 +161,29 @@ Before drafting with the paper-writing skill, load this material in order:
 
 1. `ProjectName_note.md`
 2. `ProjectName_changelog.md`
-3. `02_PAPER/config/author-profile.yaml` if present locally, otherwise `02_PAPER/config/author-profile.example.yaml`
-4. `01_IDEA/story.md`
-5. `01_IDEA/claims.md`
-6. `01_IDEA/derivation.md`
-7. `01_IDEA/symbols.md`
-8. `01_IDEA/evidence_map.md`
-9. `01_IDEA/research_trace.yaml`
-10. relevant result files under `result/`
-11. closest-competitor notes or BibTeX under `03_REFERENCE/`
+3. `02_PAPER/config/paper-profile.yaml` if present, otherwise `02_PAPER/config/paper-profile.example.yaml`
+4. `02_PAPER/config/author-profile.yaml` if present locally, otherwise `02_PAPER/config/author-profile.example.yaml`
+5. `01_IDEA/story.md`
+6. `01_IDEA/claims.md`
+7. `01_IDEA/derivation.md`
+8. `01_IDEA/symbols.md`
+9. `01_IDEA/evidence_map.md`
+10. `01_IDEA/research_trace.yaml`
+11. `01_IDEA/figure_plan.md`
+12. relevant `run_manifest.json`, figure manifest, plot-data CSV, validation, and check-report files under `result/`
+13. `02_PAPER/revision/` when revising after review
+14. `ProjectName_blog.md` as a public-facing narrative-order reference only, not as evidence or manuscript-ready wording
+15. closest-competitor notes or BibTeX under `03_REFERENCE/`
 
 The writing skill should convert the public note into manuscript prose and keep each contribution tied to the archive evidence.
+
+`contracts/project-template-handoff.schema.yaml` is the local versioned
+interface. The skill owns innovation diagnosis, narrative and evidence policy,
+consistency judgments, and revision reasoning. This template owns confirmed
+profile values, MATLAB execution, factual manifests, plot data, check reports,
+and revision status. A contract upgrade must update `contractVersion` and the
+vendored snapshot explicitly; do not rely on an absolute path to the skill
+repository.
 
 ## Paper Review Skill Interface
 

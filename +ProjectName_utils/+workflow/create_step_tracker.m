@@ -19,6 +19,8 @@ refreshTimer = [];
 tracker = struct();
 tracker.update = @update;
 tracker.close = @close_tracker;
+tracker.complete = @complete_tracker;
+tracker.fail = @fail_tracker;
 tracker.caseName = caseName;
 tracker.totalSteps = totalSteps;
 tracker.useInline = useInline;
@@ -61,16 +63,48 @@ end
         refresh_current_step();
     end
 
-    function close_tracker()
+    function complete_tracker()
+        close_tracker("completed", "");
+    end
+
+    function fail_tracker(errorValue)
+        if isa(errorValue, "MException")
+            errorText = string(errorValue.identifier) + ": " + string(errorValue.message);
+        else
+            errorText = string(errorValue);
+        end
+        close_tracker("failed", errorText);
+    end
+
+    function close_tracker(outcome, detail)
         if isClosed
             return
         end
 
-        stop_refresh_timer();
-        if currentStep > 0
-            print_line(sprintf("[%s] Workflow finished in %s", ...
-                caseName, format_elapsed(toc(startTime))), true);
+        if nargin < 1 || strlength(string(outcome)) == 0
+            outcome = "closed";
         end
+        if nargin < 2
+            detail = "";
+        end
+        outcome = lower(string(outcome));
+        detail = string(detail);
+
+        stop_refresh_timer();
+        elapsedText = format_elapsed(toc(startTime));
+        if outcome == "completed" || outcome == "succeeded"
+            lineText = sprintf("[%s] Workflow finished in %s", caseName, elapsedText);
+        elseif outcome == "failed"
+            lineText = sprintf("[%s] Workflow failed at step %02d/%02d (%s) after %s", ...
+                caseName, currentStep, totalSteps, currentStepName, elapsedText);
+        else
+            lineText = sprintf("[%s] Workflow closed with outcome '%s' at step %02d/%02d after %s", ...
+                caseName, outcome, currentStep, totalSteps, elapsedText);
+        end
+        if strlength(detail) > 0
+            lineText = sprintf("%s | %s", lineText, detail);
+        end
+        print_line(lineText, true);
         isClosed = true;
     end
 
