@@ -14,7 +14,7 @@
 
 每个正式算例先写出 `result/<case>/run_manifest.json`，记录入口命令、Git、MATLAB/平台、求解器可见性、配置、输入文件、缓存快照、summary、图表证据路径和证据登记提示。图表证据包记录单张图的科学问题、数据和导出质量；运行 manifest 记录整个 case 的复现输入、运行配置和输出文件。
 
-正式图在导出前先在 `figure_plan.md` 完成计划：锚定正向创新点、绑定结论编号（导出 metadata 字段为 `claimId`）、确定证据角色（`scenario-setup` → `physical-reproduction` → `sota-comparison` → `sensitivity-ablation`）、指标和图形类型。
+正式图在导出前先在 `figure_plan.md` 完成算例故事：绑定结论编号（导出 metadata 字段为 `claimId`），写清具体工程问题、本文方法改变的物理状态或工程决策、代表性对比方法、读者能够直接看到的工程效果，再确定数据、物理量和图形类型。`evidenceRole` 只用于审计分类，不构成固定出图顺序。
 
 正式图按 case 保存到 `result/<case>/figures/`。每张图对应一个完整证据包：
 

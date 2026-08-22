@@ -26,14 +26,15 @@
 
 | 编号 | 可验证结论 | 证据编号 | 主创新轴 | technicalObjectType | noveltyMode | caseContract | requiredEvidenceRoles | lifecycleStage | manuscriptUse | 证据状态与边界 | 对应入口 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C1 | 33 节点配电网主算例用于验证【本文模型/方法】对【目标工程量或物理关系】的计算、复现或解释能力。 | E01 | technical-object | model-formulation | one-to-hundred | new-method | scenario-setup; physical-reproduction; sota-comparison; sensitivity-ablation | one-to-hundred-evidence | conditional | unverified；【网络、数据、工况、假设待补充】 | `ProjectName_case33bw.m` |
-| C2 | 123 节点配电网扩展算例用于验证【本文模型/方法】在更大系统对象上的计算、复现或解释能力。 | E02 | technical-object | model-formulation | one-to-hundred | new-method | scenario-setup; physical-reproduction; sota-comparison; sensitivity-ablation | one-to-hundred-evidence | conditional | unverified；【网络、数据、工况、假设待补充】 | `ProjectName_case123.m` |
-| C3 | 多算例汇总用于比较【本文模型/方法】在不同系统对象或工况下的指标变化和物理解释。 | E03 | engineering-decision-loop | data-case-system | mixed | new-framework | scenario-setup; physical-reproduction; sota-comparison; sensitivity-ablation | zero-to-one-explore | boundary | unverified；【算例集合、比较口径、基线条件待补充】 | `ProjectName.m`; `+ProjectName_utils/+plotting/export_project_figures.m` |
+| C1 | 33 节点配电网主算例用于展示【具体工程问题】、【本文方法改变的物理状态或工程决策】及其相对代表性方法的【具体工程效果】。 | E01 | technical-object | model-formulation | one-to-hundred | new-method | 【按实际图件填写，不自动凑齐四种角色】 | one-to-hundred-evidence | conditional | unverified；【网络、数据、工况、假设待补充】 | `ProjectName_case33bw.m` |
+| C2 | 123 节点配电网扩展算例用于展示【具体工程问题】、【本文方法改变的物理状态或工程决策】及其相对代表性方法的【具体工程效果】。 | E02 | technical-object | model-formulation | one-to-hundred | new-method | 【按实际图件填写，不自动凑齐四种角色】 | one-to-hundred-evidence | conditional | unverified；【网络、数据、工况、假设待补充】 | `ProjectName_case123.m` |
+| C3 | 多算例汇总用于比较【本文模型/方法】在不同系统对象或工况下解决【具体工程问题】的实际结果。 | E03 | engineering-decision-loop | data-case-system | mixed | new-framework | 【按实际图件填写，不自动凑齐四种角色】 | zero-to-one-explore | conditional | unverified；【算例集合、比较口径、基线条件待补充】 | `ProjectName.m`; `+ProjectName_utils/+plotting/export_project_figures.m` |
 
 主创新轴、技术对象、创新幅度、生命周期、正文用途和证据状态使用
 `.cursor/contracts/project-template-handoff.schema.yaml` 的闭合枚举。`caseContract`
-和 `requiredEvidenceRoles` 是模板的算例与图表执行字段。本文件只保存
-已确认取值和证据状态，不复制 PowerLit 的分类理由或写作政策。
+和 `requiredEvidenceRoles` 是模板的算例与图表审计字段。只填写当前算例实际需要的
+角色，不把角色列表变成正文图清单。本文件只保存已确认取值和证据状态，不复制
+PowerLit 的分类理由或写作政策。
 
 ## 证据绑定
 

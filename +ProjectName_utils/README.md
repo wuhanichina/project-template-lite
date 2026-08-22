@@ -20,28 +20,35 @@ subpackage names describe the workflow support they provide, such as `+cache/`,
 `+logging/`, `+validation/`, or `+tables/`. File names should describe the
 actual IO, export, plotting, sampling, or validation step they perform.
 
-`save_figure` is intentionally strict. Formal exports must provide metadata for
-the claim id, scientific question, physical reproduction target, figure evidence
-role, data files, field/unit/dimension description, visual encoding, target
-layout, command, key parameters, and random seed/status. The `evidenceRole` must
-be one of `scenario-setup`, `physical-reproduction`, `sota-comparison`, or
-`sensitivity-ablation`. For non-diagnostic figures, `save_figure` rejects other
-roles and errors when a `sota-comparison` or `sensitivity-ablation` figure is
-exported for a claim before a `physical-reproduction` figure exists for that
-claim (override with `AllowSotaBeforePhysical` and a recorded reason). Plan the
-figure set in `01_IDEA/figure_plan.md` and follow
+`save_figure` is intentionally strict about traceability, but it does not decide
+the case-study story. Formal exports must record the reader question,
+engineering object, visible result, compared methods, story contribution, claim
+id, scientific question, audit evidence role, named metric, data files,
+field/unit/dimension description, visual encoding, target layout, command, key
+parameters, and random seed/status. Record `physicsReproduction` only when a
+trusted-reference comparison applies; otherwise use `not_applicable`.
+`evidenceRole` remains one of `scenario-setup`, `physical-reproduction`,
+`sota-comparison`, or `sensitivity-ablation` for contract compatibility, but it
+does not impose a fixed export order or require one figure of each type. Plan
+the reader-facing engineering story in `01_IDEA/figure_plan.md` and follow
 `.cursor/rules/04-case-figure-and-metric-plan.mdc`. Keep data transformations,
 excluded points, and log-axis zero handling explicit in the manifest and check
 report.
+The exporter records `templateFigureContractVersion` automatically so the
+template-side reader-story extension remains distinguishable from the canonical
+PowerLit contract version.
 
-The default figure profile is `ieee`. It records IEEE-oriented column widths,
-10 pt figure text, optional 8 pt text for complex small figures,
-one-column maximum width for IEEE two-column manuscripts,
-font candidates, preview resolution, accepted submission formats, and the rule
-that color must not be the only visual distinction. Profile values are defaults,
-not a substitute for checking the target journal's current author instructions.
-Use a venue-specific profile when a journal requires different sizes, fonts,
-formats, or axis conventions.
+The default figure profile is `ieee`. `create_figure()` starts at one-column
+width and opens visibly for manual adjustment. The author may select `half-column`, `single-column`, or
+`double-column`, then adjust the aspect ratio, axes, legend, and spacing
+manually. `save_figure` preserves the current figure dimensions by default and
+records the actual width and height in the manifest; set
+`ApplyProfileSize=true` only when an explicit reset to the selected layout is
+wanted. Batch jobs may create figures with `Visible="off"`; `save_figure`
+restores that source state after export while saving the `.fig` artifact with
+visible-on-open behavior. The profile also records 10 pt text, optional 8 pt text for complex
+small figures, font candidates, preview resolution, accepted submission
+formats, and the rule that color must not be the only visual distinction.
 
 Prefer adding shared helpers to this package instead of creating a separate
 `scripts/`, `tools/`, or parallel utility folder. Create a new folder only when

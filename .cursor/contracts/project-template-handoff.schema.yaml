@@ -61,6 +61,20 @@ required_records:
     - manuscriptLocation
     - repairStatus
 
+template_extensions:
+  figure_story:
+    version: "2026.08.10"
+    extendsContractVersion: "2026.07.12"
+    required_records:
+      figure:
+        - templateFigureContractVersion
+        - readerQuestion
+        - engineeringObject
+        - visibleResult
+        - comparedMethods
+        - storyContribution
+        - dataDescription
+
 load_order:
   - ProjectName_note.md
   - ProjectName_changelog.md

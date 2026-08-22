@@ -1,111 +1,96 @@
 # Figure Plan
 
-## 图表计划的产出方式
+## 使用方式
 
-本文件的 figure plan 默认由 `$powerlit-power-systems-paper-writing` 技能生成或修订。该技能的 `references/figures-tables-results.md` 内置「Project-Template Figure Plan Bridge」：检测到 `01_IDEA/figure_plan.md`、`.cursor/rules/04-case-figure-and-metric-plan.mdc` 或 `save_figure` 时，先用 PowerLit 检索目标期刊和问题近邻论文的图表证据实践（该结论类型通常展示哪些图、每类图回答什么审稿问题、使用哪些公认指标、baseline 如何分组、参数/灵敏度图比较哪些范围和横轴组织），再结合本模板规则 `.cursor/rules/04` 的证据角色顺序（`scenario-setup → physical-reproduction → sota-comparison → sensitivity-ablation`）、按数据形状选图型和指标纪律，逐字段产出模板就绪的算例图表计划。
+本文件先规划每个算例要讲清的工程故事，再确定需要哪些图。正式图不是为了展示
+`claimId`、证据状态、检查结果或内部评分，而是让读者直接看到具体工程问题、本文方法
+产生的物理状态或决策变化、与代表性方法的差异，以及最终改善的工程结果。
 
-分工是：PowerLit 提出计划，规则 04 提供结构与强制顺序，`save_figure` 在导出时强制校验元信息与顺序。
+默认使用 `$powerlit-power-systems-paper-writing` 检索目标期刊和问题近邻论文，了解同类
+研究通常展示哪些物理量、采用哪些代表性方法以及如何组织直接对比。文献只提供证据
+实践参考，不自动生成物理复现图、灵敏度图、边界图或指标排行榜。PowerLit 不可用时，
+在下表记录 fallback，并只使用 `03_REFERENCE/`、用户提供文献和已有结果。
 
-产出的计划必须能直接服务 `ProjectName_utils.plotting.save_figure`：每张正式图至少明确结论编号（导出 metadata 字段为 `claimId`）、`evidenceRole`、`sciQuestion`、`physicsReproduction`、指标定义与单位、图形类型、数据文件、视觉编码和缺失结果 blocker。PowerLit 不可用时，在本节记录 fallback 来源，并只依据 `03_REFERENCE/`、用户提供文献或已有结果做保守规划。
+正式图仍通过 `ProjectName_utils.plotting.save_figure` 导出。`contractVersion`、
+`figurePlanId`、`claimId`、`evidenceRole` 和 `physicsReproduction` 属于审计字段，保存在计划和
+manifest 中，但不决定正文图画什么。不是模型精度或可信参照对比的图，
+`physicsReproduction` 填 `not_applicable`。
 
-本文件在导出任何正式算例图之前，先确认正向创新点、理论意义和工程价值，再决定每张图的证据角色、指标和图形类型。
-它对应执行规则 `.cursor/rules/04-case-figure-and-metric-plan.mdc`。
+## 算例故事
 
-填写顺序：先填「创新点锚定」，再按算例填「图清单」。未绑定结论编号的图按诊断图导出（`save_figure(..., "IsDiagnostic", true)`）。
+每个主算例先写成一句完整的话：
 
-## 创新点锚定
-
-创新点锚定正文使用最小可辨识研究对象、工程对象、物理量、模型关系、理论意义、工程价值和可查证算例名称。内部实验配置代号、临时参数组名、分支名或脚本缩写只写入 `claimId`、数据文件、run manifest、Git 记录或配置字段。指标、算例和图表用于支撑理论意义和工程价值。
+```text
+在【系统和运行条件】下，【现有处理方式】出现【读者可直接看到的工程问题】；
+本文方法改变【物理状态、控制动作、模型输出或工程决策】，并通过与【代表性方法】
+在相同条件下的比较，显示【具体工程效果】。
+```
 
 | 项目 | 当前内容 |
 | --- | --- |
-| 对应结论编号 | 【待补充：如 C1；导出 metadata 字段为 `claimId`】 |
-| 创新结构 | 【待补充：本文新建模/新算法/新约束的物理或数学结构】 |
-| 理论意义 | 【待补充：本文对机理认识、模型关系、评价口径或可解释计算的推进】 |
-| 工程价值 | 【待补充：本文对规划、运行、调度、定价、控制、风险评估或工程决策的作用】 |
-| 必须复现的物理场景 | 【待补充：本方法应当还原的真实或可信参照行为】 |
-| 需要修正结论的结果 | 【待补充：什么结果会要求修正结论表述、工程场景或证据状态】 |
+| 对应结论编号 `claimId` | 【待补充，如 C1】 |
+| 系统与运行条件 | 【待补充：网络、设备、时间窗口、扰动、源荷或市场条件】 |
+| 需要直观看到的工程问题 | 【待补充：越限、潮流拥塞、弃电、成本、风险、动作失配等】 |
+| 本文方法改变的对象 | 【待补充：电压、功率、状态、控制动作、容量配置或工程决策】 |
+| 代表性对比方法 | 【待补充：方法名称及相同输入、约束、信息和运行条件】 |
+| 需要直观看到的优势 | 【待补充：相对于具体方法，哪个物理量或工程结果得到改善】 |
+| 解决的实际问题 | 【待补充：该改善对规划、运行、调度、控制、保护或风险决策的作用】 |
+| 图件顺序 | 【待补充：按读者理解顺序列出图号和每张图承接的内容】 |
+| 文献依据或 fallback | 【待补充：PowerLit 检索记录、03_REFERENCE 或用户提供文献】 |
 
-## 证据角色顺序
+这里不要求填写“优势在哪些条件下失效”。适用范围、敏感性、消融、运行时间和极端场景
+仅在论文主张、参数选择或审稿问题需要时加入。
 
-每张正式图声明一个 `evidenceRole`，按结论编号维持以下顺序。`save_figure` 对非诊断图强制该顺序，
-`sota-comparison` 与 `sensitivity-ablation` 不得早于同一结论编号的 `physical-reproduction` 图。
+## 正文图清单
 
-| 角色 | 作用 | 参照对象 |
-| --- | --- | --- |
-| `scenario-setup` | 展示网架、运行工况、输入数据和待复现场景 | 算例自身定义 |
-| `physical-reproduction` | 证明本方法输出能复现真实测量或可信参照解 | 外部或独立可信数据，不得用本文自定义分数 |
-| `sota-comparison` | 在匹配工况下对比最近基线 | 同口径基线方法 |
-| `sensitivity-ablation` | 灵敏度、消融、规模、运行时间、外推 | 变体或参数扫描 |
+一张图可以同时承担问题展示、方法作用和直接对比，不需要为每个环节机械生成一张图。
+标量结果没有可读趋势时优先放入表格。正文图的横纵轴优先使用电压、功率、电流、能量、
+备用、成本、风险、越限、设备动作或工程决策等实际量。
 
-## 填写示例（勿作正式计划）
+| figurePlanId / 图号 | claimId | 读者问题 `readerQuestion` | 工程对象 `engineeringObject` | 图中直接可见的结果 `visibleResult` | 对比方法 `comparedMethods` | 在算例故事中的作用 `storyContribution` | 物理量与单位 | 图型 | 数据文件 | 状态 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 【待补充】 | C1 | 【读者看图后能直接回答的问题】 | 【节点、线路、设备、状态、动作或决策】 | 【问题、变化、差异或工程效果】 | 【本文方法与代表性方法；不适用时填 not_applicable】 | 【本图如何承接前后图并推进完整故事】 | 【名称、定义、单位和方向】 | 【折线、网络图、热图、散点、柱状或表格】 | `result/case33bw/...` | scaffold |
+| 【待补充】 | C2 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/case123/...` | scaffold |
+| 【待补充】 | C3 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/project/...` | scaffold |
 
-下表是一行合格 `physical-reproduction` 图的示例，用来锚定填写标准，展示各字段应有的具体程度。它使用虚构的配电网电压场景，仅供参考，正式计划请删除或忽略本节。
+## 导出审计字段
 
-| figurePlanId / Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| FP-EXAMPLE / FigX（示例） | C1 | physical-reproduction | 本文方法重构的节点电压幅值能否复现全网潮流参照解？ | 参照数据为 MATPOWER 全网 AC 潮流解的各节点电压幅值 | 各节点电压幅值绝对误差 MAE（p.u.，定义见 `symbols.md`；电压幅值误差是配电网状态复现的公认一致性度量） | 叠加折线（本文方法 vs 参照）+ 独立残差子图 | `result/case33bw/voltage_profile.csv` | 示例 |
+下表服务追溯和 `save_figure`，不用于决定正文图内容。`evidenceRole` 保留合同中的
+`scenario-setup`、`physical-reproduction`、`sota-comparison`、
+`sensitivity-ablation`，但不构成固定顺序，也不要求每个算例凑齐四种角色。
 
-说明：物理复现图的参照必须是外部或独立可信量（此处为 AC 潮流解），不能用本文自定义分数；指标要有单位、在 `symbols.md`/`derivation.md` 有定义，并说明为何公认。
+| figurePlanId | contractVersion | claimId | evidenceRole | sciQuestion | physicsReproduction | metric | dataDescription | visualEncoding | targetLayout | command | keyParams | randomSeed |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 【待补充】 | 2026.07.12 | C1 | 【按实际证据用途填写】 | 【本图回答的研究问题】 | 【可信参照；不适用时填 not_applicable】 | 【指标名称、定义、单位和方向】 | 【字段、单位、维度和预处理】 | 【颜色、线型、标记、分组和坐标】 | single-column | `ProjectName_case33bw` | 【待补充】 | 【数值或 not_applicable】 |
 
-## 图清单（按算例填写）
+## 图件可读性检查
 
-### 33 节点配电网主算例（支撑 C1）
+按正文顺序只看图和 caption，确认读者能够回答：
 
-| figurePlanId / Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 【待补充】 | C1 | scenario-setup | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/case33bw/figures/` | scaffold |
-| 【待补充】 | C1 | physical-reproduction | 【待补充】 | 【待补充：真实/参照解】 | 【待补充：对参照的绝对或相对误差】 | 【待补充】 | `result/case33bw/figures/` | scaffold |
-| 【待补充】 | C1 | sota-comparison | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/case33bw/figures/` | scaffold |
+1. 当前算例研究的具体工程问题是什么？
+2. 本文方法改变了什么物理状态、控制动作、模型输出或工程决策？
+3. 与哪些代表性方法在相同条件下进行了比较？
+4. 哪个实际物理量或工程结果显示了本文方法的具体优势？
+5. 该结果解决了什么规划、运行、调度、控制、保护或风险问题？
 
-### 123 节点配电网扩展算例（支撑 C2）
+如果其中一项看不出来，优先调整图的内容、对比方式或顺序，不新增元指标补齐流程。
 
-| figurePlanId / Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 【待补充】 | C2 | scenario-setup | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/case123/figures/` | scaffold |
-| 【待补充】 | C2 | physical-reproduction | 【待补充】 | 【待补充：真实/参照解】 | 【待补充：对参照的绝对或相对误差】 | 【待补充】 | `result/case123/figures/` | scaffold |
-| 【待补充】 | C2 | sota-comparison | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/case123/figures/` | scaffold |
+## 指标和数据约束
 
-### 跨算例汇总（支撑 C3）
+- 图中物理量和工程量必须在 `01_IDEA/symbols.md` 或
+  `01_IDEA/derivation.md` 中有定义、单位、维度和方向。
+- 不同方法使用相同的数据、工况、约束、信息和统计口径。
+- 禁止用自定义综合评分、证据完整度、验证状态、检查通过数量或工作流阶段作为正文
+  主图的优势证据。
+- 只有论文研究对象本身就是某个新指标，且其工程含义和定义已经成立时，才可以把该
+  指标作为主要展示对象。
+- 不得为了视觉效果修改、平滑、删点、重新标度或重命名数据。必要的数据处理写入
+  plot-data、manifest 和检查报告。
 
-| figurePlanId / Fig 编号 | 结论编号 | evidenceRole | 科学问题 | 物理复现目标 / 参照数据 | 指标（定义 + 为何是公认指标） | 图形类型 | 数据文件 | 状态 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 【待补充】 | C3 | scenario-setup | 不同算例的系统规模、工况、参照解和评价口径是否满足同口径汇总条件？ | 列出 C1、C2 已登记的可信参照、输入范围和匹配条件 | 【待补充：系统规模、工况范围和共同评价量，定义见 `symbols.md`】 | 【待补充：表格或分组点图】 | `result/project/figures/` | scaffold |
-| 【待补充】 | C3 | physical-reproduction | 本文方法能否在全部登记算例中复现各算例对应的可信参照物理行为？ | 汇总 C1、C2 非诊断 `physical-reproduction` 结果所使用的真实数据、独立参考解或可信 benchmark；每个算例仍与自身参照逐点比较 | 【待补充：各算例相同定义和单位的绝对误差或相对误差；该量直接度量本文输出与可信参照的一致性】 | 【待补充：按算例分组的配对散点、残差或 ECDF】 | `result/project/figures/` | scaffold |
-| 【待补充】 | C3 | sota-comparison | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/project/figures/` | scaffold |
-| 【待补充】 | C3 | sensitivity-ablation | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/project/figures/` | scaffold |
+## 同步要求
 
-C3 的跨算例物理复现可以复用 C1、C2 已登记的参照数据与结果文件作为输入，但必须单独登记为 `claimId=C3` 的非诊断 `physical-reproduction` 图，并确认各输入图仍为当前版本、使用同定义指标且通过质量检查。C1 或 C2 的 manifest 行不能直接替代 C3 的顺序门禁。
-
-## Figure-first 解释契约
-
-每张正式图必须在导出前用唯一 `figurePlanId` 登记以下字段。它们是待
-检验计划，不是结果事实；MATLAB manifest 只保存 `contractVersion` 和
-`figurePlanId` 引用，不复制主观机理解释。
-
-| figurePlanId | noveltyMode | caseContract | lifecycleStage | expectedTrend | keyFeatureToInspect | mechanismToTest | advantageCriterion | boundaryTest |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| FP-C1 | one-to-hundred | new-method | one-to-hundred-evidence | 【待补充】 | 【阈值/峰值/交叉/尾部/空间簇/残差】 | 【待补充：中间物理量、约束或模块】 | 【待补充：相对哪个基线、何种同口径条件构成优势】 | 【待补充：趋势或优势应减弱、反转或不确定的条件】 |
-| FP-C2 | one-to-hundred | new-method | one-to-hundred-evidence | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 |
-| FP-C3 | mixed | new-framework | zero-to-one-explore | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 |
-
-Skill 读取实际 plot-data CSV、对应 `figure_manifest.jsonl`、检查报告和
-run manifest 后，按“条件 → 趋势 → 关键点 → 定量差异 → 机理 → 回答的
-问题 → 方法优势或权衡 → 工程启示 → 边界”写逐图解释。预期趋势没有被
-实际数据确认时，必须登记为偏离、反转或证据不足，不能按计划措辞写成
-观察结果。
-
-## 指标白名单约束
-
-- 每个指标都绑定到一个结论编号。
-- 每个指标在 `01_IDEA/symbols.md` 或 `01_IDEA/derivation.md` 有定义、单位、量纲和物理含义。
-- 指标是本问题类公认指标，或在使用前已写下定义的推导量。
-- 禁止仅为把物理复现写成结论而新造复合指标。
-- 禁止在 `physical-reproduction` 图中用自定义分数代替外部或可信参照。
-- 禁止在与创新点无关的指标上对方法排名。
-
-## 与其他文件的同步
-
-- 图变为论文证据后，在 `01_IDEA/evidence_map.md` 登记。
-- 若 `physical-reproduction` 图未能匹配参照，先在 `01_IDEA/claims.md`、`ProjectName_note.md` 和 `ProjectName_changelog.md` 修正结论表述、工程场景与研究内容版本记录，再导出该结论编号的 `sota-comparison` 图。
-- 保持 `save_figure` manifest 中的 `contractVersion`、`figurePlanId`、`evidenceRole`、`claimId` 和指标定义与本计划一致。
+- 图成为论文证据后，在 `01_IDEA/evidence_map.md` 登记。
+- 保持图中物理量、方法名称、数据文件和 caption 与本计划一致。
+- 保持 manifest 中的 `contractVersion`、`figurePlanId`、`claimId`、
+  `evidenceRole` 和数据说明与本计划一致。
+- 实际结果与预期不一致时，依据当前数据修改图表解释和结论，不按计划字段补写观察结果。

@@ -1,11 +1,11 @@
 function fig = create_figure(targetLayout, options)
-%CREATE_FIGURE Create an offscreen figure sized from a journal profile.
+%CREATE_FIGURE Create a visible-by-default figure from a journal profile.
 
 arguments
     targetLayout (1,1) string = "single-column"
     options.Profile (1,1) string = "ieee"
     options.AspectRatio (1,1) double {mustBePositive} = 0.72
-    options.Visible (1,1) string = "off"
+    options.Visible (1,1) string = "on"
 end
 
 profile = ProjectName_utils.plotting.figure_profile(options.Profile);
@@ -21,26 +21,8 @@ fig = figure( ...
 end
 
 function [widthCm, heightCm] = target_size_cm(profile, targetLayout, aspectRatio)
-layout = lower(strrep(string(targetLayout), "_", "-"));
-switch layout
-    case {"single-column", "single", "one-column"}
-        widthCm = profile.singleColumnWidthCm;
-    case {"double-column", "double", "two-column"}
-        widthCm = profile.doubleColumnWidthCm;
-    otherwise
-        widthCm = parse_custom_width_cm(layout, profile.singleColumnWidthCm);
-end
-
-widthCm = min(widthCm, profile.maxWidthCm);
+widthCm = ProjectName_utils.plotting.resolve_figure_width( ...
+    profile, targetLayout);
 heightCm = widthCm * aspectRatio;
 heightCm = min(heightCm, profile.maxHeightCm);
-end
-
-function widthCm = parse_custom_width_cm(layout, fallbackCm)
-tokens = regexp(layout, "width-([0-9]+(\.[0-9]+)?)-cm", "tokens", "once");
-if isempty(tokens)
-    widthCm = fallbackCm;
-else
-    widthCm = str2double(tokens{1});
-end
 end

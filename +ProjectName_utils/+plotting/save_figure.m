@@ -13,9 +13,15 @@ function outputs = save_figure(figHandle, outDirOrBase, figName, options)
 %       "contractVersion", "2026.07.12", ...
 %       "figurePlanId", "FP-C1", ...
 %       "claimId", "C1", ...
+%       "metric", "Maximum voltage-limit violation (p.u.)", ...
+%       "readerQuestion", "Which engineering problem and improvement should be visible?", ...
+%       "engineeringObject", "Bus voltage and voltage-limit violations", ...
+%       "visibleResult", "Voltage violations are removed relative to the compared methods", ...
+%       "comparedMethods", "Proposed method; representative baselines", ...
+%       "storyContribution", "Shows the problem, direct comparison, and engineering effect", ...
 %       "sciQuestion", "What engineering question does this figure answer?", ...
-%       "physicsReproduction", "Which actual or reference physical behavior does this case-study result reproduce?", ...
-%       "evidenceRole", "physical-reproduction", ...
+%       "physicsReproduction", "not_applicable", ...
+%       "evidenceRole", "sota-comparison", ...
 %       "dataFiles", "result/case33bw/results.mat", ...
 %       "dataDescription", "Fields, units, dimensions, and preprocessing status.", ...
 %       "visualEncoding", ProjectName_utils.plotting.methodStyle(), ...
@@ -35,14 +41,12 @@ arguments
     options.Script = ""
     options.Command = ""
     options.IsDiagnostic (1,1) logical = false
-    options.AllowSotaBeforePhysical (1,1) logical = false
-    options.OverrideReason (1,1) string = ""
     options.ManifestFile = ""
     options.CheckReportFile = ""
     options.CloseFigure (1,1) logical = true
     options.ExtraFormats string = strings(1, 0)
     options.FigureProfile (1,1) string = "ieee"
-    options.ApplyProfileSize (1,1) logical = true
+    options.ApplyProfileSize (1,1) logical = false
     options.FontSizePt (1,1) double = NaN
     options.UseProfileExtraFormats (1,1) logical = true
     options.LockTimeoutSeconds (1,1) double {mustBePositive} = 30
@@ -89,10 +93,6 @@ manifest = build_manifest(figHandle, figName, fontName, profile, options, output
 [locks, transactionId] = acquire_export_locks(outputs, ...
     options.LockTimeoutSeconds, options.StaleLockSeconds);
 lockCleanup = onCleanup(@() release_export_locks(locks));
-[narrativeOk, overrideUsed] = enforce_evidence_narrative( ...
-    outputs.manifestFile, manifest, options.AllowSotaBeforePhysical);
-manifest.evidenceNarrativeOrdered = narrativeOk;
-manifest.narrativeOverrideUsed = overrideUsed;
 manifest = orderfields(manifest);
 
 stageRoot = create_staging_directory(outputs.outDir, transactionId);
@@ -105,7 +105,7 @@ stageCleanup = onCleanup(@() cleanup_staged_bundle(stagedOutputs, stageRoot));
 
 export_figure_bundle(figHandle, stagedOutputs, options.PlotData, extraFormats, dpi);
 refresh_export_locks(locks);
-checks = run_quality_checks(stagedOutputs, manifest, narrativeOk);
+checks = run_quality_checks(stagedOutputs, manifest);
 stage_metadata_files(outputs, stagedOutputs, manifest, figName, checks);
 refresh_export_locks(locks);
 commit_staged_bundle(stagedOutputs, outputs, obsoletePaths, transactionId, ...
@@ -580,7 +580,7 @@ stagedPath = fullfile(parentDir, stagedName);
 end
 
 function export_figure_bundle(figHandle, outputs, plotData, extraFormats, dpi)
-savefig(figHandle, char(outputs.figFile));
+save_openable_fig(figHandle, outputs.figFile);
 exportgraphics(figHandle, char(outputs.pngFile), "Resolution", dpi);
 
 try
@@ -601,10 +601,24 @@ if ~isequal(string(exportedExtraFiles), string(outputs.extraFiles))
 end
 end
 
+function save_openable_fig(figHandle, figFile)
+originalVisibility = string(figHandle.Visible);
+cleanup = onCleanup(@() restore_figure_visibility(figHandle, originalVisibility));
+figHandle.Visible = "on";
+savefig(figHandle, char(figFile));
+clear cleanup
+end
+
+function restore_figure_visibility(figHandle, visibility)
+if isgraphics(figHandle, "figure")
+    figHandle.Visible = char(visibility);
+end
+end
+
 function stage_metadata_files(outputs, stagedOutputs, manifest, figName, checks)
 stage_manifest_registry(outputs.manifestFile, stagedOutputs.manifestFile, manifest);
 stage_check_report_registry(outputs.checkReportFile, ...
-    stagedOutputs.checkReportFile, figName, checks, manifest);
+    stagedOutputs.checkReportFile, figName, checks);
 end
 
 function stage_manifest_registry(sourceFile, stagedFile, manifest)
@@ -632,7 +646,7 @@ end
 clear cleanup
 end
 
-function stage_check_report_registry(sourceFile, stagedFile, figName, checks, manifest)
+function stage_check_report_registry(sourceFile, stagedFile, figName, checks)
 existingText = "";
 if exist(char(sourceFile), "file") == 2
     existingText = read_utf8_text(sourceFile);
@@ -649,7 +663,7 @@ if strlength(existingText) > 0
 end
 clear cleanup
 ensure_file_ends_with_newline(stagedFile);
-write_check_report(stagedFile, figName, checks, manifest);
+write_check_report(stagedFile, figName, checks);
 end
 
 function text = remove_check_report_entry(text, figName)
@@ -926,6 +940,7 @@ metadata = set_default_field(metadata, "keyParams", struct());
 metadata = set_default_field(metadata, "excludedPoints", "none");
 metadata = set_default_field(metadata, "logAxisThreshold", "not_applicable");
 metadata.matlabVersion = string(version);
+metadata.templateFigureContractVersion = template_figure_contract_version();
 metadata.font = fontName;
 metadata.figureProfile = profile.name;
 metadata.figureProfileSource = profile.source;
@@ -941,13 +956,14 @@ metadata.profilePreviewDpi = profile.previewDpi;
 metadata.profileRasterColorGrayDpi = profile.rasterColorGrayDpi;
 metadata.profileRasterLineArtDpi = profile.rasterLineArtDpi;
 metadata.profileAcceptedSubmissionFormats = profile.acceptedSubmissionFormats;
+metadata.profileHalfColumnWidthCm = profile.halfColumnWidthCm;
 metadata.profileSingleColumnWidthCm = profile.singleColumnWidthCm;
 metadata.profileDoubleColumnWidthCm = profile.doubleColumnWidthCm;
 metadata.profileMaxWidthCm = profile.maxWidthCm;
+[metadata.actualFigureWidthCm, metadata.actualFigureHeightCm] = ...
+    figure_size_cm(figHandle);
 metadata.colormap = summarize_colormap(figHandle);
 metadata.isDiagnostic = options.IsDiagnostic;
-metadata.allowSotaBeforePhysical = options.AllowSotaBeforePhysical;
-metadata.overrideReason = strtrim(string(options.OverrideReason));
 metadata.timestamp = string(datetime("now", "Format", "yyyy-MM-dd HH:mm:ss"));
 metadata.outputFiles = struct( ...
     "fig", outputs.figFile, ...
@@ -963,12 +979,10 @@ if strlength(strtrim(string(options.Command))) > 0
     metadata.command = strtrim(string(options.Command));
 end
 
-if options.AllowSotaBeforePhysical && is_blank(metadata.overrideReason)
-    error("ProjectName_utils:plotting:MissingOverrideReason", ...
-        "AllowSotaBeforePhysical=true requires a nonempty OverrideReason that records the approved reason from 01_IDEA/figure_plan.md.");
-end
-
-requiredFields = ["script", "sciQuestion", "physicsReproduction", "evidenceRole", ...
+requiredFields = ["script", "templateFigureContractVersion", ...
+    "readerQuestion", "engineeringObject", ...
+    "visibleResult", "comparedMethods", "storyContribution", ...
+    "sciQuestion", "physicsReproduction", "evidenceRole", "metric", ...
     "dataFiles", "dataDescription", ...
     "visualEncoding", "targetLayout", "command", "keyParams", "randomSeed"];
 if ~options.IsDiagnostic
@@ -983,7 +997,7 @@ for k = 1:numel(requiredFields)
 end
 if ~isempty(missingFields)
     error("ProjectName_utils:plotting:MissingMetadata", ...
-        "Missing figure metadata: %s. Do not export formal figures until the claim id, scientific question, physical reproduction target, evidence role, data source, data fields/units, visual encoding, target layout, command, key parameters, and random seed/status are explicit.", ...
+        "Missing figure metadata: %s. Do not export formal figures until the reader question, engineering object, visible result, comparison basis, case-story contribution, claim id, audit fields, metric, data source, fields/units, visual encoding, target layout, command, key parameters, and random seed/status are explicit.", ...
         strjoin(missingFields, ", "));
 end
 
@@ -1002,8 +1016,23 @@ if ~isscalar(role) || ~ismember(role, validRoles)
         strjoin(role, ", "), strjoin(validRoles, ", "));
 end
 metadata.evidenceRole = role;
+ProjectName_utils.plotting.resolve_figure_width(profile, metadata.targetLayout);
 
 manifest = orderfields(metadata);
+end
+
+function versionText = template_figure_contract_version()
+versionText = "2026.08.10";
+end
+
+function [widthCm, heightCm] = figure_size_cm(figHandle)
+originalUnits = figHandle.Units;
+cleanup = onCleanup(@() set(figHandle, 'Units', char(originalUnits)));
+figHandle.Units = "centimeters";
+position = figHandle.Position;
+widthCm = position(3);
+heightCm = position(4);
+clear cleanup
 end
 
 function value = infer_caller_script()
@@ -1064,70 +1093,6 @@ end
 function roles = canonical_evidence_roles()
 roles = ["scenario-setup", "physical-reproduction", "sota-comparison", ...
     "sensitivity-ablation"];
-end
-
-function [narrativeOk, overrideUsed] = enforce_evidence_narrative( ...
-        manifestFile, manifest, allowSotaBeforePhysical)
-narrativeOk = true;
-overrideUsed = false;
-if manifest.isDiagnostic
-    return
-end
-role = string(manifest.evidenceRole);
-if ~ismember(role, ["sota-comparison", "sensitivity-ablation"])
-    return
-end
-
-claimId = string(manifest.claimId);
-existing = read_existing_manifest(manifestFile, manifest);
-hasPhysical = false;
-for k = 1:numel(existing)
-    if existing(k).isDiagnostic || ...
-            existing(k).evidenceRole ~= "physical-reproduction"
-        continue
-    end
-    if existing(k).claimId == claimId
-        hasPhysical = true;
-        break
-    end
-end
-
-if ~hasPhysical
-    narrativeOk = false;
-    if ~allowSotaBeforePhysical
-        error("ProjectName_utils:plotting:NarrativeOrder", ...
-            "Evidence role '%s' for claim '%s' requires a prior 'physical-reproduction' figure for the same claim in %s. Register a case-study physical-reproduction figure first, or set AllowSotaBeforePhysical to true with a recorded reason in 01_IDEA/figure_plan.md.", ...
-            role, claimId, manifestFile);
-    end
-    overrideUsed = true;
-end
-end
-
-function info = read_existing_manifest(manifestFile, currentManifest)
-info = struct("evidenceRole", {}, "claimId", {}, "isDiagnostic", {});
-rows = read_manifest_rows(manifestFile);
-for k = 1:numel(rows)
-    row = rows{k};
-    if manifest_rows_match(row, currentManifest)
-        continue
-    end
-    role = "";
-    if isfield(row, "evidenceRole")
-        role = lower(strtrim(string(row.evidenceRole)));
-    end
-    claim = "";
-    if isfield(row, "claimId")
-        claim = strtrim(string(row.claimId));
-    end
-    isDiagnostic = false;
-    if isfield(row, "isDiagnostic")
-        isDiagnostic = logical_scalar(row.isDiagnostic);
-    end
-    info(end + 1) = struct( ...
-        "evidenceRole", role, ...
-        "claimId", claim, ...
-        "isDiagnostic", isDiagnostic); %#ok<AGROW>
-end
 end
 
 function rows = read_manifest_rows(manifestFile)
@@ -1216,19 +1181,7 @@ if ~ismember(lastByte, uint8([10, 13]))
 end
 end
 
-function value = logical_scalar(rawValue)
-if islogical(rawValue) && isscalar(rawValue)
-    value = rawValue;
-elseif isnumeric(rawValue) && isscalar(rawValue)
-    value = rawValue ~= 0;
-elseif (ischar(rawValue) || isstring(rawValue)) && isscalar(string(rawValue))
-    value = ismember(lower(strtrim(string(rawValue))), ["true", "1", "yes"]);
-else
-    value = false;
-end
-end
-
-function checks = run_quality_checks(outputs, manifest, narrativeOk)
+function checks = run_quality_checks(outputs, manifest)
 checks = struct();
 checks.figGenerated = file_exists(outputs.figFile);
 checks.pngGenerated = file_exists(outputs.pngFile);
@@ -1243,10 +1196,7 @@ checks.claimBound = manifest.isDiagnostic || ...
 checks.figurePlanLinked = manifest.isDiagnostic || ...
     (isfield(manifest, "contractVersion") && ~is_blank(manifest.contractVersion) && ...
     isfield(manifest, "figurePlanId") && ~is_blank(manifest.figurePlanId));
-checks.evidenceNarrativeOrdered = narrativeOk;
-checks.narrativeOverrideUsed = manifest.narrativeOverrideUsed;
-checks.overrideReasonRecorded = ~manifest.allowSotaBeforePhysical || ...
-    ~is_blank(manifest.overrideReason);
+checks.readerStoryRecorded = reader_story_complete(manifest);
 checks.manualReadabilityReviewRequired = true;
 checks.manualLegendReviewRequired = true;
 checks.manualAxisLabelDensityReviewRequired = true;
@@ -1286,22 +1236,37 @@ catch
 end
 end
 
+function tf = reader_story_complete(manifest)
+fields = ["readerQuestion", "engineeringObject", "visibleResult", ...
+    "comparedMethods", "storyContribution"];
+tf = true;
+for k = 1:numel(fields)
+    fieldName = fields(k);
+    tf = tf && isfield(manifest, fieldName) && ~is_blank(manifest.(fieldName));
+end
+end
+
 function tf = manifest_complete(manifest)
-requiredFields = ["figNo", "figName", "claimId", "sciQuestion", "physicsReproduction", ...
-    "evidenceRole", "dataFiles", ...
+requiredFields = ["figNo", "figName", "claimId", ...
+    "templateFigureContractVersion", "readerQuestion", ...
+    "engineeringObject", "visibleResult", "comparedMethods", ...
+    "storyContribution", "sciQuestion", "physicsReproduction", ...
+    "evidenceRole", "metric", "dataFiles", ...
     "dataDescription", "visualEncoding", "targetLayout", "script", ...
     "command", "keyParams", "randomSeed", "matlabVersion", "font", ...
     "figureProfile", "profilePreviewDpi", ...
     "colormap", "isDiagnostic", "excludedPoints", "logAxisThreshold", ...
-    "allowSotaBeforePhysical", "overrideReason", ...
-    "evidenceNarrativeOrdered", "narrativeOverrideUsed", "timestamp"];
+    "actualFigureWidthCm", "actualFigureHeightCm", "timestamp"];
 tf = true;
 for k = 1:numel(requiredFields)
     fieldName = requiredFields(k);
     tf = tf && isfield(manifest, fieldName);
 end
-valueFields = ["figNo", "figName", "sciQuestion", "physicsReproduction", ...
-    "evidenceRole", "dataFiles", "dataDescription", "visualEncoding", ...
+valueFields = ["figNo", "figName", "templateFigureContractVersion", ...
+    "readerQuestion", "engineeringObject", ...
+    "visibleResult", "comparedMethods", "storyContribution", ...
+    "sciQuestion", "physicsReproduction", "evidenceRole", "metric", "dataFiles", ...
+    "dataDescription", "visualEncoding", ...
     "targetLayout", "script", "command", "keyParams", "randomSeed", ...
     "matlabVersion", "font", "figureProfile", "colormap", "timestamp"];
 for k = 1:numel(valueFields)
@@ -1315,7 +1280,7 @@ if isfield(manifest, "isDiagnostic") && ~manifest.isDiagnostic
 end
 end
 
-function write_check_report(reportFile, figName, checks, manifest)
+function write_check_report(reportFile, figName, checks)
 ensure_file_ends_with_newline(reportFile);
 fid = fopen(char(reportFile), 'a', 'n', 'UTF-8');
 if fid < 0
@@ -1340,14 +1305,16 @@ fprintf(fid, "| Manifest fields complete | %s |\n", status_text(checks.manifestC
 fprintf(fid, "| Figure profile recorded in manifest | %s |\n", status_text(checks.figureProfileRecorded));
 fprintf(fid, "| Formal figure bound to a real claim id, or marked diagnostic | %s |\n", status_text(checks.claimBound));
 fprintf(fid, "| Formal figure linked to contract version and figure plan | %s |\n", status_text(checks.figurePlanLinked));
-fprintf(fid, "| Evidence-role narrative ordered (physical reproduction before SOTA/sensitivity) | %s |\n", status_text(checks.evidenceNarrativeOrdered));
-fprintf(fid, "| Narrative override reason recorded when enabled | %s |\n", status_text(checks.overrideReasonRecorded));
-fprintf(fid, "| Narrative override used | %s |\n", yes_no_text(checks.narrativeOverrideUsed));
+fprintf(fid, "| Reader-facing engineering-story metadata recorded | %s |\n", status_text(checks.readerStoryRecorded));
 fprintf(fid, "| Data was not changed for visual effect; any filtering or transform is declared | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Text, axes, legend, lines, and markers readable at target size | REVIEW_REQUIRED |\n");
+fprintf(fid, "| Actual dimensions match the intended half-, single-, or double-column placement | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Target journal instructions checked against the active figure profile | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Final submission format and raster resolution satisfy the target venue | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Metric is claim-relevant, defined in symbols/derivation, and a recognized or derived quantity | REVIEW_REQUIRED |\n");
+fprintf(fid, "| Main axes show a physical, operational, or engineering quantity rather than workflow or evidence metadata | REVIEW_REQUIRED |\n");
+fprintf(fid, "| Compared methods use matched inputs, constraints, information, and operating conditions | REVIEW_REQUIRED |\n");
+fprintf(fid, "| The figure visibly advances the case story through the problem, method action, direct comparison, or engineering effect | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Legend is in-axes when suitable and does not cover key curves, bars, peaks, or uncertainty bands | REVIEW_REQUIRED |\n");
 fprintf(fid, "| X-axis labels are not too dense | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Structured labels use domain-readable forms | REVIEW_REQUIRED |\n");
@@ -1355,10 +1322,6 @@ fprintf(fid, "| Method color, line style, and marker match methodStyle | REVIEW_
 fprintf(fid, "| Formal figure uses an independent exported subfigure layout | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Methods remain distinguishable in grayscale | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Log-axis zero handling and excluded points are declared | REVIEW_REQUIRED |\n\n");
-if manifest.allowSotaBeforePhysical
-    reason = markdown_inline_text(manifest.overrideReason);
-    fprintf(fid, "- Narrative override reason: %s\n\n", reason);
-end
 end
 
 function text = status_text(tf)
@@ -1367,18 +1330,4 @@ if tf
 else
     text = "FAIL";
 end
-end
-
-function text = yes_no_text(tf)
-if tf
-    text = "YES";
-else
-    text = "NO";
-end
-end
-
-function text = markdown_inline_text(value)
-text = strtrim(string(value));
-text = regexprep(text, '[\r\n]+', ' ');
-text = replace(text, "|", "\|");
 end

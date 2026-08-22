@@ -1,6 +1,6 @@
 # project-template-lite
 
-Version: 2026.07.12
+Version: 2026.08.15
 
 > 📌 面向电力系统方向的科研论文，帮助研究者把代码、数据、结果、图表和论文材料整理成一套可复现、可追溯、可交接的研究档案。
 
@@ -8,7 +8,7 @@ Version: 2026.07.12
 
 模板的核心判断是：`data/` 保存复现实验所需的输入；`cache/` 只保存可以重新生成的中间结果；论文里的重要结论应能追溯到运行脚本、`run_manifest.json`、结果文件和证据状态。
 
-[📝 版本更新记录](#版本更新记录) · [📌 使用场景](#使用场景) · [🚀 三分钟上手](#三分钟上手) · [🧩 模板管理哪些材料](#模板管理哪些材料) · [🛠️ 常见任务怎么做](#常见任务怎么做) · [🔁 推荐使用流程](#推荐使用流程) · [📂 目录结构](#目录结构) · [🤖 AI 助手兼容](#ai-助手兼容) · [🧪 运行环境与 smoke test](#运行环境与-smoke-test) · [✅ 提交前检查清单](#提交前检查清单) · [🔒 使用约定](#使用约定)
+[📝 版本更新记录](#版本更新记录) · [📌 使用场景](#使用场景) · [🚀 三分钟上手](#三分钟上手) · [🧩 模板管理哪些材料](#模板管理哪些材料) · [🛠️ 常见任务怎么做](#常见任务怎么做) · [🔁 推荐使用流程](#推荐使用流程) · [📂 目录结构](#目录结构) · [🤖 AI 助手兼容](#ai-助手兼容) · [🧪 运行环境与验证](#运行环境与验证) · [✅ 提交前检查清单](#提交前检查清单) · [🔒 使用约定](#使用约定)
 
 ---
 
@@ -16,17 +16,18 @@ Version: 2026.07.12
 
 仅保留最近 10 个日期版本；同一日期的多项修改合并为一条。
 
-- 2026-07-12：在 `.cursor/` 中统一版本化 PowerLit handoff contract 与 AI 规则，新增受版本控制的 paper profile、创新/生命周期字段和按创新类型选择的对外叙事路线，联通 Figure-first 计划、run/figure manifest、投稿一致性报告与返修工件，并扩展 MATLAB smoke。
-- 2026-07-10：新增证据约束的 `ProjectName_blog.md`，修复正式图事务式导出、并发锁、异常回滚与 claim 门禁，补齐失败运行 manifest、递归输入 SHA-256 指纹和跨平台重命名，并增加完整 smoke suite。
+- 2026-08-15：删除模板自带的 MATLAB 验证套件及默认执行入口，部署或复制模板时不再自动启动 MATLAB；项目验证由作者按实际研究代码显式配置。
+- 2026-08-10：对齐 PowerLit 基础 figure handoff 与模板侧读者故事扩展，正式 manifest 强制记录 `metric` 和模板扩展版本；验证代码结构化读取合同字段并核对实际导出 manifest；未知图形布局不再静默回退到单栏。
+- 2026-08-09：将算例图表改为读者可直接理解的工程故事，正文图围绕具体问题、本文方法的物理或决策作用、代表性方法直接对比和实际工程效果组织；取消“物理复现图必须先于方法对比图”的导出顺序门禁，禁止用证据状态、检查数量和自定义综合评分等元指标自动补图；正式图默认以可见的单栏图窗创建，也可选择半栏或双栏并在导出前人工调整，`save_figure` 默认保留实际尺寸，并确保批处理生成的 `.fig` 双击打开时可见。
+- 2026-07-13：新增项目研究目的立项基线，以 `01_IDEA/story.md` 为唯一人工事实源，并同步到研究笔记、paper profile、changelog 和验证契约；将 `ProjectName_blog.md` 恢复为故事型模板，按真实工程问题、参照、困境、关键转折、项目处理、结果闭合和工程升维推进，移除定位卡、路线标签和过多元叙述；新增研究对象、应用场景与证据场景分离门禁，防止主要算例反向限定通用方法。
+- 2026-07-12：在 `.cursor/` 中统一版本化 PowerLit handoff contract 与 AI 规则，新增受版本控制的 paper profile、创新/生命周期字段和按创新类型选择的对外叙事路线，联通 Figure-first 计划、run/figure manifest、投稿一致性报告与返修工件，并扩展 MATLAB 验证。
+- 2026-07-10：新增证据约束的 `ProjectName_blog.md`，修复正式图事务式导出、并发锁、异常回滚与 claim 门禁，补齐失败运行 manifest、递归输入 SHA-256 指纹和跨平台重命名，并增加完整验证套件。
 - 2026-07-07：要求项目引言和创新点先提炼理论意义与工程价值，指标、算例和图表承担证据支撑作用。
 - 2026-07-06：集中更新写作契约，补充创新层级记录、引言草稿位置、PowerLit 使用边界、词表硬禁用/慎用规则和领域通用术语要求，并移除 `.agents/`、`.agent/` 兼容路径，改由 `GEMINI.md` 引导 Gemini CLI / Antigravity 读取共享规则。
 - 2026-07-05：增加 Gemini CLI / Antigravity 兼容入口 `GEMINI.md`，明确 `AGENTS.md` 与 `.cursor/rules/` 为共享规则源，并强化最小可辨识研究对象、正向创新写作、工程痛点、模型关系、可验证输出和证据来源的组织方式。
 - 2026-07-04：新增 `ProjectName_changelog.md` 作为研究内容 changelog，将 `ProjectName_note.md` 的长更新记录移出，并要求研究内容版本按日期倒序登记。
 - 2026-07-03：补齐算例级 `run_manifest.json`、分叉探索记录、case 注册表和图表计划填写标准，统一 run manifest 与 trace schema，去掉 `ProjectName.m` 的 `cd` 副作用，并将 04 图表与指标规划规则纳入 agent 入口。
 - 2026-06-30：将版本更新记录改为倒序，并补充参数图绘制前的 SOTA 参数调研规则。
-- 2026-06-28：细化正式论文图规则，默认使用 IEEE 双栏论文的一栏宽度和 10 pt 字号，复杂小图可显式使用 8 pt，并明确算例分析中物理复现优先的强制图组顺序、SOTA 对比图例、本文方法消融图例、中英文图例转换口径、折线图/柱状图图内图例建议，以及生成绘图代码前的文献图表调研步骤。
-- 2026-06-27：看完了《MATLAB×AI：科研绘图与学术图表智能绘制一本通》这本书，强化了模板的绘图功能，统一正式论文图的尺寸、字体、分辨率和导出配置。
-- 2026-06-14：重写 README 为中文上手入口，按使用场景、三分钟上手、常见任务、推荐流程和提交前检查组织模板说明。
 
 ---
 
@@ -54,16 +55,17 @@ Version: 2026.07.12
    - `+ProjectName_core/`
    - `+ProjectName_utils/`
    - `+ProjectName_sota/`
-3. 复制 `02_PAPER/config/paper-profile.example.yaml` 为受版本控制的
-   `paper-profile.yaml`，确认目标期刊、最小研究对象、创新四轴、叙事、
+3. 在 `01_IDEA/story.md` 确认项目研究目的的立项基线，填写基线状态、版本、预期产出、非目标与范围边界。后续实质修订必须记录原因并进入 `ProjectName_changelog.md`。
+4. 复制 `02_PAPER/config/paper-profile.example.yaml` 为受版本控制的
+   `paper-profile.yaml`，同步 `researchPurpose`，并确认目标期刊、最小研究对象、创新四轴、叙事、
    生命周期和证据边界。
-4. 填 `01_IDEA/story.md`，判定最小可辨识研究对象、研究领域、具体工程对象和研究方向，写清楚工程痛点、物理原因和科学问题。
-5. 再填 `01_IDEA/claims.md`，用正向技术句把可验证结论绑定到创新轴、幅度、算例契约、生命周期、证据编号和验证标准。
-6. 在 `01_IDEA/symbols.md` 登记符号、单位、维度和代码变量映射。
-7. 把完整复现输入放入 `data/`，包括原始数据、算例文件、参数表和必要外部输入。
-8. 先在 `01_IDEA/figure_plan.md` 登记 Figure-first 证据问题、预期趋势、关键点、待检验机理、优势判据和边界，再运行正式导出。
-9. 把正式计算写进根目录的 `ProjectName_case*.m`，把可复用函数放入对应 MATLAB 包目录。
-10. 在 MATLAB 中进入项目根目录，运行一个正式算例：
+5. 继续填写 `01_IDEA/story.md`，判定最小可辨识研究对象、研究领域、具体工程对象和研究方向，写清楚工程痛点、物理原因和科学问题。
+6. 再填 `01_IDEA/claims.md`，用正向技术句把可验证结论绑定到创新轴、幅度、算例契约、生命周期、证据编号和验证标准。
+7. 在 `01_IDEA/symbols.md` 登记符号、单位、维度和代码变量映射。
+8. 把完整复现输入放入 `data/`，包括原始数据、算例文件、参数表和必要外部输入。
+9. 先在 `01_IDEA/figure_plan.md` 登记 Figure-first 证据问题、预期趋势、关键点、待检验机理、优势判据和边界，再运行正式导出。
+10. 把正式计算写进根目录的 `ProjectName_case*.m`，把可复用函数放入对应 MATLAB 包目录。
+11. 在 MATLAB 中进入项目根目录，运行一个正式算例：
 
 ```matlab
 ProjectName_case33bw
@@ -181,11 +183,11 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 
 | 对象 | 放置位置 | 交付要求 |
 | --- | --- | --- |
-| 研究故事线 | `01_IDEA/story.md` | 判定最小可辨识研究对象，说明工程需求、现有不足、痛点问题、物理原因和科学问题 |
+| 研究目的与故事线 | `01_IDEA/story.md` | 保存项目研究目的的立项基线，判定最小可辨识研究对象，说明工程需求、现有不足、痛点问题、物理原因和科学问题 |
 | 待验证结论 | `01_IDEA/claims.md` | 用正向技术句记录结论编号、工程场景、证据编号、验证标准和当前状态 |
 | 数学推导 | `01_IDEA/derivation.md` | 记录变量、假设、公式、近似、建模前提和输入数据 |
 | 符号和单位 | `01_IDEA/symbols.md` | 统一论文符号、单位、维度和代码变量名 |
-| 对外叙事参考 | `ProjectName_blog.md` | 按创新轴、技术对象和叙事路线组织工程说明，保留适用范围、证据来源和证据状态，不作为证据索引或论文正文模板 |
+| 对外叙事参考 | `ProjectName_blog.md` | 用“起、承、转、合、升”讲清一个工程故事，证据约束留在研究档案和简短边界说明中，不作为证据索引或论文正文模板 |
 | 研究档案 | `ProjectName_note.md` | 汇总问题、路线、模型、结果、工程场景、引言思路和写作检查 |
 | 研究版本 | `ProjectName_changelog.md` | 按日期倒序记录研究内容的实质修改和追溯入口 |
 | 正式算例 | `ProjectName_case*.m` | 编排配置、输入检查、本文方法、对比方法、指标、结果和出图 |
@@ -211,7 +213,7 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 | 增加对比算法 | `+ProjectName_sota/README.md` | `+ProjectName_sota/+<算法族>/` | 与本文方法共用数据、指标和约束口径 |
 | 生成正式图 | `result/<算例名>/figures/README.md` | `+ProjectName_utils/+plotting/`、算例出图调用 | `.fig/.png/.svg`、CSV、追溯记录和检查报告齐全 |
 | 写论文段落 | `ProjectName_note.md` | `02_PAPER/` 或外部稿件 | 重要结论能追到结论记录、公式、结果和证据状态 |
-| 写对外介绍 | `ProjectName_blog.md`、`ProjectName_note.md` | `ProjectName_blog.md`，必要时同步 `story.md`、`claims.md` 或 `ProjectName_changelog.md` | blog 使用已确认的创新轴、技术对象和叙事路线，项目判断可追到范围、证据来源和证据状态，且未把叙事文案当成论文证据 |
+| 写对外介绍 | `ProjectName_blog.md`、`ProjectName_note.md` | `ProjectName_blog.md`，必要时同步 `story.md`、`claims.md` 或 `ProjectName_changelog.md` | blog 围绕一个工程问题连续推进，减少定位卡、路线标签和写作过程说明；项目判断仍可追到范围、证据来源和证据状态 |
 | 投稿前复核 | `01_IDEA/evidence_map.md` | `ProjectName_note.md`、`ProjectName_changelog.md`、结果目录、稿件材料 | 证据、模型、指标、工程场景和结论表述一致 |
 | 交接项目 | `ProjectName_note.md` | README、研究笔记、研究版本、想法文件、结果索引 | 合作者能从根入口复现或定位待补项 |
 
@@ -231,7 +233,7 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 
 ### 从研究想法到待验证结论
 
-1. 在 `01_IDEA/story.md` 判定最小可辨识研究对象、研究领域、具体工程对象和研究方向，写清楚工程需求、现有不足、痛点问题、物理原因和科学问题。
+1. 在 `01_IDEA/story.md` 先确认项目研究目的的立项基线，再判定最小可辨识研究对象、研究领域、具体工程对象和研究方向，写清楚工程需求、现有不足、痛点问题、物理原因和科学问题。
 2. 在 `01_IDEA/claims.md` 把研究想法写成正向可验证结论，记录工程场景、证据编号和验证判据。
 3. 在 `01_IDEA/research_trace.yaml` 记录关键决策、分叉探索、失败路径、路线转向和未解决问题。
 4. 在 `ProjectName_note.md` 同步公开研究档案。
@@ -263,7 +265,7 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 ### 从研究档案到对外介绍
 
 1. 从 `paper-profile.yaml` 和 `story.md` 确认最小可辨识研究对象、主创新轴、技术对象、叙事路线、创新幅度、生命周期和证据边界。
-2. 在 `ProjectName_blog.md` 用“起、承、转、合、升”组织从工程实际问题到关键关系、物理机理、现有不足、本文处理和工程含义的总体推进；主创新轴决定故事中心，技术对象决定解释层级，`narrativeArc` 决定各环节的篇幅重心。
+2. 在 `ProjectName_blog.md` 用“起、承、转、合、升”讲清一个工程故事：从真实问题进入，经由对象解释、困境与关键转折，落到本文处理、结果闭合和有范围的工程含义。开篇先区分研究对象、应用场景和证据场景，不能让主要算例反向限定通用方法；创新轴和 `narrativeArc` 只在写作准备中控制重心，不作为正文标签。
 3. 项目特有判断必须能追到 `claims.md`、`derivation.md`、`evidence_map.md`、登记结果或已核查文献。作者经验和工程直觉只能形成 `仅为当前假设`、`尚未验证` 或 `文献待核查` 的问题，不能单独支撑强结论。
 4. blog 只提供对外叙事顺序，不提供论文证据或可直接粘贴的正文。Introduction 和 Contributions 必须从研究笔记、结论、推导、登记结果与参考文献重新提炼和改写。
 5. 当 `story.md`、`claims.md`、`evidence_map.md` 或正式结果改变了对外叙事时，同步检查 `ProjectName_blog.md` 是否需要改写。
@@ -308,7 +310,7 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 
 `ProjectName_note.md` 是给作者和合作者看的主研究笔记。它记录项目当前认识的公开版本，包括最小可辨识研究对象、研究问题、工程场景、关键决策、结果状态、引言思路和写作检查。
 
-`ProjectName_blog.md` 是证据约束的对外叙事参考。它推荐用“起、承、转、合、升”完成从工程实际问题到关键关系、物理机理、现有不足、本文处理和工程含义的总体推进。主创新轴决定文章中心，技术对象决定解释物理因果、模型映射、计算性质、状态响应、成立条件、观测能力或决策关系中的哪一层，`narrativeArc` 决定各环节的篇幅重心。它不是证据索引，也不是论文正文模板；每项项目判断都要能追到适用范围、证据来源和证据状态。
+`ProjectName_blog.md` 是证据约束的故事型对外叙事参考。它用“起、承、转、合、升”从一个真实工程问题进入，逐步解释对象、参照、困境、关键关系、思路转换、项目处理和更大的工程含义。创新轴、技术对象和 `narrativeArc` 留在写作准备与研究档案中，不以定位卡、路线标签或审计表打断正文。它不是证据索引，也不是论文正文模板；每项项目判断仍要能追到适用范围、证据来源和证据状态。
 
 `ProjectName_changelog.md` 记录研究内容版本。它使用 `YYYY-MM-DD` 作为版本号，最新记录放在最前，每条先用一句话说明该版本修改了什么。它不记录模板本身的发布历史，模板历史仍放在 README 的“版本更新记录”。
 
@@ -396,7 +398,7 @@ result/<算例名>/figures/
 ProjectName_utils.plotting.save_figure(...)
 ```
 
-默认图表 profile 为 `ProjectName_utils.plotting.figure_profile("ieee")`。默认字号为 10 pt，图宽按 IEEE 双栏论文中的一栏设置，不超过 `8.89 cm`。复杂小图可以显式使用 8 pt，例如 `save_figure(..., "FontSizePt", 8)`，并在 manifest 中记录实际字号。新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 创建图窗，再调用 `save_figure` 导出证据包；默认 profile 会把更宽的 layout 请求截到一栏宽度。目标期刊给出更具体的字体、尺寸、分辨率、格式或坐标轴要求时，以目标期刊为准。
+默认图表 profile 为 `ProjectName_utils.plotting.figure_profile("ieee")`。`create_figure()` 默认创建可见的单栏宽度 `8.89 cm` 初始图窗，也可以显式选择 `half-column`、`single-column` 或 `double-column`。选定初始布局后，由作者手动调整长宽比、坐标区、图例和留白。批处理可以显式设置 `Visible="off"`；`save_figure` 导出后恢复源图窗状态，但保存的 `.fig` 双击打开时保持可见。`save_figure` 默认保留当前图窗尺寸，并在 manifest 中记录实际宽高；只有显式设置 `ApplyProfileSize=true` 时才按 metadata 的 `targetLayout` 重置尺寸。默认字号为 10 pt，复杂小图可以显式使用 8 pt。目标期刊给出更具体要求时，以目标期刊为准。
 
 每张正式图至少生成：
 
@@ -409,17 +411,20 @@ ProjectName_utils.plotting.save_figure(...)
 
 正式图导出前必须明确：
 
-- 图要回答的科学或工程问题。
-- 本文方法要复现的物理实际、参考物理行为或可信 benchmark。
-- 这张图的证据角色，例如物理复现、SOTA 对比、消融、运行时间或泛化。
+- 读者看图后能够直接回答的工程问题。
+- 图中展示的工程对象、物理量、控制动作或工程决策。
+- 图中可以直接看到的问题、方法作用、方法差异或工程效果。
+- 代表性对比方法及其相同输入、约束、信息和运行条件。
+- 这张图在完整算例故事中承担的作用。
+- 科学问题和审计用 `evidenceRole`；没有可信参照复现任务时，`physicsReproduction` 填 `not_applicable`。
 - 数据文件、字段含义、单位、维度和预处理状态。
 - 全局视觉编码。
 - 目标排版尺寸，默认使用 `single-column`，即 IEEE 双栏论文中的一栏宽度。
 - 运行命令、关键参数和随机种子，或明确写 `not_applicable`。
 
-`ProjectName_utils.plotting.save_figure` 会检查图表元信息。缺少 `claimId`、`sciQuestion`、`physicsReproduction`、`evidenceRole`、`dataFiles`、`dataDescription`、`visualEncoding`、`targetLayout`、`command`、`keyParams` 或 `randomSeed` 时，不允许导出正式图。`claimId` 是结论编号 metadata；`evidenceRole` 必须取 `scenario-setup`、`physical-reproduction`、`sota-comparison` 或 `sensitivity-ablation`；同一结论编号的 `sota-comparison` 或 `sensitivity-ablation` 图不得早于其 `physical-reproduction` 图导出。导出前先在 `01_IDEA/figure_plan.md` 完成图与指标计划，见 `.cursor/rules/04-case-figure-and-metric-plan.mdc`。
+`ProjectName_utils.plotting.save_figure` 会检查图表元信息。缺少 `readerQuestion`、`engineeringObject`、`visibleResult`、`comparedMethods`、`storyContribution`、`claimId`、`sciQuestion`、`physicsReproduction`、`evidenceRole`、`metric`、`dataFiles`、`dataDescription`、`visualEncoding`、`targetLayout`、`command`、`keyParams` 或 `randomSeed` 时，不允许导出正式图。`evidenceRole` 仍使用合同中的四个取值，但只承担审计分类，不形成固定图序，也不要求每个算例凑齐四类图。`templateFigureContractVersion` 由导出器自动记录，用于标识模板侧的读者故事扩展，不改变 PowerLit 基础合同版本。
 
-使用本模板时，默认调用 `$powerlit-power-systems-paper-writing` 生成或修订 `01_IDEA/figure_plan.md`。该技能的 `figures-tables-results.md` 内置 Project-Template Figure Plan Bridge：先用 PowerLit 从目标期刊和问题近邻文献学习图表证据链，再按规则 04 的证据角色顺序给出结论编号、`evidenceRole`、`sciQuestion`、`physicsReproduction`、公认指标、图形类型、数据文件、视觉编码和 `save_figure` metadata；PowerLit 不可用时，才退回 `03_REFERENCE/`、用户提供文献或联网检索，并在计划中写明 fallback。
+使用本模板时，默认调用 `$powerlit-power-systems-paper-writing` 检索目标期刊和问题近邻论文，学习同类工程问题通常展示哪些物理量、如何选择代表性方法以及怎样组织直接对比。模板先写完整算例故事，再生成图清单。文献中的物理复现、灵敏度、消融、运行时间或边界图只有在当前论文主张需要时才进入计划，不能按固定证据角色自动补齐。
 
 生成正式绘图代码前，先看相近论文如何展示同类结果。优先查 `03_REFERENCE/` 中已收集文献和 PowerLit 检索结果；本地材料不足时，再联网检索最近或最接近的论文。调研时记录这些信息：论文来源、图型、指标组织、baseline 分组、消融是否单独成图、坐标轴与图例写法、是否使用多 case 或运行时间对比。模板只学习展示方式和组织逻辑，不照搬其他论文的数据、结论、caption 或完整视觉样式。
 
@@ -431,11 +436,11 @@ ProjectName_utils.plotting.save_figure(...)
 
 模板的正式出图默认服务于论文的算例分析或实验结果部分，不默认生成原理说明图、机制设计图、算法流程图或理论框架图。算例介绍需要的测试系统、源荷时序、概率分布、场景集和样本特征图，可以先于结果图出现。
 
-构思正式结果图时，强制先登记“物理复现图组”。这组图属于算例分析结果图，用 `本文方法` 的模型输出复现真实测量、高保真仿真、解析参考、可信 benchmark 或已知物理约束下的实际物理行为，例如状态量、约束阈值、源荷时序响应、概率分布、空间趋势或可行运行状态。先完成这组图，再生成 SOTA 对比、运行时间、泛化、消融或多指标排名图。
+正式结果图按一个完整、独立的工程故事组织：先让读者看到具体问题，再看到本文方法改变了什么物理状态、控制动作、模型输出或工程决策，并在相同条件下与代表性方法直接比较，最后落到可观察的工程效果。一个图可以同时承担多个环节，不为完成流程机械增加图件。
 
-进入结果分析后，第一组结果图必须先展示 `本文方法` 对算例物理实际的复现能力。核心指标只有在直接度量物理复现时才放入第一组；其他性能指标和排名型指标放到后续图组。
+物理复现图只在模型精度、可信参照一致性或新模型输出的可信度本身属于论文主张时使用。灵敏度、消融、运行时间、规模和极端场景属于可选支撑分析，不自动进入正文图组。证据完整度、验证状态、检查通过数量、自定义综合评分和其他元指标不得作为正文主图的优势证据。
 
-对比图按比较关系分组。外部 SOTA 或 baseline 对比可以覆盖主指标、其他性能指标、不同 case 泛化、运行时间和其他性能视角；图例和 caption 使用论文来源命名，例如 `Pappu2017` 或 `AuthorYear`，并在 manifest、caption 或 `01_IDEA/evidence_map.md` 中登记来源。
+外部 SOTA 或 baseline 对比应直接展示电压、功率、电流、能量、备用、成本、风险、越限、设备动作或工程决策等具体结果。图例和 caption 使用论文来源命名，例如 `Pappu2017` 或 `AuthorYear`，并在 manifest、caption 或 `01_IDEA/evidence_map.md` 中登记来源。
 
 消融图只比较本文方法内部版本。完整方法写成 `本文原始方法`，消融版本写成 `去掉<物理模块或机制>`，并说明在本文方法上去掉了什么。转成英文稿时，再把主图和 SOTA 对比中的 `本文方法` 统一替换为 `Proposed method`。正常情况下，SOTA 对比图组和消融图组分开组织，避免在同一张图中混入外部论文方法和本文方法删减版本。
 
@@ -506,17 +511,9 @@ AI 生成的研究笔记、论文草稿、审稿回复、图注、README 和代�
 
 ---
 
-## 运行环境与 smoke test
+## 运行环境与验证
 
-模板以 MATLAB R2020a 作为目标最低兼容版本。正式图导出使用 R2020a 引入的 `exportgraphics`，其余模板代码还使用 `arguments`、string、table 和 JSON。四项 smoke test 依赖基础 MATLAB、可用的本地图形环境和命令行可调用的 Git，不依赖标准 JVM、CVX、MOSEK、Gurobi 或项目数据；具体研究模型可以在此基础上声明额外 toolbox、求解器和数据依赖。当前本地终检使用 R2025b，R2020a 兼容性仅由语法和 API 边界约束，不能等同于 R2020a 实机验证。
-
-在项目根目录运行 smoke test：
-
-```powershell
-matlab -batch "addpath(fullfile(pwd,'tests')); run_template_smoke_tests"
-```
-
-测试检查默认 IEEE 图形 profile、FIG/PNG/SVG/PDF/CSV 事务提交与异常回滚、并发锁、manifest 当前登记、正式 claim 与证据角色门禁、override 原因、递归输入 SHA-256 指纹、Git porcelain 状态，以及两个 case 入口的成功与失败 manifest。命令以非零状态退出时，不应把当前模板状态视为已通过验证。
+模板以 MATLAB R2020a 作为目标最低兼容版本。正式图导出使用 R2020a 引入的 `exportgraphics`，其余模板代码还使用 `arguments`、string、table 和 JSON。模板不附带默认可执行测试入口，也不会在部署或复制时自动启动 MATLAB。具体项目应由作者根据真实模型、数据、toolbox 和求解器依赖显式添加验证命令；未运行项目级验证时，不应把当前状态表述为已通过计算验证。
 
 ---
 
@@ -546,14 +543,15 @@ ProjectName_case123
 | 检查项 | 通过标准 |
 | --- | --- |
 | 项目命名 | `ProjectName` 前缀已替换为真实项目简称，README 或研究笔记中无误导性占位语境 |
+| 研究目的 | `01_IDEA/story.md` 已确认项目研究目的、基线版本、预期产出及非目标；`paper-profile.yaml` 和 `ProjectName_note.md` 与其一致，实质修订已进入 changelog |
 | 根入口 | `ProjectName` 或正式 `ProjectName_case*.m` 能在 MATLAB 项目根目录运行 |
 | 运行环境 | 目标最低兼容 MATLAB R2020a；项目额外 toolbox、求解器和数据依赖已在入口或 README 声明，并记录实际验证 release |
-| smoke test | `tests/run_template_smoke_tests.m` 已通过，图形 profile、事务提交/回滚、并发锁、claim 门禁、运行 manifest 和输入指纹均符合合同 |
+| 项目验证 | 作者已按真实模型、数据、toolbox 和求解器依赖显式运行项目级检查；模板本身不自动执行 MATLAB |
 | 复现输入 | 正式计算能在移走或清空 `cache/` 后，只依赖代码和 `data/` 启动 |
 | 运行 manifest | 每个正式算例写出 `result/<case>/run_manifest.json`，并记录入口命令、Git、环境、配置、输入、缓存和输出 |
 | 证据索引 | 正式结果已登记到 `01_IDEA/evidence_map.md` |
 | 研究笔记 | `ProjectName_note.md` 同步了问题、模型、结果、工程场景、证据状态和未解决项 |
-| 对外介绍 | `ProjectName_blog.md` 已替换项目名并使用已确认的创新轴、技术对象和叙事路线；项目判断可追到范围、证据来源和证据状态，且没有被当成论文证据或可直接粘贴的正文 |
+| 对外介绍 | `ProjectName_blog.md` 已替换项目名并围绕一个真实工程问题形成“起、承、转、合、升”的连续故事；研究对象、应用场景和证据场景已经分开，删除主要算例名称后仍能辨认通用问题、方法和主判断；正文没有定位卡、路线标签和过多写作过程说明，项目判断可追到范围、证据来源和证据状态 |
 | 研究版本 | `ProjectName_changelog.md` 已按日期倒序记录实质研究内容修改，且最新条目用一句话说明本版变化 |
 | 符号一致 | `01_IDEA/symbols.md`、`derivation.md`、代码变量和论文材料口径一致 |
 | 图表包 | 正式图包含 `.fig/.png/.svg`、绘图数据、追溯记录和检查报告 |

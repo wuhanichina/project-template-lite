@@ -25,8 +25,6 @@ rather than editor-only local state.
 
 ## Validation
 
-After template code, rules, or documentation changes, run:
-
-```text
-matlab -batch "addpath(fullfile(pwd,'tests')); run_template_smoke_tests"
-```
+This template intentionally ships without a default executable test runner.
+Do not launch MATLAB automatically when copying or deploying the template.
+Run only the project-specific checks explicitly selected by the author.

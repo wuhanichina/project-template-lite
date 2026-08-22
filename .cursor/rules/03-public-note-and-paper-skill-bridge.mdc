@@ -54,6 +54,53 @@ source, and one evidence-state label from this rule.
 - Keep audit fields out of the narrative flow. A short positioning card and a closing evidence-and-boundary table may carry claim ids, evidence ids, scope, source, and state while the body uses continuous technical prose.
 - Before transferring a blog idea into an Introduction or Contributions section, rewrite it from the evidence-bearing files, verify its literature and result scope, and retain the applicable evidence state. Do not lightly edit or copy blog paragraphs into manuscript prose.
 - The closing engineering implication must remain bounded by the declared systems, cases, assumptions, data, and time windows. It must not extrapolate a case result into an industry-wide or universal claim.
+- Separate the research object, application setting, and evidence setting before
+  choosing the title or opening. The research object names what the method
+  actually studies or computes; the application setting names the engineering
+  decisions it may serve; the evidence setting names the current dataset, case,
+  event, region, or benchmark used to test it. A prominent case does not become
+  the research object, and a stress-test event does not become a method
+  prerequisite, unless the formulation, assumptions, or inputs truly depend on
+  that setting.
+- Run the case-removal test before release: remove the case, region, event, or
+  benchmark name from the title and main claim. If the problem, method
+  definition, and claim still stand, keep that name in the evidence story rather
+  than using it to limit the method's motivation or scope. If they do not stand,
+  verify from the model and assumptions that the setting is genuinely
+  constitutive rather than merely the current source of evidence.
+
+The default story engine is: a plausible but incomplete engineering intuition,
+the correct object and comparison frame, a layered diagnosis of the real
+bottleneck, a solution that maps one-to-one to the diagnosed gaps, and a
+larger engineering implication that remains inside the evidence boundary. Use
+the following movement when the project evidence can carry it:
+
+1. Open with a real or representative engineering scene and one concise
+   judgment that creates a technical conflict. Let the scene make the problem
+   concrete without automatically turning the current case into the research
+   object.
+2. Define the object and explain why it matters, then establish a mature system,
+   condition, or method as the comparison frame.
+3. Diagnose the current problem layer by layer. Each layer must add a different
+   physical, data, model, or decision reason.
+4. Return to the opening intuition and show precisely which decisive condition
+   it fails to change.
+5. Reframe the problem, then introduce the project treatment only after the
+   reader understands why that treatment is needed. Each treatment should close
+   one previously diagnosed gap.
+6. Use the strongest result, counterexample, or comparison to close the main
+   judgment, then rise to the adjacent engineering task without broadening the
+   factual scope.
+
+Write with evidence-backed confidence. Direct judgments, compact analogies,
+memorable summary sentences, short paragraphs, bold technical anchors, and a
+small number of comparison lists or figures can reduce reader burden. A strong
+sentence must compress a relation already established by the article; it must
+not replace derivation, evidence, scope, or uncertainty. Keep conversational
+details only when they establish the engineering scene or sharpen the technical
+conflict. Remove sentences that announce what the article will discuss, praise
+the article, predict the reader's reaction, recap the writing process, or point
+forward to a later section.
 
 ## Writing Practice
 

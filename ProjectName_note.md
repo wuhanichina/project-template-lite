@@ -8,6 +8,19 @@
 
 `ProjectName_blog.md` 是独立的对外叙事参考，只能从本笔记、`01_IDEA/`、登记结果和已核查文献提取有范围的说明。它不提供证据，也不能轻量改写后直接进入 Introduction 或 Contributions。
 
+## 立项基线：项目研究目的
+
+> 【待补充：面向什么工程对象和需求，研究什么关键关系或问题，形成什么可验证能力，并服务什么工程决策。】
+
+| 项目 | 当前确认值 |
+| --- | --- |
+| 基线状态与版本 | 【草案 / 已确认 / 已修订；YYYY-MM-DD】 |
+| 预期研究产出 | 【待补充：模型、方法、规律、数据、工具或决策依据】 |
+| 非目标与范围边界 | 【待补充】 |
+| 最近确认记录 | 【待补充：确认日期、确认人或会议记录】 |
+
+本节同步展示 `01_IDEA/story.md` 的立项基线，`story.md` 是项目研究目的的唯一人工事实源。研究目的发生实质变化时，先更新 `story.md`，再同步本节和 `02_PAPER/config/paper-profile.yaml`，并在 `ProjectName_changelog.md` 记录修订原因。
+
 ## 0. 最小可辨识研究对象
 
 正式写作前先判定本文属于哪一个最小可辨识研究对象。这个对象应是小同行专家一眼能定位文献群、工程对象、数学模型和评价口径的研究名词，例如输电网规划、机组组合、经济调度、配电网规划、解析交流概率潮流、LRIC定价、LMP定价、DLMP定价。先写清这个对象，再判断后续研究主题、创新点、引言材料、算例证据和贡献表达。
@@ -460,17 +473,21 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 
 | 项目 | 当前记录 |
 | --- | --- |
-| 科学或工程问题 | 【待补充】 |
+| 读者问题 | 【待补充：读者看图后能够直接回答的具体工程问题】 |
 | 对应结论编号 | 【待补充：如 C1，见 `01_IDEA/figure_plan.md`；导出 metadata 字段为 `claimId`】 |
-| 物理复现对象 | 【待补充：本文方法输出要复现的真实测量、高保真仿真、解析参考、可信 benchmark 或已知物理约束】 |
-| 图组证据角色 | 【按顺序登记 scenario-setup → physical-reproduction → sota-comparison → sensitivity-ablation；同一结论编号的对比/消融图不得早于其物理复现图】 |
+| 工程对象 | 【待补充：节点、线路、设备、状态、动作、成本、风险或工程决策】 |
+| 图中直接可见的结果 | 【待补充：具体问题、本文方法的作用、相对代表性方法的差异或工程效果】 |
+| 对比方法 | 【待补充：方法名称及相同输入、约束、信息和运行条件；不适用时填 not_applicable】 |
+| 在算例故事中的作用 | 【待补充：本图如何承接前后图并推进完整故事】 |
+| 物理复现对象 | 【仅在模型精度或可信参照对比适用时填写；否则填 not_applicable】 |
+| 审计证据角色 | 【按实际用途填写 evidenceRole；不构成固定顺序，也不要求四类角色齐全】 |
 | 数据文件 | 【待补充】 |
 | 字段含义、单位、维度、预处理状态 | 【待补充】 |
-| PowerLit 图表计划 | 【默认先用 `$powerlit-power-systems-paper-writing` 生成或修订 `01_IDEA/figure_plan.md`；记录近邻论文、图型、指标、baseline、evidenceRole 和布局启发】 |
+| PowerLit 图表计划 | 【默认先用 `$powerlit-power-systems-paper-writing` 检索近邻论文的物理量、代表性方法、直接对比和图表组织；不按角色自动补图】 |
 | 参数图 SOTA 调研 | 【待补充：SOTA 常比较的参数、范围、步长、归一化方式、默认值和横轴组织】 |
 | 全局视觉编码 | `ProjectName_utils.plotting.methodStyle` |
 | 默认图表 profile | `ProjectName_utils.plotting.figure_profile("ieee")` |
-| 目标排版尺寸 | 【默认 single-column：IEEE 双栏论文中的一栏宽度，不超过 8.89 cm】 |
+| 目标排版尺寸 | 【默认 single-column；可选 half-column / single-column / double-column，选定后人工调整】 |
 | 默认字号 | 10 pt；复杂小图可显式使用 8 pt，并在 manifest 中记录 |
 | 图例位置 | 折线图和柱状图优先图内，默认自动 `best` 位置；遮挡关键曲线、柱子、峰值或不确定性带时手动调整 |
 | 运行命令 | 【待补充】 |
@@ -480,11 +497,11 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 ### 8.2 正式图输出要求
 
 - 每个算例的正式图放入 `result/<case>/figures/`。
-- 生成绘图代码前，默认先用 `$powerlit-power-systems-paper-writing` 基于 PowerLit 近邻论文生成或修订 `01_IDEA/figure_plan.md`；本地 PowerLit 不可用时，再使用 `03_REFERENCE/`、用户提供文献或联网检索，并把 fallback 来源、图型和可借鉴的展示组织写入上方表格。
+- 生成绘图代码前，默认先用 `$powerlit-power-systems-paper-writing` 基于 PowerLit 近邻论文检查同类工程问题使用的物理量、代表性方法、直接对比和图表顺序；本地 PowerLit 不可用时，再使用 `03_REFERENCE/`、用户提供文献或联网检索。文献不自动产生物理复现、灵敏度、消融或边界图。
 - 绘制参数图、灵敏度图或参数扫描图前，先查 SOTA 论文一般比较哪些参数、范围、步长、归一化方式、默认值和横轴组织；本文采用不同参数或范围时，在研究笔记、manifest 或 caption 草稿中说明原因。
-- 新图建议先用 `ProjectName_utils.plotting.create_figure("single-column")` 创建图窗；默认 IEEE profile 使用 10 pt 字号，并把图宽限制在 IEEE 双栏论文的一栏宽度内。复杂小图可以显式使用 8 pt，但需要在 manifest 中记录。目标期刊给出更具体要求时，以目标期刊为准。
+- 新图默认用 `ProjectName_utils.plotting.create_figure()` 创建可见的单栏图窗，也可以显式选择 `half-column`、`single-column` 或 `double-column`。选定初始布局后人工调整长宽比、坐标区、图例和留白。批处理可显式使用 `Visible="off"`；`save_figure` 恢复源图窗的可见状态，但保存的 `.fig` 双击打开时保持可见。导出默认保留当前尺寸并记录实际宽高，显式设置 `ApplyProfileSize=true` 时才重置尺寸。
 - 折线图和柱状图建议调用 `ProjectName_utils.plotting.place_legend(ax)`，默认把图例放在图内自动位置；正式使用前检查图例是否遮挡关键数据。
-- 使用 `ProjectName_utils.plotting.save_figure` 导出 `.fig`、`.png`、`.svg`、绘图数据、`figure_manifest.jsonl` 和 `figure_check_report.md`；正式图 metadata 必须填写 `claimId`、`physicsReproduction` 和 `evidenceRole`，`evidenceRole` 取上表的四个取值之一。
+- 使用 `ProjectName_utils.plotting.save_figure` 导出 `.fig`、`.png`、`.svg`、绘图数据、`figure_manifest.jsonl` 和 `figure_check_report.md`；正式图 metadata 必须填写 `readerQuestion`、`engineeringObject`、`visibleResult`、`comparedMethods`、`storyContribution`、`claimId` 和审计字段。
 - 保持原始数据含义稳定；筛选、变换、对数轴零值处理或异常点说明同步写入 manifest 和检查报告。
 - 异常点压缩主体细节时，可以额外生成诊断图；原始全量图和诊断图并列保留，正文需要使用诊断图时同步说明理由。
 - 组合展示先导出独立子图，例如 `Fig05a`、`Fig05b`、`Fig05c`，再进入论文排版。
@@ -492,14 +509,14 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 
 ### 8.3 图组叙事和方法标注
 
-正式图默认对应论文算例分析或实验结果部分。物理复现图组在算例分析中用 `本文方法` 的模型输出复现真实测量、高保真仿真、解析参考、可信 benchmark 或已知物理约束下的实际物理行为。
+正式图默认对应论文算例分析或实验结果部分。每个主算例先形成完整工程故事：展示具体问题、本文方法改变的物理状态或工程决策、与代表性方法的直接对比，以及最终的实际工程效果。物理复现只在模型精度或可信参照一致性属于论文主张时使用。
 
 | 图组类型 | 记录规则 |
 | --- | --- |
 | 算例介绍图 | 可先于结果图出现，说明测试系统、源荷时序、概率分布、场景集或样本特征 |
-| 第一组结果图：物理复现 | 强制先登记；展示 `本文方法` 对算例物理实际的复现能力，例如状态量、约束阈值、源荷时序响应、概率分布、空间趋势或可行运行状态 |
-| 外部 SOTA / baseline 对比 | 可覆盖主指标、其他指标、跨算例泛化、运行时间等；方法名用 `Pappu2017` 或 `AuthorYear` 这类来源标注，并登记对应文献 |
-| 本文方法消融 | 只比较 `本文原始方法` 和 `去掉<物理模块或机制>`；写清楚在本文方法上去掉了什么 |
+| 工程问题与本文作用 | 用电压、功率、电流、能量、成本、风险、越限、设备动作或工程决策让读者直接看到问题和本文方法改变的对象 |
+| 外部 SOTA / baseline 对比 | 在相同数据、工况、约束和信息条件下直接比较具体工程效果；方法名用 `Pappu2017` 或 `AuthorYear` 这类来源标注，并登记对应文献 |
+| 可选支撑分析 | 物理复现、灵敏度、消融、运行时间和规模分析只在论文主张或参数解释需要时加入，不自动补齐 |
 
 正常情况下，外部方法对比图组和本文方法消融图组分开组织。
 
@@ -519,7 +536,7 @@ Commit 信息应反映研究含义。`update code` 或 `fix bug` 这类信息缺
 | 图号 | 科学问题 | 支持结论编号 | 数据文件 | 脚本 | 输出目录 | 检查状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | FigIntro01 | 【待补充：测试系统、源荷时序、概率分布或场景集说明】 | C? | `result/...` | `ProjectName_case*.m` | `result/<case>/figures/` | 【结果待复核】 |
-| FigResult01a | 【待补充：`本文方法` 对算例物理实际的复现，例如状态量、约束阈值、时序响应、概率分布或空间趋势】 | C1 | `result/...` | `ProjectName_case33bw.m` | `result/case33bw/figures/` | 【结果待复核】 |
+| FigResult01a | 【待补充：具体工程问题、本文方法改变的对象、与代表性方法的直接差异或实际工程效果】 | C1 | `result/...` | `ProjectName_case33bw.m` | `result/case33bw/figures/` | 【结果待复核】 |
 
 ## 9. 与已有工作的关系
 

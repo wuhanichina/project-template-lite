@@ -18,10 +18,6 @@ profile.appliedFontSizePt = resolve_font_size(profile, options.FontSizePt);
 fontName = choose_font(profile.fontCandidates);
 
 try
-    figHandle.Visible = "off";
-catch
-end
-try
     figHandle.Color = [1 1 1];
 catch
 end
@@ -49,8 +45,7 @@ end
 end
 
 function fontName = choose_font(fontCandidates)
-availableFonts = string(listfonts);
-fontName = "";
+availableFonts = string(listfonts());
 for k = 1:numel(fontCandidates)
     candidate = string(fontCandidates(k));
     if any(strcmpi(availableFonts, candidate))
@@ -64,19 +59,8 @@ warning("ProjectName_utils:plotting:FontFallback", ...
 end
 
 function resize_figure(figHandle, profile, targetLayout)
-layout = lower(strrep(string(targetLayout), "_", "-"));
-switch layout
-    case {"single-column", "single", "one-column"}
-        widthCm = profile.singleColumnWidthCm;
-    case {"double-column", "double", "two-column"}
-        widthCm = profile.doubleColumnWidthCm;
-    otherwise
-        widthCm = parse_custom_width_cm(layout, []);
-end
-if isempty(widthCm)
-    return
-end
-widthCm = min(widthCm, profile.maxWidthCm);
+widthCm = ProjectName_utils.plotting.resolve_figure_width( ...
+    profile, targetLayout);
 
 figHandle.Units = "centimeters";
 pos = figHandle.Position;
@@ -89,15 +73,6 @@ heightCm = min(widthCm * aspectRatio, profile.maxHeightCm);
 figHandle.Position = [pos(1) pos(2) widthCm heightCm];
 figHandle.PaperUnits = "centimeters";
 figHandle.PaperPosition = [0 0 widthCm heightCm];
-end
-
-function widthCm = parse_custom_width_cm(layout, fallbackCm)
-tokens = regexp(layout, "width-([0-9]+(\.[0-9]+)?)-cm", "tokens", "once");
-if isempty(tokens)
-    widthCm = fallbackCm;
-else
-    widthCm = str2double(tokens{1});
-end
 end
 
 function apply_font_defaults(figHandle, fontName, fontSizePt)
