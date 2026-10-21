@@ -1,6 +1,6 @@
 # project-template-lite
 
-Version: 2026.08.15
+Version: 2026.10.21
 
 > 📌 面向电力系统方向的科研论文，帮助研究者把代码、数据、结果、图表和论文材料整理成一套可复现、可追溯、可交接的研究档案。
 
@@ -16,6 +16,7 @@ Version: 2026.08.15
 
 仅保留最近 10 个日期版本；同一日期的多项修改合并为一条。
 
+- 2026-10-21：新增 `02_PAPER/manuscript/` Markdown 草稿与 `02_PAPER/latex/` 正式稿目录，统一稿件用图、BibTeX、Overleaf 同步范围和分阶段写作约定。
 - 2026-08-15：删除模板自带的 MATLAB 验证套件及默认执行入口，部署或复制模板时不再自动启动 MATLAB；项目验证由作者按实际研究代码显式配置。
 - 2026-08-10：对齐 PowerLit 基础 figure handoff 与模板侧读者故事扩展，正式 manifest 强制记录 `metric` 和模板扩展版本；验证代码结构化读取合同字段并核对实际导出 manifest；未知图形布局不再静默回退到单栏。
 - 2026-08-09：将算例图表改为读者可直接理解的工程故事，正文图围绕具体问题、本文方法的物理或决策作用、代表性方法直接对比和实际工程效果组织；取消“物理复现图必须先于方法对比图”的导出顺序门禁，禁止用证据状态、检查数量和自定义综合评分等元指标自动补图；正式图默认以可见的单栏图窗创建，也可选择半栏或双栏并在导出前人工调整，`save_figure` 默认保留实际尺寸，并确保批处理生成的 `.fig` 双击打开时可见。
@@ -197,7 +198,7 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 | 复现输入 | `data/` | 保存正式计算从零开始运行所需的输入 |
 | 中间缓存 | `cache/` | 保存可由 `data/` 和代码再生成的派生结果 |
 | 结果证据 | `result/<算例名>/` | 保存正式结果、表格、日志、`run_manifest.json` 和图表证据包 |
-| 论文材料 | `02_PAPER/`、`03_REFERENCE/` | 保存稿件材料、作者配置示例、参考文献和阅读记录 |
+| 论文材料 | `02_PAPER/manuscript/`、`02_PAPER/latex/`、`03_REFERENCE/` | 保存 Markdown 草稿、LaTeX 正式稿、稿件用图、参考文献和阅读记录 |
 | AI 助手规则 | `AGENTS.md`、`GEMINI.md`、`CLAUDE.md`、`.cursor/` | 集中保存代码、出图、证据、写作规则和 handoff contract，并提供不同 agent 工具入口 |
 
 ---
@@ -212,7 +213,7 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 | 增加核心方法 | `01_IDEA/derivation.md` | `+ProjectName_core/+<对象或阶段>/` | 函数名表达物理对象、数学操作或求解阶段 |
 | 增加对比算法 | `+ProjectName_sota/README.md` | `+ProjectName_sota/+<算法族>/` | 与本文方法共用数据、指标和约束口径 |
 | 生成正式图 | `result/<算例名>/figures/README.md` | `+ProjectName_utils/+plotting/`、算例出图调用 | `.fig/.png/.svg`、CSV、追溯记录和检查报告齐全 |
-| 写论文段落 | `ProjectName_note.md` | `02_PAPER/` 或外部稿件 | 重要结论能追到结论记录、公式、结果和证据状态 |
+| 写论文段落 | `ProjectName_note.md`、当前稿件 | 草稿阶段修改 `02_PAPER/manuscript/paper.md`，转稿后修改 `02_PAPER/latex/` | 重要结论能追到结论记录、公式、结果和证据状态 |
 | 写对外介绍 | `ProjectName_blog.md`、`ProjectName_note.md` | `ProjectName_blog.md`，必要时同步 `story.md`、`claims.md` 或 `ProjectName_changelog.md` | blog 围绕一个工程问题连续推进，减少定位卡、路线标签和写作过程说明；项目判断仍可追到范围、证据来源和证据状态 |
 | 投稿前复核 | `01_IDEA/evidence_map.md` | `ProjectName_note.md`、`ProjectName_changelog.md`、结果目录、稿件材料 | 证据、模型、指标、工程场景和结论表述一致 |
 | 交接项目 | `ProjectName_note.md` | README、研究笔记、研究版本、想法文件、结果索引 | 合作者能从根入口复现或定位待补项 |
@@ -294,7 +295,7 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 │       └── figures/          # case123 正式图及其配套文件
 ├── tests/                    # 调参、局部验证和临时检查
 ├── 01_IDEA/                  # 故事线、待验证结论、推导、符号、证据索引、研究轨迹
-├── 02_PAPER/                 # 论文写作材料和作者配置示例
+├── 02_PAPER/                 # Markdown 草稿、LaTeX 正式稿、配置与返修材料
 ├── 03_REFERENCE/             # 参考文献、BibTeX、阅读材料
 ├── AGENTS.md                 # Codex / 通用 coding-agent 规则入口
 ├── GEMINI.md                 # Gemini CLI / Antigravity 根入口
@@ -303,6 +304,20 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 ```
 
 GitHub 不保存空目录，所以模板用少量 README 文件保留关键目录。目录 README 只说明放置规则；结果证据以 `result/`、`01_IDEA/evidence_map.md` 和正式图证据包为准。
+
+`02_PAPER/` 的写作文件按以下位置维护：
+
+| 路径 | 用途 |
+| --- | --- |
+| `manuscript/paper.md` | Markdown 论文草稿 |
+| `latex/main.tex` | LaTeX 主文件，正式写作时采用目标期刊模板 |
+| `latex/references.bib` | 当前论文引用的 BibTeX 文献 |
+| `latex/figures/` | 正式稿使用的图片 |
+| `config/`、`revision/` | 论文配置和返修材料 |
+
+先在 Markdown 中完成论文草稿，转入 Overleaf 后以 LaTeX 正式稿为主要修改对象，保留转稿时的 Markdown 版本。模型、公式和结论的重要变化仍同步到研究笔记和 `01_IDEA/`。具体约定见 [02_PAPER/README.md](02_PAPER/README.md)。
+
+`latex/` 包含独立编译所需的正文、文献、图片和期刊模板文件，使用相对路径引用。稿件图片从 `result/<case>/figures/` 的正式导出文件中选取，在证据索引中记录来源和稿件路径。建立 Overleaf Git 同步时，明确本地 `latex/` 与 Overleaf 项目根目录的对应关系及同步范围。
 
 ---
 
@@ -367,6 +382,8 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 `01_IDEA/` 不承担 AI 助手规则说明的职责。它像研究白板一样呈现故事线、待验证结论、推导、证据和路线记录。
 
 ## AI 助手兼容
+
+各入口统一执行规则 03 中的写作目录约定：Markdown 草稿进入 `02_PAPER/manuscript/`，LaTeX 正式稿及稿件用图进入 `02_PAPER/latex/`。
 
 `AGENTS.md` 是本模板的通用 agent 规则入口，适用于 Codex 和其他读取 `AGENTS.md` 的 coding agent。`GEMINI.md` 是 Gemini CLI 和 Antigravity 相关上下文的根入口，Antigravity 通过该文件读取 `AGENTS.md` 和 `.cursor/`；`CLAUDE.md` 是 Claude Code 入口。三者都保持为薄入口，详细执行规则和 handoff contract 统一放在 `.cursor/`。
 
@@ -588,6 +605,7 @@ ProjectName_case123
 - 模板入口和 MATLAB 包目录。
 - `.cursor/` 中的共享 AI 规则和 handoff contract。
 - `01_IDEA/`、`02_PAPER/config/author-profile.example.yaml`、`03_REFERENCE/` 中的轻量文本材料。
+- `02_PAPER/manuscript/`、`02_PAPER/latex/` 中的稿件源文件、BibTeX、必要模板文件和稿件用图；LaTeX 编译中间文件由 `.gitignore` 排除。
 - `data/` 中随项目提交的完整复现输入，以及 `cache/`、`tests/`、`result/` 里的 README 占位说明。
 
 默认保留在本地或由运行时生成：

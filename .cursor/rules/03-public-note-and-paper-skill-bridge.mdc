@@ -104,6 +104,12 @@ forward to a later section.
 
 ## Writing Practice
 
+- Draft the paper in `02_PAPER/manuscript/paper.md`. After transfer to Overleaf, edit formal prose in `02_PAPER/latex/main.tex` and any included chapter files; retain the Markdown transfer draft without requiring sentence-by-sentence synchronization. Synchronize substantive model, equation, symbol, and conclusion changes with the research note and corresponding `01_IDEA/` files.
+- Keep `02_PAPER/latex/` self-contained, including `references.bib`, `figures/`, and required journal template files. Use paths relative to this directory. Start with one Markdown draft and one LaTeX main file; split chapters only when the manuscript or collaboration requires it.
+- Maintain the paper's cited BibTeX entries in `02_PAPER/latex/references.bib`, with matching citation keys in the Markdown draft. Keep collected literature and reading notes under `03_REFERENCE/`.
+- Copy selected formal exports from `result/<case>/figures/` to `02_PAPER/latex/figures/`. Record the source and manuscript-copy paths in the corresponding `01_IDEA/evidence_map.md` entries and refresh the copies when figures change. Retain plot data, FIG files, manifests, and check reports under `result/`.
+- Track manuscript sources, bibliography, required template files, and publication figures in Git. Before configuring Overleaf synchronization, establish how local `02_PAPER/latex/` maps to the Overleaf project root and which files are synchronized. Fetch current changes and resolve conflicts before pushing; configure synchronization only when requested.
+
 - Keep human-facing files such as `ProjectName_note.md` and `01_IDEA/*` focused on research content: story, claims, derivation, symbols, evidence, route evolution, and next steps. Put agent execution rules, prohibitions, and process guardrails in `.cursor/rules/`, not in those human-facing files.
 - Keep long version-change tables out of `ProjectName_note.md`. Put research-content version history in `ProjectName_changelog.md`; keep only the current date-version and one-sentence current-version summary near the top of the note.
 - Start by locking the minimum identifiable research object, then record problem formation and route evolution. Paper sections should be distilled later from that object-bound archive.
@@ -121,7 +127,7 @@ forward to a later section.
 
 When distilling an introduction from `ProjectName_note.md`, write for a small-peer expert in the relevant power-system subfield.
 
-- Write the introduction workspace directly in `ProjectName_note.md` after identifying the minimum identifiable research object. Do not invoke `$powerlit-power-systems-paper-writing` or PowerLit for this introduction draft; PowerLit remains for `01_IDEA/figure_plan.md` and figure/table/result evidence planning under rule 04.
+- Develop the introduction's research object and argument in `ProjectName_note.md`, then write manuscript prose in `02_PAPER/manuscript/paper.md`, or in `02_PAPER/latex/` after transfer to formal writing. Do not invoke `$powerlit-power-systems-paper-writing` or PowerLit for this introduction draft; PowerLit remains for `01_IDEA/figure_plan.md` and figure/table/result evidence planning under rule 04.
 - First identify the minimum identifiable research object, then the research field, concrete engineering object, and direction. Use a small-peer object name such as transmission expansion planning, unit commitment, economic dispatch, distribution network planning, analytical AC probabilistic power flow, LRIC pricing, LMP pricing, or DLMP pricing. This object determines which engineering facts, model facts, literature facts, and evidence facts can enter the introduction. This private judgment may stay in the note or story file; do not copy it verbatim into manuscript prose.
 - Do not describe a function, metric, algorithm property, or software capability as an innovation unless it belongs to the declared research object and is backed by model, derivation, or case evidence.
 - Paragraph 1 starts from engineering background and importance: broad system background, narrower problem background, then the concrete problem and its consequence for the target object.
@@ -223,6 +229,12 @@ Before drafting with the paper-writing skill, load this material in order:
 15. closest-competitor notes or BibTeX under `03_REFERENCE/`
 
 The writing skill should convert the public note into manuscript prose and keep each contribution tied to the archive evidence.
+
+When editing or reviewing an existing manuscript, also read its current source:
+`02_PAPER/manuscript/paper.md` during Markdown drafting, or
+`02_PAPER/latex/main.tex` and included chapter files during formal writing,
+together with `02_PAPER/latex/references.bib`. Revision locations must identify
+the active manuscript file and section, equation, figure, or table.
 
 `.cursor/contracts/project-template-handoff.schema.yaml` is the local versioned
 interface. The skill owns innovation diagnosis, narrative and evidence policy,

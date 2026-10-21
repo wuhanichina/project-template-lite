@@ -31,6 +31,7 @@ Keep the visible root small:
 - `tests/` holds tuning scripts, local checks, and temporary validation before a result becomes paper evidence.
 - `01_IDEA/` holds story, claims, derivations, the unified symbols table, the evidence map, and the lightweight research trace.
 - `02_PAPER/` contains paper-facing material. Track only `config/author-profile.example.yaml`; keep the real local `config/author-profile.yaml` out of Git because it contains personal information.
+- `02_PAPER/manuscript/paper.md` holds the Markdown draft. `02_PAPER/latex/` holds the self-contained formal manuscript: `main.tex`, `references.bib`, `figures/`, and required journal template files. Track manuscript sources and selected publication figures; ignore LaTeX build intermediates. Writing-stage and Overleaf synchronization rules are defined in rule 03.
 - `03_REFERENCE/` holds manually collected literature and BibTeX files.
 - Generated outputs go under `result/`; intermediate artifacts go under `cache/`. Do not make an existing cache file a required startup input.
 - Each runnable case owns one result subtree: `result/<case_name>/` for numerical outputs, tables, logs, and `run_manifest.json`, plus `result/<case_name>/figures/` for formal case-specific figures.

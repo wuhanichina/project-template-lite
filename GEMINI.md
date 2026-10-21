@@ -24,6 +24,9 @@ file short so Antigravity, Gemini, Codex, and Claude entrypoints do not drift.
 
 ## Sync Policy
 
+Follow rule 03 for `02_PAPER/manuscript/` Markdown drafts and the self-contained
+formal manuscript under `02_PAPER/latex/`.
+
 Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Do not treat agent rule files as editor-only
 local state. Do not recreate `.agents/` or `.agent/` unless the project owner

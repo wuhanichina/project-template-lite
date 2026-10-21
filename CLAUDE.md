@@ -19,6 +19,9 @@ handoff contracts live under `.cursor/contracts/`; do not create root-level
 
 ## Sync Policy
 
+Follow rule 03 for `02_PAPER/manuscript/` Markdown drafts and the self-contained
+formal manuscript under `02_PAPER/latex/`.
+
 Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Keep these files as shared repository policy,
 rather than editor-only local state.

@@ -24,6 +24,9 @@ in this template.
 
 ## Sync Policy
 
+Paper sources follow rule 03: Markdown drafts live in `02_PAPER/manuscript/`;
+formal LaTeX sources and publication figures live in `02_PAPER/latex/`.
+
 Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Do not treat agent rule files as editor-only
 local state.

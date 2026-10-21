@@ -2,6 +2,27 @@
 
 本目录保存面向论文的草稿、图注、审稿回复和作者侧材料。论文文字从证据承载材料提炼，不从对外叙事文案直接复制。
 
+## 写作目录与流程
+
+| 路径 | 内容 |
+| --- | --- |
+| `manuscript/paper.md` | Markdown 论文草稿 |
+| `latex/main.tex` | LaTeX 正式稿入口，转稿时采用目标期刊模板 |
+| `latex/references.bib` | 当前论文引用的 BibTeX 条目 |
+| `latex/figures/` | 正式稿实际使用的图片 |
+| `latex/` 下的 `.cls`、`.sty`、`.bst` 等文件 | 正式稿需要的期刊模板与排版文件 |
+| `config/`、`revision/`、`submission_consistency.md` | 论文配置、返修材料与投稿检查 |
+
+先在 `manuscript/paper.md` 中组织完整论文。转入 Overleaf 后，以 `latex/main.tex` 及其引用的章节文件作为正式文字的主要修改对象，Markdown 保留转稿时的草稿版本。重要模型、公式、符号和结论变化同步到研究笔记与 `01_IDEA/` 中的对应材料。默认使用一个 Markdown 文件和一个 LaTeX 主文件，按实际篇幅或协作需要拆分章节。
+
+`latex/` 应包含独立编译所需的正文、参考文献、图片及模板文件。引用路径相对于该目录，避免依赖本机绝对路径或目录外文件。模板中的 `main.tex` 仅提供基础文档入口，正式转稿时替换为目标期刊模板，并采用其编译器和文献样式。
+
+Git 跟踪 Markdown、LaTeX、BibTeX、模板文件和稿件用图，忽略 LaTeX 编译中间文件。与 Overleaf 同步的文件范围为 `latex/` 内的稿件材料；建立同步时明确本地该目录与 Overleaf 项目根目录的对应关系。同步前获取对方最新修改并处理冲突，确认后再提交和推送。
+
+正式用图从 `result/<case>/figures/` 导出后复制到 `latex/figures/`，保留可核查的文件名，并在 `01_IDEA/evidence_map.md` 的对应图表记录中注明来源路径与稿件图片路径。更新图表时同时更新稿件副本。计算数据、FIG、manifest 和检查报告继续保存在结果目录。
+
+`03_REFERENCE/` 保存文献原文、阅读记录和收集的引用信息；`latex/references.bib` 维护当前论文使用的条目。Markdown 草稿中的引用键与该文件一致，转稿时沿用。
+
 ## 材料分层
 
 | 层级 | 文件或目录 | 用途 |

@@ -21,3 +21,15 @@ tmp/
 !data/**
 *.log
 *.tmp
+
+# LaTeX build intermediates; manuscript figures and sources remain tracked.
+02_PAPER/latex/*.aux
+02_PAPER/latex/**/*.aux
+02_PAPER/latex/*.bbl
+02_PAPER/latex/*.blg
+02_PAPER/latex/*.fdb_latexmk
+02_PAPER/latex/*.fls
+02_PAPER/latex/*.out
+02_PAPER/latex/*.toc
+02_PAPER/latex/*.synctex.gz
+02_PAPER/latex/main.pdf
