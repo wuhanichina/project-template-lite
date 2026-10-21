@@ -21,6 +21,8 @@ handoff contracts live under `.cursor/contracts/`; do not create root-level
 
 Follow rule 03 for `02_PAPER/manuscript/` Markdown drafts and the self-contained
 formal manuscript under `02_PAPER/latex/`.
+Read `02_PAPER/formatting_rules.md` for the default IEEE PES journal template
+and manuscript formatting conventions.
 
 Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Keep these files as shared repository policy,

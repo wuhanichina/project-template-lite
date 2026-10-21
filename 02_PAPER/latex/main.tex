@@ -1,12 +1,39 @@
-\documentclass{article}
+\documentclass[letterpaper,10pt,journal]{IEEEtran}
+\usepackage{amsmath,amssymb}
 \usepackage{graphicx}
+\usepackage{cite}
+\usepackage{url}
 \graphicspath{{figures/}}
 
-% 转入正式写作时采用目标期刊模板，并填写已确认的论文内容。
+% 默认采用 IEEE PES Transactions 适用的 IEEEtran 期刊格式。
+% 公式标点、段落衔接和图表引用规则见 ../formatting_rules.md。
 \title{Paper Title}
 \author{}
-\date{}
 
 \begin{document}
+% 保留期刊页眉；作者简称和论文短标题随正式稿更新。
+\markboth{IEEE Transactions on Power Systems}%
+{Author \MakeLowercase{\textit{et al.}}: Paper Title}
 \maketitle
+
+\begin{abstract}
+% 填写研究问题、方法、主要结果及意义。
+\end{abstract}
+
+\begin{IEEEkeywords}
+% 填写论文关键词。
+\end{IEEEkeywords}
+
+\section{Introduction}
+% 从 manuscript/paper.md 转入已确认的论文内容。
+
+\section{Model and Method}
+
+\section{Case Studies}
+
+\section{Conclusion}
+
+\bibliographystyle{IEEEtran}
+% 填写 references.bib 并在正文引用文献后，启用下一行。
+% \bibliography{references}
 \end{document}

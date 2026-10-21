@@ -26,6 +26,8 @@ in this template.
 
 Paper sources follow rule 03: Markdown drafts live in `02_PAPER/manuscript/`;
 formal LaTeX sources and publication figures live in `02_PAPER/latex/`.
+Read `02_PAPER/formatting_rules.md` for the default IEEE PES journal template
+and manuscript formatting conventions.
 
 Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Do not treat agent rule files as editor-only

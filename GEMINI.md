@@ -26,6 +26,8 @@ file short so Antigravity, Gemini, Codex, and Claude entrypoints do not drift.
 
 Follow rule 03 for `02_PAPER/manuscript/` Markdown drafts and the self-contained
 formal manuscript under `02_PAPER/latex/`.
+Read `02_PAPER/formatting_rules.md` for the default IEEE PES journal template
+and manuscript formatting conventions.
 
 Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Do not treat agent rule files as editor-only

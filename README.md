@@ -16,7 +16,7 @@ Version: 2026.10.21
 
 仅保留最近 10 个日期版本；同一日期的多项修改合并为一条。
 
-- 2026-10-21：新增 `02_PAPER/manuscript/` Markdown 草稿与 `02_PAPER/latex/` 正式稿目录，统一稿件用图、BibTeX、Overleaf 同步范围和分阶段写作约定。
+- 2026-10-21：新增 `02_PAPER/manuscript/` Markdown 草稿与 `02_PAPER/latex/` 正式稿目录，默认使用 IEEE PES Transactions 适用的官方 IEEEtran 模板；在 `02_PAPER/formatting_rules.md` 维护公式、段落、图表和文献排版约定，统一稿件用图、BibTeX、Overleaf 同步范围和分阶段写作规则。
 - 2026-08-15：删除模板自带的 MATLAB 验证套件及默认执行入口，部署或复制模板时不再自动启动 MATLAB；项目验证由作者按实际研究代码显式配置。
 - 2026-08-10：对齐 PowerLit 基础 figure handoff 与模板侧读者故事扩展，正式 manifest 强制记录 `metric` 和模板扩展版本；验证代码结构化读取合同字段并核对实际导出 manifest；未知图形布局不再静默回退到单栏。
 - 2026-08-09：将算例图表改为读者可直接理解的工程故事，正文图围绕具体问题、本文方法的物理或决策作用、代表性方法直接对比和实际工程效果组织；取消“物理复现图必须先于方法对比图”的导出顺序门禁，禁止用证据状态、检查数量和自定义综合评分等元指标自动补图；正式图默认以可见的单栏图窗创建，也可选择半栏或双栏并在导出前人工调整，`save_figure` 默认保留实际尺寸，并确保批处理生成的 `.fig` 双击打开时可见。
@@ -310,9 +310,10 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 | 路径 | 用途 |
 | --- | --- |
 | `manuscript/paper.md` | Markdown 论文草稿 |
-| `latex/main.tex` | LaTeX 主文件，正式写作时采用目标期刊模板 |
+| `latex/main.tex` | LaTeX 主文件，默认使用 IEEEtran 双栏期刊模板 |
 | `latex/references.bib` | 当前论文引用的 BibTeX 文献 |
 | `latex/figures/` | 正式稿使用的图片 |
+| `formatting_rules.md` | 默认模板来源与公式、段落、图表、文献排版规则 |
 | `config/`、`revision/` | 论文配置和返修材料 |
 
 先在 Markdown 中完成论文草稿，转入 Overleaf 后以 LaTeX 正式稿为主要修改对象，保留转稿时的 Markdown 版本。模型、公式和结论的重要变化仍同步到研究笔记和 `01_IDEA/`。具体约定见 [02_PAPER/README.md](02_PAPER/README.md)。
@@ -384,6 +385,7 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 ## AI 助手兼容
 
 各入口统一执行规则 03 中的写作目录约定：Markdown 草稿进入 `02_PAPER/manuscript/`，LaTeX 正式稿及稿件用图进入 `02_PAPER/latex/`。
+排版前读取 `02_PAPER/formatting_rules.md`，采用默认 IEEE PES 期刊模板及文档内维护的格式约定。
 
 `AGENTS.md` 是本模板的通用 agent 规则入口，适用于 Codex 和其他读取 `AGENTS.md` 的 coding agent。`GEMINI.md` 是 Gemini CLI 和 Antigravity 相关上下文的根入口，Antigravity 通过该文件读取 `AGENTS.md` 和 `.cursor/`；`CLAUDE.md` 是 Claude Code 入口。三者都保持为薄入口，详细执行规则和 handoff contract 统一放在 `.cursor/`。
 
