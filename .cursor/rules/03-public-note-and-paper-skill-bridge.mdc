@@ -11,27 +11,34 @@ alwaysApply: true
 
 `ProjectName_changelog.md` is the companion research-content changelog. It records substantive changes to the research object itself, not the template's own release history. It uses `YYYY-MM-DD` date versions, keeps the newest version first, and starts each entry with one concise sentence saying what changed.
 
-`ProjectName_note.md` is a traceable research archive. Its job is to turn a project idea into material that collaborators can inspect, continue, and later distill into manuscript prose: how the research question formed, how the route evolved, how the math model maps to code, which results support or revise current judgments, and what remains unresolved.
+`ProjectName_note.md` explains the engineering motivation for the current research gap to senior power-system engineers and researchers. Center the note on the actual operating or planning task, urgency, existing-method limitations, engineering consequences, the proposed treatment, why it works at the mechanism or model level, and supported results. Enter the specific gap directly and keep elementary background brief.
 
 It should contain:
 
 - engineering need, existing-method insufficiency, pain point, and scientific question,
 - minimum identifiable research object, current research positioning, positive contribution wording, engineering setting, and evidence state,
-- major research decisions, abandoned alternatives, retained ideas, and unverified ideas,
-- forked explorations with their hypothesis, Git branch, input differences, result directory, run manifest, observed difference, and decision,
-- route-evolution map from early ideas to the current line,
+- literature-backed engineering demand, urgency, and consequences of the current gap,
+- the relationship between each method choice, the gap it addresses, and its engineering effect,
 - complete mathematical model and derivation,
 - assumptions, approximations, variable definitions, and code-variable mapping,
 - solver and experiment protocol,
 - conclusion-evidence-code bindings,
 - Git branch, commit, tag, issue, and pull-request linkage when available,
-- current date-version and one-sentence current-version summary that points to `ProjectName_changelog.md`,
-- lightweight research trace for meaningful dead ends and pivots,
+- a concise link to the current research-content version when needed,
+- verified references and Chinese-English terminology sources,
 - important results and conclusion support,
 - relation to closest competitors,
-- writing and review checkpoints.
+- the technical conditions under which the current conclusions hold.
 
-Keep `ProjectName_note.md` readable by a collaborator or reviewer-facing coauthor, while preserving immature models, unstable results, failed checks, and unresolved questions when they affect the research line.
+Keep the note focused on the current scientific account. Store development chronology, branch management, task execution, and exploration history in `01_IDEA/research_trace.yaml`, the research changelog, or run records. Correct erroneous prose directly; the final text describes the current valid model and results without recounting the correction.
+
+## Engineering Motivation, Literature, And Terminology
+
+- At project initiation, identify the exact operating or planning task and current research gap. Search the web by default and search the available local PowerLit corpus. Read how technically adjacent papers explain the demand, urgency, assumptions, limitations, consequences, and mechanism. Use publisher records and primary papers to verify bibliographic details.
+- Each concrete project must maintain at least 40 distinct, verified, directly relevant high-quality non-Chinese references. Combine current work, necessary foundational papers, and closest competing methods. Deduplicate by DOI and title. Each reference must have a specific use in the engineering argument, method, or comparison. An unspecified project template keeps an empty catalog with a zero count.
+- After retrieval, update `03_REFERENCE/Powerlit相关论文本地地址.txt`. For each paper record all authors, original title, venue, year, volume, issue, pages or article number, DOI, verification source, paper-specific use, and independently checked local PowerLit PDF and JSON locations. Record genuine missing-file and online-first states explicitly; never fabricate paths or metadata. Keep citation keys consistent with `02_PAPER/latex/references.bib`.
+- Verify Chinese and English expressions for the research object and engineering problem before drafting. Check other technical terms before first use. Maintain `03_REFERENCE/专业术语表.md` with both language forms, definitions, technical distinctions, sources and locations, reference identifiers, and manuscript usage. Consult related primary papers, standards, or authoritative textbooks. Update the table and affected prose when definitions change.
+- Explain why the proposed treatment addresses the stated limitation through physical constraints, model relations, information requirements, computational properties, or decision effects. Reserve physical-causality claims for conclusions supported by physical evidence. State urgency through actual operating conditions, decision times, safety, cost, or investment consequences.
 
 ## Public Narrative Blog
 
@@ -112,27 +119,27 @@ forward to a later section.
 - Copy selected formal exports from `result/<case>/figures/` to `02_PAPER/latex/figures/`. Record the source and manuscript-copy paths in the corresponding `01_IDEA/evidence_map.md` entries and refresh the copies when figures change. Retain plot data, FIG files, manifests, and check reports under `result/`.
 - Track manuscript sources, bibliography, required template files, and publication figures in Git. Before configuring Overleaf synchronization, establish how local `02_PAPER/latex/` maps to the Overleaf project root and which files are synchronized. Fetch current changes and resolve conflicts before pushing; configure synchronization only when requested.
 
-- Keep human-facing files such as `ProjectName_note.md` and `01_IDEA/*` focused on research content: story, claims, derivation, symbols, evidence, route evolution, and next steps. Put agent execution rules, prohibitions, and process guardrails in `.cursor/rules/`, not in those human-facing files.
-- Keep long version-change tables out of `ProjectName_note.md`. Put research-content version history in `ProjectName_changelog.md`; keep only the current date-version and one-sentence current-version summary near the top of the note.
-- Start by locking the minimum identifiable research object, then record problem formation and route evolution. Paper sections should be distilled later from that object-bound archive.
+- Keep the research note focused on the current engineering motivation, model, and results. Maintain derivations, symbols, evidence indexing, and exploration records in their respective `01_IDEA/` files. Put agent execution rules in `.cursor/rules/`.
+- Keep research-content version history in `ProjectName_changelog.md`; the note may link to the current version without repeating the change narrative.
+- Start with the defined research object, its current engineering gap, and verified literature; derive the proposed method's motivation and engineering implications from these facts.
 - Use concrete, evidence-bound language. Strong contribution language should appear only when literature review, proof, and experiments support that exact conclusion.
 - Write innovation points as positive technical statements: minimum identifiable research object, concrete engineering object, engineering pain point, theoretical significance, engineering value, model or physical relation, computation or validation output, evidence source, and next experiment.
 - Record actual innovation at multiple levels: what mechanism, relation, pattern, or research conjecture the project discovers or verifies; what model, constraint, process, or method it proposes; what practical engineering problem it solves; and which derivation, case, metric, or figure supports each level.
 - Treat metrics, cases, and figures as evidence for the theoretical significance and engineering value. Introduction and innovation prose should center mechanism insight, model relation, evaluation viewpoint, and power-system decision value before reporting numerical differences.
 - In the body text of `ProjectName_note.md`, `01_IDEA/story.md`, `01_IDEA/claims.md`, and innovation anchors, use field-recognized terms, engineering objects, physical quantities, model relations, and verifiable case names. Move coined method names, internal experiment configuration aliases, temporary parameter-group names, branch names, and script abbreviations to evidence ids, entry-file fields, result paths, run manifests, Git records, or configuration fields.
 - When evidence is incomplete, add the next experiment, missing reference, or evidence state as explicit follow-up fields.
-- Prefer evidence-bound wording: "current evidence supports", "this remains to be verified", "this route was archived because", "this conclusion is only observed in", and "the assumption applies under".
-- Keep abandoned and archived routes. Record the original idea, attempted implementation, Git record if available, observed failure mode, reason for abandonment, retained lesson, and whether it may be reopened.
+- State the actual applicable system, condition, assumption, and supporting result. When a necessary fact is missing, identify the specific missing fact in its relevant record.
+- Store scientifically relevant exploration history in `01_IDEA/research_trace.yaml`; the research note presents the resulting current model and conclusion.
 - If Git history is unavailable or not yet committed, keep the Git fields and mark them with `【Git 信息待补充】` or `【Git 待提交】` so version linkage can be filled later.
 
 ## Manuscript Introduction Guidance
 
-When distilling an introduction from `ProjectName_note.md`, write for a small-peer expert in the relevant power-system subfield.
+When distilling an introduction from `ProjectName_note.md`, write for senior power-system engineers and researchers in the relevant subfield.
 
-- Develop the introduction's research object and argument in `ProjectName_note.md`, then write manuscript prose in `02_PAPER/manuscript/paper.md`, or in `02_PAPER/latex/` after transfer to formal writing. Do not invoke `$powerlit-power-systems-paper-writing` or PowerLit for this introduction draft; PowerLit remains for `01_IDEA/figure_plan.md` and figure/table/result evidence planning under rule 04.
+- Develop the introduction's engineering argument from web-verified literature and available PowerLit papers, and maintain the motivation and mechanism in `ProjectName_note.md`. Write manuscript prose in `02_PAPER/manuscript/paper.md`, or in `02_PAPER/latex/` after transfer. Use the literature-intelligence skill for retrieval and the writing skill when the requested writing task calls for it.
 - First identify the minimum identifiable research object, then the research field, concrete engineering object, and direction. Use a small-peer object name such as transmission expansion planning, unit commitment, economic dispatch, distribution network planning, analytical AC probabilistic power flow, LRIC pricing, LMP pricing, or DLMP pricing. This object determines which engineering facts, model facts, literature facts, and evidence facts can enter the introduction. This private judgment may stay in the note or story file; do not copy it verbatim into manuscript prose.
 - Do not describe a function, metric, algorithm property, or software capability as an innovation unless it belongs to the declared research object and is backed by model, derivation, or case evidence.
-- Paragraph 1 starts from engineering background and importance: broad system background, narrower problem background, then the concrete problem and its consequence for the target object.
+- Paragraph 1 enters the current operating or planning task directly: actual demand, the specific unresolved condition, its engineering consequences, and urgency. Add general background only when necessary to understand that gap.
 - Paragraph 2 reviews existing methods and nearby papers, states what they already solve, and explains from the engineering object why they still leave the present problem open.
 - Paragraph 3 switches to the mechanism and model view: explain which physical relation, constraint, stochastic relation, or state mapping prevents the current methods from closing the problem, what mathematical analysis is required, and what theoretical significance the analysis can support.
 - Paragraph 4 states the research characteristics: from which angle the paper builds which model or computation relation, which engineering problem it resolves, and which engineering value it serves.
@@ -183,12 +190,10 @@ For missing information, use explicit placeholders such as `【待补充】`, `�
 
 ## Required Threads
 
-The note should preserve three threads:
+The note develops the following technical argument:
 
 ```text
-Problem formation: minimum identifiable research object -> concrete engineering object -> engineering need -> existing insufficiency -> pain point -> scientific question
-Research evolution: initial idea -> exposed problem -> route adjustment -> current route
-Traceability: math model -> code implementation -> Git version -> run manifest -> staged validation -> evidence state
+Operating or planning demand -> existing-method limitation -> engineering consequence -> current research gap -> proposed treatment -> mechanism and conditions -> supported result and engineering value
 ```
 
 ## Synchronization Rules
@@ -199,7 +204,7 @@ Traceability: math model -> code implementation -> Git version -> run manifest -
 - If `01_IDEA/symbols.md` changes symbols, units, dimensions, or code-variable mappings, update the model and writing-check sections in `ProjectName_note.md`.
 - If `01_IDEA/evidence_map.md` registers or changes a formal result, update the result and conclusion-support sections in `ProjectName_note.md`, and revise `ProjectName_blog.md` when the public-facing explanation uses that result.
 - If `01_IDEA/research_trace.yaml` records a route change or failed line that affects the paper wording, update the story or conclusion file.
-- If `01_IDEA/research_trace.yaml` records a forked exploration, keep its run manifest, compared route, observed difference, and merge/archive decision aligned with `ProjectName_note.md` when it affects the current route.
+- If an exploration changes the accepted model or conclusion, update the note's current model, mechanism, or result interpretation; keep exploration details in `01_IDEA/research_trace.yaml` and run records.
 - If `ProjectName.m` or a `ProjectName_case*.m` run produces a paper-facing result, register it in `ProjectName_note.md`; if the result changes the external story, update `ProjectName_blog.md` as well.
 - If any synchronized change alters the research question, route, model, assumptions, experiment protocol, result interpretation, evidence status, figure plan, paper wording, conclusion wording, or handoff judgment, update `ProjectName_changelog.md` for the current date version. Do not use the changelog for pure formatting, typo fixes, or template-maintenance history unless they change the research content.
 - If a result weakens a conclusion, revise the conclusion wording and evidence state before writing or polishing manuscript text.
@@ -231,6 +236,10 @@ Before drafting with the paper-writing skill, load this material in order:
 15. closest-competitor notes or BibTeX under `03_REFERENCE/`
 
 The writing skill should convert the public note into manuscript prose and keep each contribution tied to the archive evidence.
+
+Also read `03_REFERENCE/Powerlit相关论文本地地址.txt` and
+`03_REFERENCE/专业术语表.md` before writing or reviewing the engineering
+motivation, related work, and technical terminology.
 
 When editing or reviewing an existing manuscript, also read its current source:
 `02_PAPER/manuscript/paper.md` during Markdown drafting, or

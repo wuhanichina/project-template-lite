@@ -28,10 +28,12 @@ Git 跟踪 Markdown、LaTeX、BibTeX、模板文件和稿件用图，忽略 LaTe
 
 | 层级 | 文件或目录 | 用途 |
 | --- | --- | --- |
-| 研究档案 | `ProjectName_note.md`、`ProjectName_changelog.md` | 当前问题、路线、模型、版本和证据状态 |
+| 研究论述 | `ProjectName_note.md` | 当前工程缺口的需求、紧迫性、现有方法的后果、方法机理和结果 |
+| 研究版本 | `ProjectName_changelog.md` | 研究内容的实质修改及版本依据 |
 | 结论与推导 | `01_IDEA/claims.md`、`derivation.md`、`symbols.md` | 结论编号、公式、假设、单位和代码映射 |
 | 证据与边界 | `01_IDEA/evidence_map.md`、`research_trace.yaml`、`result/` | 登记结果、run manifest、失败路线和适用边界 |
-| 文献材料 | `03_REFERENCE/` | 已核查文献、最近竞争者和引用信息 |
+| 文献材料 | `03_REFERENCE/Powerlit相关论文本地地址.txt` | 至少 40 篇已核查的高水平非中文相关文献、完整书目信息、本地地址及本文用途 |
+| 专业术语 | `03_REFERENCE/专业术语表.md` | 中英文表达、定义、适用条件和来源 |
 | 对外叙事参考 | `ProjectName_blog.md` | 只参考与创新轴、技术对象和 `narrativeArc` 匹配的叙事顺序，不作为证据或论文现成措辞 |
 | 论文档案 | `02_PAPER/config/paper-profile.yaml` | 保存已确认的创新四轴、叙事路由、生命周期与证据边界 |
 | 投稿终检 | `02_PAPER/submission_consistency.md` | 保存最近一次检查版本、问题位置、修复状态与放行结论 |

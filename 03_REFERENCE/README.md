@@ -1,11 +1,25 @@
 # 03_REFERENCE
 
-Put manually collected literature material here, such as:
+本目录维护本文参考文献和专业术语，支撑当前工程缺口、方法机理及结果解释。
 
-- BibTeX files
-- closest-competitor notes
-- paper reading notes
-- small reference tables
+| 文件 | 内容 |
+| --- | --- |
+| `Powerlit相关论文本地地址.txt` | 完整书目信息、DOI、本文用途及已核实的本地 PDF、JSON 地址 |
+| `专业术语表.md` | 中文术语、英文对应表达、定义、适用条件及文献来源 |
+| 按需保存的阅读笔记和 BibTeX 文件 | 关键文献的工程问题、方法假设、主要结果及引用信息 |
 
-Avoid committing large PDF libraries by default. Track only curated references
-or lightweight notes that are useful for collaborators and paper writing.
+## 文献检索与收录
+
+具体项目立项时，先明确研究对象、当前工程缺口和检索词，默认联网检索相关论文，并检索可访问的本地 PowerLit。阅读原文中对现实需求、工程后果、现有方法及机理原因的论述，核对同类问题的中英文表达。通用模板尚未指定课题，文献目录保留填写格式，数量从零记录。
+
+每个具体项目至少收录 40 篇经核查、与本文直接相关的高水平非中文参考文献。优先选择 IEEE TPWRS、TSG、TPWRD、TSTE、TEC 及其他与课题直接相关的高水平期刊，兼顾近期研究、必要的经典方法和最接近本文的工作。每篇应说明它支持本文哪个论点或哪项比较。按 DOI 和题名合并重复记录，数量按独立文献统计；中文文献可用于核对中文术语，单独记录。
+
+书目信息以出版商页面、DOI 登记信息或正式论文为依据。记录全部作者、年份、期刊、卷号、期号、页码或文章编号。在线优先出版论文注明当前出版状态，卷期页码在正式出版后更新。
+
+检索完成后更新 `Powerlit相关论文本地地址.txt`，分别核实 PDF 和全文 JSON 的实际路径；未找到的文件填写实际检索结果。路径来自当前机器的文件检查，不得根据题名或旧机器目录拼接。文献编号与研究笔记、术语表及稿件引用键保持对应。当前论文使用的 BibTeX 条目集中维护在 `02_PAPER/latex/references.bib`。
+
+## 术语维护
+
+研究对象、工程问题、物理量、方法名称和其他专业术语在首次使用前核对来源。中文和英文对应表达分别记录原文依据，必要时补充标准、权威教材或专业机构资料。说明含义、适用条件和近义词之间的技术区别。术语、符号或模型定义改变时，同步更新术语表、`01_IDEA/symbols.md` 和相关正文。
+
+Git 默认跟踪筛选后的目录、术语表、阅读笔记和引用信息。大型文献库保留在本地 PowerLit。

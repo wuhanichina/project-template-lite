@@ -24,11 +24,17 @@ formal manuscript under `02_PAPER/latex/`.
 Read `02_PAPER/formatting_rules.md` for the default IEEE PES journal template
 and manuscript formatting conventions.
 
+Follow rule 03 for engineering motivation, web and PowerLit retrieval, the
+40-reference requirement, and the project reference catalog and terminology table.
+
 Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Keep these files as shared repository policy,
 rather than editor-only local state.
 
 ## Validation
+
+All MATLAB plots must retain white backgrounds independently of the desktop
+theme; follow the shared figure creation and export rules in rule 01.
 
 This template intentionally ships without a default executable test runner.
 Do not launch MATLAB automatically when copying or deploying the template.

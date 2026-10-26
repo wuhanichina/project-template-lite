@@ -17,10 +17,7 @@ profile = ProjectName_utils.plotting.figure_profile(options.Profile);
 profile.appliedFontSizePt = resolve_font_size(profile, options.FontSizePt);
 fontName = choose_font(profile.fontCandidates);
 
-try
-    figHandle.Color = [1 1 1];
-catch
-end
+ProjectName_utils.plotting.apply_white_background(figHandle);
 
 if options.ApplySize && strlength(options.TargetLayout) > 0
     resize_figure(figHandle, profile, options.TargetLayout);

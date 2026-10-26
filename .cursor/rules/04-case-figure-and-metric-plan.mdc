@@ -172,6 +172,7 @@ Export separate subfigures and combine them during manuscript layout.
 
 ## Synchronization
 
+- All MATLAB figure windows and exports must retain white backgrounds regardless of the desktop theme. Use the shared creation and export functions so this requirement applies to both formal and diagnostic plots.
 - Register the case story and each formal figure in `01_IDEA/figure_plan.md`
   before export.
 - Register a figure in `01_IDEA/evidence_map.md` when it becomes manuscript

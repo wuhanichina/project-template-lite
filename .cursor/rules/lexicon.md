@@ -6,6 +6,10 @@ captions in this template.
 
 ## Preferred Style
 
+- Apply these expression rules to all project-authored text, including replies, documentation, code comments, captions, and manuscript prose. Use power-system terminology verified against primary papers or authoritative technical sources; maintain Chinese-English forms and sources in `03_REFERENCE/专业术语表.md`.
+- Use complete words and complete verb-object expressions. Preserve English code identifiers. Prefer precise verbs such as 计算、求解、核对、比较、解释 and 更新; replace weak constructions using 进行 with the actual action.
+- State the current valid design and conclusion directly. Use contrastive phrasing only for a comparison requested by the user or required by the technical question. Remove unrelated negative qualifications, correction narratives, and repeated explanations of a user-identified error.
+- Avoid internet-business jargon such as 落地、钉死 and 对齐. Name the actual engineering action, parameter, definition, or result. Never invent compressed technical labels or omit necessary sentence components.
 - State the technical conclusion directly.
 - Write innovation points as positive statements about the minimum identifiable
   research object, concrete engineering object, contribution-appropriate

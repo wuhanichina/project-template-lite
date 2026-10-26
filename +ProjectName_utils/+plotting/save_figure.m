@@ -581,10 +581,12 @@ end
 
 function export_figure_bundle(figHandle, outputs, plotData, extraFormats, dpi)
 save_openable_fig(figHandle, outputs.figFile);
-exportgraphics(figHandle, char(outputs.pngFile), "Resolution", dpi);
+exportgraphics(figHandle, char(outputs.pngFile), "Resolution", dpi, ...
+    "BackgroundColor", "white");
 
 try
-    exportgraphics(figHandle, char(outputs.svgFile), "ContentType", "vector");
+    exportgraphics(figHandle, char(outputs.svgFile), "ContentType", "vector", ...
+        "BackgroundColor", "white");
 catch
     print(figHandle, char(outputs.svgFile), "-dsvg");
 end
@@ -912,13 +914,15 @@ for k = 1:numel(extraFormats)
     switch fmt
         case "pdf"
             outFile = fullfile(outDir, figName + ".pdf");
-            exportgraphics(figHandle, char(outFile), "ContentType", "vector");
+            exportgraphics(figHandle, char(outFile), "ContentType", "vector", ...
+                "BackgroundColor", "white");
         case "eps"
             outFile = fullfile(outDir, figName + ".eps");
             print(figHandle, char(outFile), "-depsc");
         case {"tif", "tiff"}
             outFile = fullfile(outDir, figName + ".tiff");
-            exportgraphics(figHandle, char(outFile), "Resolution", dpi);
+            exportgraphics(figHandle, char(outFile), "Resolution", dpi, ...
+                "BackgroundColor", "white");
         otherwise
             error("ProjectName_utils:plotting:UnsupportedFormat", ...
                 "Unsupported extra figure format: %s", fmt);

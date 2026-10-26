@@ -29,6 +29,9 @@ formal manuscript under `02_PAPER/latex/`.
 Read `02_PAPER/formatting_rules.md` for the default IEEE PES journal template
 and manuscript formatting conventions.
 
+Follow rule 03 for engineering motivation, web and PowerLit retrieval, the
+40-reference requirement, and the project reference catalog and terminology table.
+
 Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
 together with template changes. Do not treat agent rule files as editor-only
 local state. Do not recreate `.agents/` or `.agent/` unless the project owner
@@ -36,6 +39,9 @@ explicitly reintroduces those Antigravity paths. Keep AI contracts under
 `.cursor/contracts/`, not in a root-level `contracts/` directory.
 
 ## Validation
+
+All MATLAB plots must retain white backgrounds independently of the desktop
+theme; follow the shared figure creation and export rules in rule 01.
 
 This template intentionally ships without a default executable test runner.
 Do not launch MATLAB automatically when copying or deploying the template.
