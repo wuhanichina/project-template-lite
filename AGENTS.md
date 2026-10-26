@@ -1,47 +1,87 @@
 # AGENTS.md
 
-## Project Rules
+## 适用范围与任务入口
 
-Before editing code, documentation, comments, generated prose, or template
-structure in this repository, read and follow:
+本文件适用于整个项目。子目录中的 `AGENTS.md` 补充该目录的专业约定。修改文件前读取当前内容，保留用户的最新修改。按任务读取以下规范，即使待修改文件位于其他目录：
 
-- `.cursor/rules/00-lightweight-research-coding.mdc`
-- `.cursor/rules/01-matlab-code-style.mdc`
-- `.cursor/rules/02-local-optimizer-first.mdc`
-- `.cursor/rules/03-public-note-and-paper-skill-bridge.mdc`
-- `.cursor/rules/04-case-figure-and-metric-plan.mdc`
-- `.cursor/rules/lexicon.md`
+| 任务 | 必须读取 |
+| --- | --- |
+| 立项、研究笔记、对外介绍、论文写作与返修 | `02_PAPER/AGENTS.md`、`03_REFERENCE/AGENTS.md` |
+| 文献检索、参考文献和专业术语维护 | `03_REFERENCE/AGENTS.md` |
+| 算例图表计划、MATLAB 绘图和导出 | `+ProjectName_utils/+plotting/AGENTS.md` |
 
-Treat these files as repository policy for Codex, Gemini CLI, Antigravity, and
-other coding-agent work in this template. Antigravity compatibility is routed
-through `GEMINI.md`.
+项目指令统一维护在根目录及子目录的 `AGENTS.md`。规则修改与模板修改一同提交，README 中的说明与引用保持一致。
 
-For PowerLit writing/review handoff, also read
-`.cursor/contracts/project-template-handoff.schema.yaml` and the active
-`02_PAPER/config/paper-profile.yaml` (or its example). Keep reasoning policy in
-the Skill and persistent state, MATLAB execution, manifests, and audit artifacts
-in this template.
+## 工程对象与表达
 
-## Sync Policy
+- 所有项目自编文字，包括任务回复、正文、文档、图注和代码注释，使用完整句子、完整词语及明确的动宾结构。英文代码标识符保持原名。
+- 面向电力系统资深工程师和高级研究员，直接说明工程对象、工况、输入、物理关系、约束、电气量或决策及其结果。专业表达以已核查文献或标准为依据，中英文用法维护在 `03_REFERENCE/专业术语表.md`。
+- 写入项目文档前，逐句严查生造词及计算机、数学术语直译形成的翻译腔。使用电力系统文献中的通用名称和自然表达；确有必要的专业术语核对原文含义、适用条件与已有用法，更新专业术语表。
+- 对资深电力系统读者熟知的概念和惯例简洁表述，将解释篇幅用于当前研究缺口、关键假设、方法机理和工程后果。影响公式含义、模型成立条件或结果解释的定义必须写清。
+- 禁止防守性、审计化、学生化的消极免责语言。必要的适用条件和缺失信息写成具体事实及其对当前结论的影响。
+- 比较句用于明确的技术比较。禁止无关否定、虚构比较对象、反问引入、重复总结、组织性套话、工作量评价、营销词、单字缩写和自造简称。采用直接的技术陈述。
+- 使用计算、求解、核对、比较、解释、导出、登记和更新等具体动词，避免以弱动词“进行”替代实际动作。避免“落地”“钉死”“对齐”等黑话。
+- 正文呈现当前有效设计和结论。发现文字错误后直接修正，用户指出错误后依据修正后的事实继续工作；删除过时解释和无关修正过程。
+- 创新点写清研究对象、工程问题、模型关系、理论意义、工程价值及证据。方法名和场景名应能被同行理解；内部配置代号、分支名和脚本缩写进入配置或来源记录。
+- “物理机理”需要物理因果关系和可验证预测的支撑。模型、算法、控制、理论和数据贡献分别解释模型关系、计算性质、状态响应、成立条件或观测能力。
+- 强调词应有数字、容差、比较条件或来源支撑。正文使用逗号和句号组织完整语句，避免破折号强调与片段堆叠。
+- 下列词语仅可在本规则或明确评述原文的引文中出现，禁止用于研究笔记、故事线、结论、创新点、摘要、引言、图注和读者说明正文：证书、零空间、范式、certificate、nullspace、paradigm、estimator。
+- 算子、可微、operator、differentiable 仅在数学对象确有必要且已在推导中定义时使用，通常优先写明方程、映射、约束、状态、物理关系或模型参数。
+- 避免空泛的英文写作套话：navigate、unpack、landscape、deep dive、game-changer、at its core、it is worth noting、it turns out、as we will see、in this section、when it comes to、think about it、here is what I mean。significant、structural、fundamentally、inherently、simply、really、every、always、never、all 应有准确的技术含义与适用范围。
 
-Paper sources follow rule 03: Markdown drafts live in `02_PAPER/manuscript/`;
-formal LaTeX sources and publication figures live in `02_PAPER/latex/`.
-Read `02_PAPER/formatting_rules.md` for the default IEEE PES journal template
-and manuscript formatting conventions.
+## 目录与材料职责
 
-Rule 03 requires literature-backed engineering motivation, at least 40 verified
-high-quality non-Chinese references for each concrete project, and maintained
-`03_REFERENCE/Powerlit相关论文本地地址.txt` and `03_REFERENCE/专业术语表.md`.
+- 项目根目录是 MATLAB 代码根目录。`ProjectName.m` 串联登记算例、汇总和全局图；`ProjectName_case*.m` 展示算例步骤并调用包函数，保持入口简洁。
+- `+ProjectName_core/` 保存物理模型、数学模型、核心算法、求解和论文指标；`+ProjectName_utils/` 保存 MC、IO、绘图、缓存、日志和进度工具；`+ProjectName_sota/` 保存对比方法。
+- 共享实现进入按物理对象、数学内容、方法族或求解阶段命名的子包。包根目录仅放 README、简短分发函数或注册表。禁止把可复用实现堆放在根目录。
+- `data/` 保存完整复现输入，`cache/` 保存可重建的中间结果，`result/<case>/` 保存算例结果、日志和 `run_manifest.json`，`result/<case>/figures/` 保存正式图。`tests/` 保存调参、局部检查与临时验证。
+- 正式计算应能从代码和 `data/` 启动；缓存缺失时重新计算。`result/` 仅在明确复核既有结果的任务中作为读取对象。
+- `01_IDEA/` 保存研究目的、结论、推导、符号、证据索引、图表计划和研究记录。`02_PAPER/manuscript/` 保存 Markdown 草稿，`02_PAPER/latex/` 保存完整 LaTeX 稿件。`03_REFERENCE/` 保存文献目录、术语表和阅读材料。
+- `ProjectName_note.md` 说明当前工程缺口的现实需求、紧迫性、现有方法的工程后果、本文方法机理和结果含义。`ProjectName_blog.md` 提供有文献和结果依据的对外叙述。`ProjectName_changelog.md` 记录研究内容的实质变化。
+- 保持根目录简洁。新建目录应服务明确需求，沿用已有包和材料目录；作者明确选择新的组织方式后再增加目录。
+- PowerLit 交接合同保存在 `.cursor/contracts/project-template-handoff.schema.yaml`。修改交接接口时显式更新合同版本及引用，保留来源记录。规则文件和交接数据分别维护。
 
-Commit and push `.cursor/`, `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` changes
-together with template changes. Do not treat agent rule files as editor-only
-local state.
+## MATLAB 编码与平台
 
-## Validation
+本节适用于全项目所有 `.m` 文件及其 MATLAB 调用的求解器接口。
 
-All MATLAB plots must retain white backgrounds independently of the desktop
-theme; follow the shared figure creation and export rules in rule 01.
+- 兼容目标最低版本为 MATLAB R2020a，并考虑 Windows 与 Apple Silicon macOS。使用 `fullfile`、`filesep`、`ispc`、`ismac` 或 `computer`；机器路径集中在入口顶部配置，平台限定接口作为明确的可选适配。
+- 使用 `projectRoot = fileparts(mfilename('fullpath'))` 构建绝对路径。外部命令中的路径显式引用；包含空格或中文的路径优先通过简短 `.m` 入口调用，避免很长的内联命令。
+- 将算例名、入口、数据源、求解器、随机种子、输出目录、缓存、迭代次数和容差集中在入口顶部的 `config` 或 `caseConfig` 中。模型实现使用有名称的参数。
+- 函数名采用有对象或操作含义的 lower snake case，结构字段采用 lower camel case。避免 helper、utils、misc、temp、test1、new_method 等含义不明的实现名称。
+- 稳定的可复用函数接口使用 `arguments`，物理、维度和求解前提使用 `assert`。错误信息写明失败对象、原因及应检查的变量或路径。
+- 核心模型函数标明对应推导位置，数学变量与 `01_IDEA/symbols.md` 保持一致；算例入口说明支持的结论编号。
+- 禁止通过静默异常处理掩盖缺失依赖、不可行或求解失败。保留真实求解状态和足够的错误上下文。必要依赖直接加载，采用成熟接口和文件格式解析库。
+- 算例整体进度写入终端；局部长耗时函数使用 `ProjectName_utils.ui.create_task_waitbar`。
+- 所有 MATLAB 图窗、坐标区、图例和导出背景固定为白色，文字保持可读。通过 `create_figure`、`apply_white_background` 和 `save_figure` 实施；仅在存在 `Theme` 属性时设置浅色主题，维持旧版本兼容性。
 
-This template intentionally ships without a default executable test runner.
-Do not launch MATLAB automatically when copying or deploying the template.
-Run only the project-specific checks explicitly selected by the author.
+## 求解器
+
+- SDP、SOCP 和清晰的凸模型优先使用 `CVX + MOSEK`；LP、QP、MILP、MIQP 及可写成 LP/QP/QCP 的 SCA 子问题直接使用 `Gurobi`。
+- 标准锥形式适合直接接口时使用 `MOSEK`；MATLAB 内置求解器用于小规模诊断或明确的对比。遗留复现和确有需要的非凸模型可采用单独的 GAMS 适配。
+- 通过 MATLAB 路径上的实际接口确认依赖，不能仅依据安装目录判断。检查 `cvx_begin`、`mosekopt` 和 `gurobi` 的可见性；CVX 启动后再次确认接口。
+- 不同模型类别先确认数学形式及求解器能力，再选择接口。记录求解器族、版本、容差、实际状态和 MATLAB 接口可见性。
+- 正式流程避免强制依赖 Windows 专属可执行文件、x86 专属构建、本机许可路径或 GAMS。
+
+## 研究内容与结果同步
+
+- 每个主要算例回答 `01_IDEA/claims.md` 中的一个问题。公式或假设变化更新 `derivation.md`，符号和单位变化更新 `symbols.md`，指标或比较定义变化更新 `claims.md`。
+- 论文结论使用已登记的结果，`01_IDEA/evidence_map.md` 连接结论编号、证据编号、入口、配置和结果文件。每次正式运行在图表导出后写出 `run_manifest.json`，记录 Git、环境、数据版本、求解器及输出。
+- 当前结果改变模型、故事或结论时同步更新研究笔记、相关 `01_IDEA/` 文件及涉及该结果的对外介绍。
+- 研究内容的实质变化记录在 `ProjectName_changelog.md`，采用日期版本、最新在前和一句具体变更说明；模板维护记录在 README。
+- 有科学价值的探索、分叉假设、输入差异、比较结果和研究决策写入 `01_IDEA/research_trace.yaml`，并连接相应运行记录。研究笔记正文说明当前模型和结论。
+- 初步直觉和未经登记的观察作为待验证问题。结论的强度、适用条件和证据保持一致。
+
+## 运行与验证
+
+模板没有默认可执行测试入口。复制、部署或修改模板时不自动启动 MATLAB，仅执行作者明确选择的项目检查。文档修改检查路径和内容一致性，代码修改核对相关调用关系；实际运行与数值验收分别报告。
+
+作者选择运行算例后，可在项目根目录的 MATLAB 中使用：
+
+```matlab
+ProjectName
+ProjectName_case33bw
+ProjectName_case123
+```
+
+提交或交接前，按作者选择的检查验证清空或改名缓存后的冷启动、真实输入和输出完整性。Git 提交前检查变更范围和格式，将相关 `AGENTS.md` 与模板内容一同提交；用户要求推送时核对远端及分支后推送。

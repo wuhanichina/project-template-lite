@@ -32,7 +32,7 @@ Git 跟踪 Markdown、LaTeX、BibTeX、模板文件和稿件用图，忽略 LaTe
 | 研究版本 | `ProjectName_changelog.md` | 研究内容的实质修改及版本依据 |
 | 结论与推导 | `01_IDEA/claims.md`、`derivation.md`、`symbols.md` | 结论编号、公式、假设、单位和代码映射 |
 | 证据与边界 | `01_IDEA/evidence_map.md`、`research_trace.yaml`、`result/` | 登记结果、run manifest、失败路线和适用边界 |
-| 文献材料 | `03_REFERENCE/Powerlit相关论文本地地址.txt` | 至少 40 篇已核查的高水平非中文相关文献、完整书目信息、本地地址及本文用途 |
+| 文献材料 | `03_REFERENCE/Powerlit相关论文本地地址.md` | 至少 40 篇已核查的高水平非中文相关文献、完整书目信息、本地地址及本文用途 |
 | 专业术语 | `03_REFERENCE/专业术语表.md` | 中英文表达、定义、适用条件和来源 |
 | 对外叙事参考 | `ProjectName_blog.md` | 只参考与创新轴、技术对象和 `narrativeArc` 匹配的叙事顺序，不作为证据或论文现成措辞 |
 | 论文档案 | `02_PAPER/config/paper-profile.yaml` | 保存已确认的创新四轴、叙事路由、生命周期与证据边界 |
@@ -41,7 +41,7 @@ Git 跟踪 Markdown、LaTeX、BibTeX、模板文件和稿件用图，忽略 LaTe
 
 Introduction 和 Contributions 必须从研究档案、结论、推导、登记结果和已核查文献重新组织。`ProjectName_blog.md` 中的项目判断即使表达完整，也要再次核对适用范围、证据来源和证据状态；不能轻量改写后直接进入稿件。作者经验、工程直觉和未登记观察只能作为 `仅为当前假设`、`尚未验证` 或 `文献待核查` 的研究问题。
 
-AI 生成的正文、图注、审稿回复和作者侧说明在发布前应通过 `.cursor/rules/03-public-note-and-paper-skill-bridge.mdc` 的写作检查和 `.cursor/rules/lexicon.md` 的词表检查。
+AI 生成的正文、图注、审稿回复和作者侧说明遵守根目录 `AGENTS.md` 的表达规范及本目录 `AGENTS.md` 的写作与返修约定。
 
 正式论文图来自 `result/<case>/figures/`，并由 `ProjectName_utils.plotting.save_figure` 导出 FIG、PNG、SVG、可选格式、绘图数据、manifest 和检查报告。图表成为论文证据前，应在 `01_IDEA/evidence_map.md` 登记。
 

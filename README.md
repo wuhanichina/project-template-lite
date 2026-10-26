@@ -16,7 +16,7 @@ Version: 2026.10.26
 
 仅保留最近 10 个日期版本；同一日期的多项修改合并为一条。
 
-- 2026-10-26：统一 MATLAB 绘图白色背景；研究笔记围绕当前工程缺口的需求、紧迫性、方法机理和工程后果组织，立项时默认检索文献及中英文术语，具体项目维护至少 40 篇高水平非中文参考文献及本地 PowerLit 地址。
+- 2026-10-26：项目规范统一维护在根目录及论文、文献、绘图目录的 `AGENTS.md`；统一 MATLAB 绘图白色背景，研究笔记聚焦工程动机和方法机理，具体项目维护至少 40 篇高水平非中文参考文献，采用 Markdown 目录记录本地 PowerLit 地址及引用用途，并维护中英文术语表；文档写入前逐句严查生造词及计算机、数学翻译腔，对电力系统约定俗成的概念简洁表述，完整保留必要定义与成立条件。
 - 2026-10-21：新增 `02_PAPER/manuscript/` Markdown 草稿与 `02_PAPER/latex/` 正式稿目录，默认使用 IEEE PES Transactions 适用的官方 IEEEtran 模板；在 `02_PAPER/formatting_rules.md` 维护公式、段落、图表和文献排版约定，统一稿件用图、BibTeX、Overleaf 同步范围和分阶段写作规则。
 - 2026-08-15：删除模板自带的 MATLAB 验证套件及默认执行入口，部署或复制模板时不再自动启动 MATLAB；项目验证由作者按实际研究代码显式配置。
 - 2026-08-10：统一 PowerLit 基础 figure handoff 与模板侧读者故事扩展，正式 manifest 强制记录 `metric` 和模板扩展版本；验证代码结构化读取合同字段并核对实际导出 manifest；未知图形布局不再静默回退到单栏。
@@ -25,11 +25,7 @@ Version: 2026.10.26
 - 2026-07-12：在 `.cursor/` 中统一版本化 PowerLit handoff contract 与 AI 规则，新增受版本控制的 paper profile、创新/生命周期字段和按创新类型选择的对外叙事路线，联通 Figure-first 计划、run/figure manifest、投稿一致性报告与返修工件，并扩展 MATLAB 验证。
 - 2026-07-10：新增证据约束的 `ProjectName_blog.md`，修复正式图事务式导出、并发锁、异常回滚与 claim 门禁，补齐失败运行 manifest、递归输入 SHA-256 指纹和跨平台重命名，并增加完整验证套件。
 - 2026-07-07：要求项目引言和创新点先提炼理论意义与工程价值，指标、算例和图表承担证据支撑作用。
-- 2026-07-06：集中更新写作契约，补充创新层级记录、引言草稿位置、PowerLit 使用边界、词表硬禁用/慎用规则和领域通用术语要求，并移除 `.agents/`、`.agent/` 兼容路径，改由 `GEMINI.md` 引导 Gemini CLI / Antigravity 读取共享规则。
-- 2026-07-05：增加 Gemini CLI / Antigravity 兼容入口 `GEMINI.md`，明确 `AGENTS.md` 与 `.cursor/rules/` 为共享规则源，并强化最小可辨识研究对象、正向创新写作、工程痛点、模型关系、可验证输出和证据来源的组织方式。
-- 2026-07-04：新增 `ProjectName_changelog.md` 作为研究内容 changelog，将 `ProjectName_note.md` 的长更新记录移出，并要求研究内容版本按日期倒序登记。
-- 2026-07-03：补齐算例级 `run_manifest.json`、分叉探索记录、case 注册表和图表计划填写标准，统一 run manifest 与 trace schema，去掉 `ProjectName.m` 的 `cd` 副作用，并将 04 图表与指标规划规则纳入 agent 入口。
-- 2026-06-30：将版本更新记录改为倒序，并补充参数图绘制前的 SOTA 参数调研规则。
+- 2026-07-06：集中更新写作契约，补充创新层级记录、引言材料、PowerLit 使用约定和领域专业术语要求。
 
 ---
 
@@ -92,7 +88,7 @@ Windows PowerShell（在项目根目录运行）：
 
 ```powershell
 $New = "Abc"   # 改成你的项目简称
-$TextExtensions = @(".m", ".md", ".mdc", ".yaml", ".yml", ".json")
+$TextExtensions = @(".m", ".md", ".txt", ".tex", ".bib", ".yaml", ".yml", ".json")
 $Utf8Strict = New-Object System.Text.UTF8Encoding($false, $true)
 $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 
@@ -142,7 +138,8 @@ NEW=Abc   # 改成你的项目简称
 [[ "$NEW" =~ ^[A-Za-z][A-Za-z0-9_]*$ ]] || { echo "项目简称格式无效"; exit 1; }
 
 # 1. 替换文本内容；BSD sed 的 -i 需要空备份后缀
-find . -type f \( -name '*.m' -o -name '*.md' -o -name '*.mdc' -o \
+find . -type f \( -name '*.m' -o -name '*.md' -o -name '*.txt' -o \
+  -name '*.tex' -o -name '*.bib' -o \
   -name '*.yaml' -o -name '*.yml' -o -name '*.json' \) \
   -not -path './.git/*' -exec sed -i '' "s/ProjectName/${NEW}/g" {} +
 
@@ -163,7 +160,8 @@ NEW=Abc   # 改成你的项目简称
 [[ "$NEW" =~ ^[A-Za-z][A-Za-z0-9_]*$ ]] || { echo "项目简称格式无效"; exit 1; }
 
 # 1. 替换文本内容；GNU sed 直接使用 -i
-find . -type f \( -name '*.m' -o -name '*.md' -o -name '*.mdc' -o \
+find . -type f \( -name '*.m' -o -name '*.md' -o -name '*.txt' -o \
+  -name '*.tex' -o -name '*.bib' -o \
   -name '*.yaml' -o -name '*.yml' -o -name '*.json' \) \
   -not -path './.git/*' -exec sed -i "s/ProjectName/${NEW}/g" {} +
 
@@ -200,7 +198,8 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 | 中间缓存 | `cache/` | 保存可由 `data/` 和代码再生成的派生结果 |
 | 结果证据 | `result/<算例名>/` | 保存正式结果、表格、日志、`run_manifest.json` 和图表证据包 |
 | 论文材料 | `02_PAPER/manuscript/`、`02_PAPER/latex/`、`03_REFERENCE/` | 保存 Markdown 草稿、LaTeX 正式稿、稿件用图、参考文献和阅读记录 |
-| AI 助手规则 | `AGENTS.md`、`GEMINI.md`、`CLAUDE.md`、`.cursor/` | 集中保存代码、出图、证据、写作规则和 handoff contract，并提供不同 agent 工具入口 |
+| AI 助手规范 | 根目录及相关子目录的 `AGENTS.md` | 按目录维护全局编码、论文、文献和绘图规范 |
+| 写作交接合同 | `.cursor/contracts/` | 保存 PowerLit 交接字段、版本与来源 |
 
 ---
 
@@ -298,10 +297,8 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 ├── 01_IDEA/                  # 故事线、待验证结论、推导、符号、证据索引、研究轨迹
 ├── 02_PAPER/                 # Markdown 草稿、LaTeX 正式稿、配置与返修材料
 ├── 03_REFERENCE/             # 参考文献、BibTeX、阅读材料
-├── AGENTS.md                 # Codex / 通用 coding-agent 规则入口
-├── GEMINI.md                 # Gemini CLI / Antigravity 根入口
-├── CLAUDE.md                 # Claude Code 规则入口
-└── .cursor/                  # 共享 AI 规则与 handoff contract，各类 agent 共同引用
+├── AGENTS.md                 # 全局表达、MATLAB、求解器和验证规范
+└── .cursor/contracts/        # PowerLit 写作交接合同
 ```
 
 GitHub 不保存空目录，所以模板用少量 README 文件保留关键目录。目录 README 只说明放置规则；结果证据以 `result/`、`01_IDEA/evidence_map.md` 和正式图证据包为准。
@@ -375,9 +372,10 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 | 证据承载材料 | `ProjectName_note.md`、`ProjectName_changelog.md`、`01_IDEA/`、登记结果 | 记录问题、结论、推导、证据、版本摘要和路线演化，支撑复核与论文提炼 |
 | 对外叙事参考 | `ProjectName_blog.md` | 在证据边界内组织外部说明，不替代结论、推导、结果、文献或论文正文 |
 | 论文材料 | `02_PAPER/`、`03_REFERENCE/` | 沉淀论文草稿、作者配置示例、参考文献和阅读材料 |
-| AI 入口文件 | `AGENTS.md`、`GEMINI.md`、`CLAUDE.md` | 给 Codex、Gemini CLI、Antigravity 和 Claude Code 提供入口，并指向共享规则源 |
-| AI 执行规则与合同 | `.cursor/rules/`、`.cursor/contracts/` | 集中约束 AI 助手的代码组织、出图出口、证据同步、写作约定和 Skill 交接字段 |
-| AI 写作规则 | `.cursor/rules/03-public-note-and-paper-skill-bridge.mdc`、`.cursor/rules/lexicon.md` | 检查中英文 AI 生成文本中的研究对象、工程场景、模型关系、证据口径和术语质量 |
+| 全局规范 | `AGENTS.md` | 全局表达、目录职责、MATLAB 编码、求解器、结果同步和验证 |
+| 论文与文献规范 | `02_PAPER/AGENTS.md`、`03_REFERENCE/AGENTS.md` | 工程动机、稿件排版、文献检索、中英文术语和返修 |
+| 图表规范 | `+ProjectName_utils/+plotting/AGENTS.md` | 算例图表计划、指标、白底绘图、视觉编码和导出文件 |
+| 写作交接合同 | `.cursor/contracts/` | PowerLit 交接字段、版本与来源 |
 | 代码质量门 | `+ProjectName_utils/+plotting/save_figure.m` | 在正式出图时检查图表元信息、导出包和检查报告 |
 | 运行审计记录 | `result/<case>/run_manifest.json` | 记录算例入口、环境、配置、输入、缓存、输出和图表证据路径 |
 
@@ -385,14 +383,20 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 
 ## AI 助手兼容
 
-立项和撰写工程动机时，按规则 03 默认检索文献，读取 `03_REFERENCE/Powerlit相关论文本地地址.txt` 和 `03_REFERENCE/专业术语表.md`，核对参考文献用途及专业表达。
+项目指令由根目录和子目录的 `AGENTS.md` 统一维护：
 
-各入口统一执行规则 03 中的写作目录约定：Markdown 草稿进入 `02_PAPER/manuscript/`，LaTeX 正式稿及稿件用图进入 `02_PAPER/latex/`。
-排版前读取 `02_PAPER/formatting_rules.md`，采用默认 IEEE PES 期刊模板及文档内维护的格式约定。
+| 文件 | 适用内容 |
+| --- | --- |
+| `AGENTS.md` | 全局技术选择、所有 MATLAB 文件的编码约定、表达规范、目录职责、运行和验证 |
+| `02_PAPER/AGENTS.md` | 研究笔记、对外介绍、Markdown 和 LaTeX 稿件、IEEE PES 排版及返修 |
+| `03_REFERENCE/AGENTS.md` | 默认联网和 PowerLit 检索、40 篇非中文文献、本地地址与专业术语表 |
+| `+ProjectName_utils/+plotting/AGENTS.md` | 图表计划、指标、白底、版面、视觉编码和正式导出 |
 
-`AGENTS.md` 是本模板的通用 agent 规则入口，适用于 Codex 和其他读取 `AGENTS.md` 的 coding agent。`GEMINI.md` 是 Gemini CLI 和 Antigravity 相关上下文的根入口，Antigravity 通过该文件读取 `AGENTS.md` 和 `.cursor/`；`CLAUDE.md` 是 Claude Code 入口。三者都保持为薄入口，详细执行规则和 handoff contract 统一放在 `.cursor/`。
+根目录规范列出各类任务需要读取的子目录规范。撰写根目录研究笔记、维护 `01_IDEA/` 材料或修改根目录算例入口时，也按任务读取相应文件。
 
-本模板不维护 `.agents/`、`.agent/` 或 `.codex/` 目录。复制模板或更新规则时，保持 `AGENTS.md`、`GEMINI.md`、`CLAUDE.md` 和 `.cursor/` 同步提交。不要在这些入口文件里复制长规则正文；入口文件只负责把不同工具导向同一套共享规则和合同。
+Markdown 草稿进入 `02_PAPER/manuscript/`，LaTeX 正式稿及稿件用图进入 `02_PAPER/latex/`。排版前读取 `02_PAPER/formatting_rules.md`。文献用途和术语来源分别维护在 `03_REFERENCE/Powerlit相关论文本地地址.md` 与 `03_REFERENCE/专业术语表.md`。
+
+PowerLit 交接合同保存在 `.cursor/contracts/`。更新规范时，同步相关 `AGENTS.md`、README 和实际引用；合同字段变化时单独维护其版本与来源。
 
 ---
 
@@ -499,15 +503,17 @@ ProjectName_utils.plotting.save_figure(...)
 
 立项时默认联网检索与当前工程缺口相关的高水平论文，并检索可访问的本地 PowerLit。阅读同类问题的工程表述、输入假设、方法能力、机理原因和工程后果，再组织研究笔记中的论述。正式引言写入 `02_PAPER/manuscript/paper.md`，转稿后维护 LaTeX 稿件。
 
-每个具体项目至少收录 40 篇经核查的高水平非中文参考文献，按 DOI 和题名合并重复记录。`03_REFERENCE/Powerlit相关论文本地地址.txt` 逐篇列出全部作者、题名、期刊、年份、卷号、期号、页码或文章编号、DOI、本文用途，以及已经检查存在的 PowerLit PDF 和 JSON 地址。通用模板尚未指定课题，目录数量从零记录。
+每个具体项目至少收录 40 篇经核查的高水平非中文参考文献，按 DOI 和题名合并重复记录。`03_REFERENCE/Powerlit相关论文本地地址.md` 逐篇列出全部作者、题名、期刊、年份、卷号、期号、页码或文章编号、DOI、本文用途，以及已经检查存在的 PowerLit PDF 和 JSON 地址。通用模板尚未指定课题，目录数量从零记录。
 
 研究对象、工程问题及其他专业术语首次使用前，核对同类论文、标准或权威教材中的常用表达，在 `03_REFERENCE/专业术语表.md` 维护中文、英文、定义、适用条件、来源位置和本文用法。正文、符号表与稿件保持一致。
 
-文字风格要求物理概念清晰、数学逻辑简练。优先使用节点电压、线路功率、潮流约束、源荷过程、运行场景、概率分布、越限事件等电力系统对象和物理量；`.cursor/rules/lexicon.md` 中的硬禁用词不得出现在研究笔记、故事线、结论、创新点、引言、贡献句和图注正文中，慎用词只在数学对象必要且已定义时使用。
+写入项目文档前，逐句严查生造词及计算机、数学术语直译形成的翻译腔，采用电力系统文献中的通用名称和自然表达。对资深读者熟知的概念与惯例简洁交代，重点解释当前研究缺口、关键假设、方法机理及工程后果；影响公式含义、模型成立条件或结果解释的定义必须写清。
+
+文字风格要求物理概念清晰、数学逻辑简练。优先使用节点电压、线路功率、潮流约束、源荷过程、运行场景、概率分布、越限事件等电力系统对象和物理量；根目录 `AGENTS.md` 维护完整表达规范，专业术语表记录项目具体用法及来源。
 
 优先使用“当前证据支持”“该判断仍需验证”“该路线已归档”“该结论目前仅在某算例中观察到”等表达，让读者看到证据强度。
 
-AI 生成的研究笔记、论文草稿、审稿回复、图注、README 和代码注释应通过 `.cursor/rules/03-public-note-and-paper-skill-bridge.mdc` 中的写作风格检查，并用 `.cursor/rules/lexicon.md` 做最终词表筛查。文本应直接陈述研究对象、工程痛点、理论意义、工程价值、模型关系、工程场景和证据状态。创新点应写成正向技术句，先说明本文建立了什么、形成什么理论意义、服务什么工程价值、解决了什么，再给出证据来源和后续实验；正文方法名称应能被小同行直接理解。
+AI 生成的研究笔记、论文草稿、审稿回复、图注、README 和代码注释遵守根目录 `AGENTS.md`；涉及稿件、文献或图表时读取对应子目录的 `AGENTS.md`。文本直接陈述研究对象、工程问题、模型关系、理论意义、工程价值及支持证据，方法名称和专业用语应能被同行理解。
 
 判断性结论应标注证据状态。推荐状态包括：
 
@@ -584,7 +590,7 @@ ProjectName_case123
 | 图表包 | 正式图包含 `.fig/.png/.svg`、绘图数据、追溯记录和检查报告 |
 | 对比口径 | 对比方法和本文方法共用数据、指标和约束口径 |
 | 作者配置 | 真实 `author-profile.yaml` 保留本地，`author-profile.example.yaml` 可提交 |
-| AI 助手规则 | `AGENTS.md`、`GEMINI.md`、`CLAUDE.md` 和 `.cursor/` 随模板变化同步提交，根目录不保留 `.codex/` 或独立 `contracts/` |
+| AI 助手规范 | 根目录及子目录的 `AGENTS.md`、README 和代码中的引用一致，相关规范随模板变化同步提交 |
 
 `result/` 可以保存正式证据、表格、图和日志，但默认也不作为计算启动输入。只有在明确写成“复核既有结果”的脚本中，才可以把 `result/` 作为读取对象。
 
@@ -613,7 +619,7 @@ ProjectName_case123
 建议跟踪：
 
 - 模板入口和 MATLAB 包目录。
-- `.cursor/` 中的共享 AI 规则和 handoff contract。
+- 根目录及子目录的 `AGENTS.md`，以及 `.cursor/contracts/` 中的写作交接合同。
 - `01_IDEA/`、`02_PAPER/config/author-profile.example.yaml`、`03_REFERENCE/` 中的轻量文本材料。
 - `02_PAPER/manuscript/`、`02_PAPER/latex/` 中的稿件源文件、BibTeX、必要模板文件和稿件用图；LaTeX 编译中间文件由 `.gitignore` 排除。
 - `data/` 中随项目提交的完整复现输入，以及 `cache/`、`tests/`、`result/` 里的 README 占位说明。
@@ -637,4 +643,4 @@ ProjectName_case123
 
 本模板刻意保持根目录轻量。常规工作优先进入已有目录、已有 MATLAB 包目录和每个算例的 `figures/`。项目规模确实需要新的组织方式时，由项目作者明确决定，再补充相应说明。
 
-正式研究材料和 AI 助手执行规则分开放置。`README.md`、`ProjectName_note.md`、`ProjectName_changelog.md` 和 `01_IDEA/*` 面向人类读者，呈现研究内容、证据状态、版本摘要和交接路径；`AGENTS.md`、`GEMINI.md`、`CLAUDE.md` 和 `.cursor/` 面向 AI 助手，保存入口、执行约束、代码组织规则、写作检查规则和 handoff contract。
+正式研究材料和执行规范分别维护。`README.md`、`ProjectName_note.md`、`ProjectName_changelog.md` 和 `01_IDEA/*` 呈现研究内容、结果依据和交接材料；根目录及子目录的 `AGENTS.md` 保存执行规范，`.cursor/contracts/` 保存写作交接合同。

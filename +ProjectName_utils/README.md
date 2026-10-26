@@ -31,7 +31,7 @@ trusted-reference comparison applies; otherwise use `not_applicable`.
 `sota-comparison`, or `sensitivity-ablation` for contract compatibility, but it
 does not impose a fixed export order or require one figure of each type. Plan
 the reader-facing engineering story in `01_IDEA/figure_plan.md` and follow
-`.cursor/rules/04-case-figure-and-metric-plan.mdc`. Keep data transformations,
+`+ProjectName_utils/+plotting/AGENTS.md`. Keep data transformations,
 excluded points, and log-axis zero handling explicit in the manifest and check
 report.
 The exporter records `templateFigureContractVersion` automatically so the
