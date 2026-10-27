@@ -1,6 +1,6 @@
 # project-template-lite
 
-Version: 2026.10.26
+Version: 2026.10.27
 
 > 📌 面向电力系统方向的科研论文，帮助研究者把代码、数据、结果、图表和论文材料整理成一套可复现、可追溯、可交接的研究档案。
 
@@ -16,6 +16,7 @@ Version: 2026.10.26
 
 仅保留最近 10 个日期版本；同一日期的多项修改合并为一条。
 
+- 2026-10-27：所有 `.fig` 文件中保存的图窗 `Visible` 属性固定为 `'on'`，保存前显式设置；推荐参考 EasyPlot 选择配色、线型和标记，每个项目在 `01_IDEA/figure_plan.md` 记录选定方案并与 `methodStyle` 保持一致。
 - 2026-10-26：项目规范统一维护在根目录及论文、文献、绘图目录的 `AGENTS.md`；统一 MATLAB 绘图白色背景，研究笔记聚焦工程动机和方法机理，具体项目维护至少 40 篇高水平非中文参考文献，采用 Markdown 目录记录本地 PowerLit 地址及引用用途，并维护中英文术语表；文档写入前逐句严查生造词及计算机、数学翻译腔，对电力系统约定俗成的概念简洁表述，完整保留必要定义与成立条件。
 - 2026-10-21：新增 `02_PAPER/manuscript/` Markdown 草稿与 `02_PAPER/latex/` 正式稿目录，默认使用 IEEE PES Transactions 适用的官方 IEEEtran 模板；在 `02_PAPER/formatting_rules.md` 维护公式、段落、图表和文献排版约定，统一稿件用图、BibTeX、Overleaf 同步范围和分阶段写作规则。
 - 2026-08-15：删除模板自带的 MATLAB 验证套件及默认执行入口，部署或复制模板时不再自动启动 MATLAB；项目验证由作者按实际研究代码显式配置。
@@ -25,7 +26,6 @@ Version: 2026.10.26
 - 2026-07-12：在 `.cursor/` 中统一版本化 PowerLit handoff contract 与 AI 规则，新增受版本控制的 paper profile、创新/生命周期字段和按创新类型选择的对外叙事路线，联通 Figure-first 计划、run/figure manifest、投稿一致性报告与返修工件，并扩展 MATLAB 验证。
 - 2026-07-10：新增证据约束的 `ProjectName_blog.md`，修复正式图事务式导出、并发锁、异常回滚与 claim 门禁，补齐失败运行 manifest、递归输入 SHA-256 指纹和跨平台重命名，并增加完整验证套件。
 - 2026-07-07：要求项目引言和创新点先提炼理论意义与工程价值，指标、算例和图表承担证据支撑作用。
-- 2026-07-06：集中更新写作契约，补充创新层级记录、引言材料、PowerLit 使用约定和领域专业术语要求。
 
 ---
 
@@ -402,6 +402,8 @@ PowerLit 交接合同保存在 `.cursor/contracts/`。更新规范时，同步�
 
 ## 图表证据包
 
+所有 `.fig` 文件中保存的图窗 `Visible` 属性必须为 `'on'`。统一导出函数在 `savefig` 前显式设置该属性，确保保存的图窗可直接打开查看。
+
 MATLAB 绘图统一使用白色背景，坐标轴和文字使用黑色。新图通过 `ProjectName_utils.plotting.create_figure` 创建，已有图可调用 `ProjectName_utils.plotting.apply_white_background(fig)`；正式图和诊断图导出前均重新设置白底，PNG、SVG、PDF、TIFF 和 FIG 保持一致。支持图形主题的 MATLAB 版本显式使用浅色主题，旧版本使用对象颜色设置。
 
 正式论文图以 MATLAB 脚本作为统一出口，形成源图、预览图、矢量图、绘图数据、追溯记录和检查报告组成的证据包。截图、复制粘贴、Python/Matplotlib、Excel 或 Origin 可以用于临时讨论；正式论文图从 MATLAB 证据包中取得。投稿阶段如果需要 `.pdf`、`.eps` 或 `.tiff`，由同一 MATLAB 图窗和同一导出脚本额外生成。
@@ -486,6 +488,8 @@ ProjectName_utils.plotting.save_figure(...)
 每张图生成后检查 `.fig/.png/.svg` 是否齐全、PNG 是否非空白、SVG 是否可读、CSV 是否与图中曲线一致、图例是否遮挡关键曲线、横轴标签是否过密、黑白显示是否可辨、结构化标签是否采用领域可读写法，以及异常点和对数轴处理是否已声明。
 
 ---
+
+配色、线型和标记的区分推荐参考 [EasyPlot](https://github.com/Rimagination/easyplot)。每个项目选定方案后，在 `01_IDEA/figure_plan.md` 的“项目配色、线型与标记”一节记录参考来源、色带 ID、颜色值、方法与图例对应关系、线型、标记及其间隔；与 `methodStyle` 和实际图件同步维护。
 
 ## 研究笔记规范
 

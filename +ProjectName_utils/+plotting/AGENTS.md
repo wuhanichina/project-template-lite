@@ -26,7 +26,7 @@
 - 全部 MATLAB 图窗和导出文件均采用白色背景，坐标区和图例采用白底，坐标轴及文字使用清晰的黑色；正式图和诊断图均遵守此要求。
 - 新图使用 `ProjectName_utils.plotting.create_figure(targetLayout)`；已有图使用 `ProjectName_utils.plotting.apply_white_background(fig)`。支持 `Theme` 属性的 MATLAB 版本显式使用浅色绘图主题，旧版本使用对象颜色设置，保持 MATLAB R2020a 兼容。
 - `exportgraphics` 显式指定 `BackgroundColor="white"`；FIG 和 `print` 导出保持相同背景。白底设置失败时应明确报错。
-- 使用显式图窗和坐标区句柄。新图默认可见，供作者调整；批处理可显式设置 `Visible="off"`。保存的 `.fig` 双击打开时保持可见，导出后恢复源图窗的可见状态。
+- 使用显式图窗和坐标区句柄。新图默认可见，供作者调整；批处理可显式设置 `Visible="off"`。所有 `.fig` 文件中保存的图窗 `Visible` 属性必须为 `'on'`，每次调用 `savefig` 前显式设置。`save_figure` 保存后恢复源图窗的可见状态，文件中的属性保持 `'on'`。
 - 导出默认保留作者调整后的尺寸、长宽比、坐标区、图例和留白，并记录实际尺寸。只有显式设置 `ApplyProfileSize=true` 时才重置图形尺寸。
 
 ## 字体、尺寸与全局视觉编码
@@ -35,6 +35,9 @@
 - 默认 `single-column` 宽度为 `8.89 cm`，文字为 `10 pt`。复杂小图可显式设置 `FontSizePt=8` 并写入 manifest。作者可按实际排版选择 `half-column` 或 `double-column`，再调整长宽比及留白。
 - 检查配置中的候选字体并记录实际字体，优先使用 Times New Roman、Helvetica、Arial 或 Cambria 等 IEEE 兼容字体。坐标轴线宽、曲线线宽、标记尺寸和分辨率采用当前 profile 中的定义。
 - 图形质量的优先顺序为：数据真实性、结果来源、黑白可辨识、字号可读性、目标版面尺寸、美观。
+- 配色、线型和标记的选择推荐参考 [EasyPlot](https://github.com/Rimagination/easyplot) 的色带目录与图形可读性建议。根据变量类型、方法数量和图形密度选择方案，使用准确的色带 ID 或明确的 HEX/RGB 值；保持本项目的 MATLAB 绘图和正式导出方式。
+- 每个项目在首次正式出图前，将选定方案记录到 `01_IDEA/figure_plan.md` 的“项目配色、线型与标记”一节。记录参考来源及版本或查阅日期、色带 ID、组别顺序，以及每个方法或类别的图例名称、HEX/RGB、线型、标记、标记间隔和适用图件。连续色带补充数值范围、归一化方式和必要的中心值。
+- 文档记录与 `methodStyle` 及实际绘图调用保持一致。方案调整时同步文档、代码和受影响的图件，同一对象在不同算例和图件中沿用同一编码；按最终版面尺寸检查图例、曲线重叠及黑白辨识效果。
 - 项目全局视觉编码由 `ProjectName_utils.plotting.methodStyle` 维护。同一方法或类别的颜色、线型、标记、灰度及填充图案保持一致，曲线同时使用颜色、线型与标记区分。密集曲线使用 `plot_method_line` 或 `MarkerIndices` 设置稀疏标记。
 - 柱状图同时使用灰度、边线和填充图案信息，以便黑白出版辨认。刻度方向遵守当前 profile 或期刊要求。
 - 折线图和柱状图使用 `ProjectName_utils.plotting.place_legend(ax)`，默认图内自动位置或 `best`。图例遮挡关键曲线、柱形、峰值或不确定性区间时手动调整。

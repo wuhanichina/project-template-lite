@@ -606,6 +606,7 @@ end
 function save_openable_fig(figHandle, figFile)
 originalVisibility = string(figHandle.Visible);
 cleanup = onCleanup(@() restore_figure_visibility(figHandle, originalVisibility));
+% FIG 文件中保存的 Visible 属性统一为 'on'。
 figHandle.Visible = "on";
 savefig(figHandle, char(figFile));
 clear cleanup

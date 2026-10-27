@@ -45,8 +45,9 @@ manually. `save_figure` preserves the current figure dimensions by default and
 records the actual width and height in the manifest; set
 `ApplyProfileSize=true` only when an explicit reset to the selected layout is
 wanted. Batch jobs may create figures with `Visible="off"`; `save_figure`
-restores that source state after export while saving the `.fig` artifact with
-visible-on-open behavior. The profile also records 10 pt text, optional 8 pt text for complex
+restores that source state after export. Every saved `.fig` must store its
+figure `Visible` property as `'on'`, explicitly set before `savefig`.
+The profile also records 10 pt text, optional 8 pt text for complex
 small figures, font candidates, preview resolution, accepted submission
 formats, and the rule that color must not be the only visual distinction.
 
