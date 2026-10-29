@@ -10,7 +10,7 @@
 实践参考，不自动生成物理复现图、灵敏度图、边界图或指标排行榜。PowerLit 不可用时，
 在下表记录 fallback，并只使用 `03_REFERENCE/`、用户提供文献和已有结果。
 
-外部对比方法仅选自电力系统领域期刊，核对期刊范围及论文的工程对象、模型和输入条件，在文献目录中登记来源。
+外部对比方法选自相关高水平期刊中的电力系统研究，期刊范围见 `03_REFERENCE/AGENTS.md`；核对论文的工程对象、模型和输入条件，在文献目录中登记来源。
 
 正式图仍通过 `ProjectName_utils.plotting.save_figure` 导出。`contractVersion`、
 `figurePlanId`、`claimId`、`evidenceRole` 和 `physicsReproduction` 属于审计字段，保存在计划和
