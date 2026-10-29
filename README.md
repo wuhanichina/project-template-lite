@@ -16,7 +16,7 @@ Version: 2026.10.29
 
 仅保留最近 10 个日期版本；同一日期的多项修改合并为一条。
 
-- 2026-10-29：在 `03_REFERENCE/项目禁用词表.md` 集中维护禁用词、翻译腔及模型常见套话，专业术语查证后使用，明确建模语义与表述要求；方法对比限定为电力系统领域期刊论文，对标原文 PDF 直接保存到 `03_REFERENCE/papers/`，按“论文发表年份-作者-方法简称”命名；同步文献目录、绘图计划和方法组成对比的用词。
+- 2026-10-29：在 `03_REFERENCE/项目禁用词表.md` 集中维护禁用词及适用语境，专业术语查证后使用，结合完整谓语和模型条件选择建模表述；方法对比限定为电力系统领域期刊论文，对标原文 PDF 按“论文发表年份-作者-方法简称”直接保存到 `03_REFERENCE/papers/`；统一研究笔记的结果解释、文献检查和作者选定的验证安排。
 - 2026-10-27：所有 `.fig` 文件中保存的图窗 `Visible` 属性固定为 `'on'`，保存前显式设置；推荐参考 EasyPlot 选择配色、线型和标记，每个项目在 `01_IDEA/figure_plan.md` 记录选定方案并与 `methodStyle` 保持一致。
 - 2026-10-26：项目规范统一维护在根目录及论文、文献、绘图目录的 `AGENTS.md`；统一 MATLAB 绘图白色背景，研究笔记聚焦工程动机和方法机理，具体项目维护至少 40 篇高水平非中文参考文献，采用 Markdown 目录记录本地 PowerLit 地址及引用用途，并维护中英文术语表；文档写入前逐句严查生造词及计算机、数学翻译腔，对电力系统约定俗成的概念简洁表述，完整保留必要定义与成立条件。
 - 2026-10-21：新增 `02_PAPER/manuscript/` Markdown 草稿与 `02_PAPER/latex/` 正式稿目录，默认使用 IEEE PES Transactions 适用的官方 IEEEtran 模板；在 `02_PAPER/formatting_rules.md` 维护公式、段落、图表和文献排版约定，统一稿件用图、BibTeX、Overleaf 同步范围和分阶段写作规则。
@@ -63,20 +63,20 @@ Version: 2026.10.29
 8. 把完整复现输入放入 `data/`，包括原始数据、算例文件、参数表和必要外部输入。
 9. 先在 `01_IDEA/figure_plan.md` 登记 Figure-first 证据问题、预期趋势、关键点、待检验机理、优势判据和边界，再运行正式导出。
 10. 把正式计算写进根目录的 `ProjectName_case*.m`，把可复用函数放入对应 MATLAB 包目录。
-11. 在 MATLAB 中进入项目根目录，运行一个正式算例：
+11. 作者明确选择运行算例后，在 MATLAB 中进入项目根目录，执行对应入口，例如：
 
 ```matlab
 ProjectName_case33bw
 ```
 
-11. 有正式结果后，同步更新：
+12. 有正式结果后，同步更新：
    - `ProjectName_note.md`
    - `ProjectName_changelog.md`
    - `01_IDEA/evidence_map.md`
    - 对应的 `result/<算例名>/` 路径
-12. 提交前运行 `02_PAPER/submission_consistency.md` 所记录的 PowerLit
-    一致性终检，并临时移走或清空 `cache/`，确认 `ProjectName` 或正式
-    `ProjectName_case*.m` 能只依赖代码和 `data/` 重新开始。
+13. 提交前按作者选定的验证安排，核对 `02_PAPER/submission_consistency.md`
+    中的论文一致性检查；执行冷启动验证时，临时移走或清空 `cache/`，确认
+    `ProjectName` 或正式 `ProjectName_case*.m` 能只依赖代码和 `data/` 重新开始。
 
 如果需要作者信息配置，复制 `02_PAPER/config/author-profile.example.yaml` 为本地的 `author-profile.yaml` 后填写个人信息。真实 `author-profile.yaml` 保留在本地，不进入 Git。
 
@@ -353,7 +353,7 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 - 支撑代码进入 `+ProjectName_utils/+<支撑流程>/`，例如 `+io/`、`+mc/`、`+plotting/`、`+cache/`、`+logging/`。
 - 对比算法进入 `+ProjectName_sota/+<算法族或基线名称>/`，每个基线保留自己的实现、参数说明和适配入口。
 
-子包名和 `.m` 文件名应表达实际物理对象、数学操作或流程步骤，例如 `build_power_flow_model.m`、`solve_dispatch_subproblem.m`、`evaluate_voltage_risk.m`、`export_case_summary.m`。正式代码中应避免 `helper.m`、`utils.m`、`misc.m`、`temp.m`、`test1.m`、`new_method.m` 这类职责不清的名称。
+子包名和新增 `.m` 文件名应表达实际工程对象、数学操作或流程步骤，例如 `build_power_flow_model.m`、`solve_dispatch_subproblem.m`、`evaluate_voltage_risk.m`、`export_case_summary.m`；`methodStyle` 等已有公开接口保持拼写。正式代码中应避免 `helper.m`、`utils.m`、`misc.m`、`temp.m`、`test1.m`、`new_method.m` 这类职责不清的名称。
 
 `data/` 放完整复现项目代码所需的输入文件，包括原始数据、算例文件、参数表、外部基线输入和必要说明。提交或交接前，正式入口应能在不读取既有 `cache/` 文件的情况下，从 `data/` 重新开始计算。
 
@@ -521,7 +521,7 @@ ProjectName_utils.plotting.save_figure(...)
 
 文字风格要求物理概念清晰、数学逻辑简练。优先使用节点电压、线路功率、潮流约束、源荷过程、运行场景、概率分布、越限事件等电力系统对象和物理量；根目录 `AGENTS.md` 维护完整表达规范，专业术语表记录项目具体用法及来源。
 
-优先使用“当前证据支持”“该判断仍需验证”“该路线已归档”“该结论目前仅在某算例中观察到”等表达，让读者看到证据强度。
+研究笔记结合具体文献、推导或算例说明判断，写清适用工况和关键条件，解释结果对运行或规划决策的作用。详细证据状态登记在 `01_IDEA/claims.md` 和 `01_IDEA/evidence_map.md`。
 
 AI 生成的研究笔记、论文草稿、审稿回复、图注、README 和代码注释遵守根目录 `AGENTS.md`；涉及稿件、文献或图表时读取对应子目录的 `AGENTS.md`。文本直接陈述研究对象、工程问题、模型关系、理论意义、工程价值及支持证据，方法名称和专业用语应能被同行理解。
 
@@ -594,6 +594,9 @@ ProjectName_case123
 | 证据索引 | 正式结果已登记到 `01_IDEA/evidence_map.md` |
 | 研究笔记 | `ProjectName_note.md` 说明当前工程需求、紧迫性、现有不足及后果、方法机理和结果的工程含义 |
 | 文献与术语 | 至少 40 篇高水平非中文相关文献具有完整书目信息、用途及核实的本地地址，中英文术语表记录来源和定义 |
+| 方法对比来源 | 对比方法来自电力系统领域期刊，已核实其工程对象、模型、输入条件及评价指标与本文的关系 |
+| 对标论文原文 | PDF 直接保存在 `03_REFERENCE/papers/`，目录不再细分；文件名、文献目录中的项目内路径、来源、版本及对标用途一致 |
+| 文档用词 | 已读取项目禁用词表并逐句检查，专业术语已核实，建模表述保留定义、假设、近似和结论的适用条件 |
 | 对外介绍 | `ProjectName_blog.md` 已替换项目名并围绕一个真实工程问题形成“起、承、转、合、升”的连续故事；研究对象、应用场景和证据场景已经分开，删除主要算例名称后仍能辨认通用问题、方法和主判断；正文没有定位卡、路线标签和过多写作过程说明，项目判断可追到范围、证据来源和证据状态 |
 | 研究版本 | `ProjectName_changelog.md` 已按日期倒序记录实质研究内容修改，且最新条目用一句话说明本版变化 |
 | 符号一致 | `01_IDEA/symbols.md`、`derivation.md`、代码变量和论文材料口径一致 |
