@@ -37,7 +37,7 @@
 - `data/` 保存完整复现输入，`cache/` 保存可重建的中间结果，`result/<case>/` 保存算例结果、日志和 `run_manifest.json`，`result/<case>/figures/` 保存正式图。`tests/` 保存调参、局部检查与临时验证。
 - 正式计算应能从代码和 `data/` 启动；缓存缺失时重新计算。`result/` 仅在明确复核既有结果的任务中作为读取对象。
 - `01_IDEA/` 保存研究目的、结论、推导、符号、证据索引、图表计划和研究记录。`02_PAPER/manuscript/` 保存 Markdown 草稿，`02_PAPER/latex/` 保存完整 LaTeX 稿件。`03_REFERENCE/` 保存文献目录、术语表和阅读材料。
-- 项目选定的对标论文必须获取完整原文 PDF 并保存到 `03_REFERENCE/`，在文献目录中记录项目内相对路径、来源、版本和对标用途，按该目录规范核查原文。
+- 项目选定的对标论文必须获取完整原文 PDF，直接保存到 `03_REFERENCE/papers/`，不再下设子文件夹，文件名采用 `论文发表年份-作者-方法简称.pdf`。文献目录记录项目内相对路径、来源、版本和对标用途，按文献目录规范核查原文。
 - `ProjectName_note.md` 说明当前工程缺口的现实需求、紧迫性、现有方法的工程后果、本文方法机理和结果含义。`ProjectName_blog.md` 提供有文献和结果依据的对外叙述。`ProjectName_changelog.md` 记录研究内容的实质变化。
 - 保持根目录简洁。新建目录应服务明确需求，沿用已有包和材料目录；作者明确选择新的组织方式后再增加目录。
 - PowerLit 交接合同保存在 `.cursor/contracts/project-template-handoff.schema.yaml`。修改交接接口时显式更新合同版本及引用，保留来源记录。规则文件和交接数据分别维护。
