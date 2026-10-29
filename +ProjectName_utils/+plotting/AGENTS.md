@@ -25,7 +25,7 @@
 ## 白色背景与图窗
 
 - 全部 MATLAB 图窗和导出文件均采用白色背景，坐标区和图例采用白底，坐标轴及文字使用清晰的黑色；正式图和诊断图均遵守此要求。
-- 新图使用 `ProjectName_utils.plotting.create_figure(targetLayout)`；已有图使用 `ProjectName_utils.plotting.apply_white_background(fig)`。支持 `Theme` 属性的 MATLAB 版本显式使用浅色绘图主题，旧版本使用对象颜色设置，保持 MATLAB R2020a 兼容。
+- 新图使用 `ProjectName_utils.plotting.create_figure(targetLayout)`；已有图使用 `ProjectName_utils.plotting.apply_white_background(fig)`。最低支持 MATLAB R2025a，图窗 `Theme` 显式设置为 `"light"`，背景和文字采用明确的对象颜色设置。
 - `exportgraphics` 显式指定 `BackgroundColor="white"`；FIG 和 `print` 导出保持相同背景。白底设置失败时应明确报错。
 - 使用显式图窗和坐标区句柄。新图默认可见，供作者调整；批处理可显式设置 `Visible="off"`。所有 `.fig` 文件中保存的图窗 `Visible` 属性必须为 `'on'`，每次调用 `savefig` 前显式设置。`save_figure` 保存后恢复源图窗的可见状态，文件中的属性保持 `'on'`。
 - 导出默认保留作者调整后的尺寸、长宽比、坐标区、图例和留白，并记录实际尺寸。只有显式设置 `ApplyProfileSize=true` 时才重置图形尺寸。

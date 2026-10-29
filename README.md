@@ -16,7 +16,7 @@ Version: 2026.10.29
 
 仅保留最近 10 个日期版本；同一日期的多项修改合并为一条。
 
-- 2026-10-29：在 `03_REFERENCE/项目禁用词表.md` 集中维护禁用词及适用语境，专业术语查证后使用，结合完整谓语和模型条件选择建模表述；方法对比限定为电力系统领域期刊论文，对标原文 PDF 按“论文发表年份-作者-方法简称”直接保存到 `03_REFERENCE/papers/`；统一研究笔记的结果解释、文献检查和作者选定的验证安排。
+- 2026-10-29：研究笔记按工程动机、现有不足、方法机理及工程价值组织，保留模型公式和结果依据；集中维护禁用词及术语查证要求，方法对比限于电力系统领域期刊，对标原文按“论文发表年份-作者-方法简称”直接保存在 `03_REFERENCE/papers/`；最低支持 MATLAB R2025a，统一采用浅色绘图主题。
 - 2026-10-27：所有 `.fig` 文件中保存的图窗 `Visible` 属性固定为 `'on'`，保存前显式设置；推荐参考 EasyPlot 选择配色、线型和标记，每个项目在 `01_IDEA/figure_plan.md` 记录选定方案并与 `methodStyle` 保持一致。
 - 2026-10-26：项目规范统一维护在根目录及论文、文献、绘图目录的 `AGENTS.md`；统一 MATLAB 绘图白色背景，研究笔记聚焦工程动机和方法机理，具体项目维护至少 40 篇高水平非中文参考文献，采用 Markdown 目录记录本地 PowerLit 地址及引用用途，并维护中英文术语表；文档写入前逐句严查生造词及计算机、数学翻译腔，对电力系统约定俗成的概念简洁表述，完整保留必要定义与成立条件。
 - 2026-10-21：新增 `02_PAPER/manuscript/` Markdown 草稿与 `02_PAPER/latex/` 正式稿目录，默认使用 IEEE PES Transactions 适用的官方 IEEEtran 模板；在 `02_PAPER/formatting_rules.md` 维护公式、段落、图表和文献排版约定，统一稿件用图、BibTeX、Overleaf 同步范围和分阶段写作规则。
@@ -404,7 +404,7 @@ PowerLit 交接合同保存在 `.cursor/contracts/`。更新规范时，同步�
 
 所有 `.fig` 文件中保存的图窗 `Visible` 属性必须为 `'on'`。统一导出函数在 `savefig` 前显式设置该属性，确保保存的图窗可直接打开查看。
 
-MATLAB 绘图统一使用白色背景，坐标轴和文字使用黑色。新图通过 `ProjectName_utils.plotting.create_figure` 创建，已有图可调用 `ProjectName_utils.plotting.apply_white_background(fig)`；正式图和诊断图导出前均重新设置白底，PNG、SVG、PDF、TIFF 和 FIG 保持一致。支持图形主题的 MATLAB 版本显式使用浅色主题，旧版本使用对象颜色设置。
+MATLAB 绘图统一使用白色背景，坐标轴和文字使用黑色。新图通过 `ProjectName_utils.plotting.create_figure` 创建，已有图可调用 `ProjectName_utils.plotting.apply_white_background(fig)`；正式图和诊断图导出前均重新设置白底，PNG、SVG、PDF、TIFF 和 FIG 保持一致。MATLAB R2025a 及后续版本显式将图窗 `Theme` 设置为 `"light"`，背景和文字使用明确的对象颜色设置。
 
 正式论文图以 MATLAB 脚本作为统一出口，形成源图、预览图、矢量图、绘图数据、追溯记录和检查报告组成的证据包。截图、复制粘贴、Python/Matplotlib、Excel 或 Origin 可以用于临时讨论；正式论文图从 MATLAB 证据包中取得。投稿阶段如果需要 `.pdf`、`.eps` 或 `.tiff`，由同一 MATLAB 图窗和同一导出脚本额外生成。
 
@@ -555,7 +555,7 @@ AI 生成的研究笔记、论文草稿、审稿回复、图注、README 和代�
 
 ## 运行环境与验证
 
-模板以 MATLAB R2020a 作为目标最低兼容版本。正式图导出使用 R2020a 引入的 `exportgraphics`，其余模板代码还使用 `arguments`、string、table 和 JSON。模板不附带默认可执行测试入口，也不会在部署或复制时自动启动 MATLAB。具体项目应由作者根据真实模型、数据、toolbox 和求解器依赖显式添加验证命令；未运行项目级验证时，不应把当前状态表述为已通过计算验证。
+模板最低支持 MATLAB R2025a，绘图显式采用浅色主题，正式图通过 `exportgraphics` 导出。模板不附带默认可执行测试入口，也不会在部署或复制时自动启动 MATLAB。具体项目由作者根据模型、数据、toolbox 和求解器依赖明确选择验证命令，完成说明记录实际运行的版本、检查及结果。
 
 ---
 
@@ -587,7 +587,7 @@ ProjectName_case123
 | 项目命名 | `ProjectName` 前缀已替换为真实项目简称，README 或研究笔记中无误导性占位语境 |
 | 研究目的 | `01_IDEA/story.md` 已确认项目研究目的、基线版本、预期产出及非目标；`paper-profile.yaml` 和 `ProjectName_note.md` 与其一致，实质修订已进入 changelog |
 | 根入口 | `ProjectName` 或正式 `ProjectName_case*.m` 能在 MATLAB 项目根目录运行 |
-| 运行环境 | 目标最低兼容 MATLAB R2020a；项目额外 toolbox、求解器和数据依赖已在入口或 README 声明，并记录实际验证 release |
+| 运行环境 | 最低 MATLAB R2025a；项目额外 toolbox、求解器和数据依赖已在入口或 README 声明，并记录实际验证 release |
 | 项目验证 | 作者已按真实模型、数据、toolbox 和求解器依赖显式运行项目级检查；模板本身不自动执行 MATLAB |
 | 复现输入 | 正式计算能在移走或清空 `cache/` 后，只依赖代码和 `data/` 启动 |
 | 运行 manifest | 每个正式算例写出 `result/<case>/run_manifest.json`，并记录入口命令、Git、环境、配置、输入、缓存和输出 |

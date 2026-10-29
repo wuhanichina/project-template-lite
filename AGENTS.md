@@ -47,7 +47,7 @@
 
 本节适用于全项目所有 `.m` 文件及其 MATLAB 调用的求解器接口。
 
-- 兼容目标最低版本为 MATLAB R2020a，并考虑 Windows 与 Apple Silicon macOS。使用 `fullfile`、`filesep`、`ispc`、`ismac` 或 `computer`；机器路径集中在入口顶部配置，平台限定接口作为明确的可选适配。
+- 最低支持 MATLAB R2025a，并考虑 Windows 与 Apple Silicon macOS。使用 `fullfile`、`filesep`、`ispc`、`ismac` 或 `computer`；机器路径集中在入口顶部配置，平台限定接口作为明确的可选适配。
 - 使用 `projectRoot = fileparts(mfilename('fullpath'))` 构建绝对路径。外部命令中的路径显式引用；包含空格或中文的路径优先通过简短 `.m` 入口调用，避免很长的内联命令。
 - 将算例名、入口、数据源、求解器、随机种子、输出目录、缓存、迭代次数和容差集中在入口顶部的 `config` 或 `caseConfig` 中。模型实现使用有名称的参数。
 - 新增函数名采用有对象或操作含义的 lower snake case，结构字段采用 lower camel case；`methodStyle` 等已有公开接口保留其拼写。避免 helper、utils、misc、temp、test1、new_method 等含义不明的实现名称。
@@ -55,7 +55,7 @@
 - 核心模型函数标明对应推导位置，数学变量与 `01_IDEA/symbols.md` 保持一致；算例入口说明支持的结论编号。
 - 禁止通过静默异常处理掩盖缺失依赖、不可行或求解失败。保留真实求解状态和足够的错误上下文。必要依赖直接加载，采用成熟接口和文件格式解析库。
 - 算例整体进度写入终端；局部长耗时函数使用 `ProjectName_utils.ui.create_task_waitbar`。
-- 所有 MATLAB 图窗、坐标区、图例和导出背景固定为白色，文字保持可读。通过 `create_figure`、`apply_white_background` 和 `save_figure` 实施；仅在存在 `Theme` 属性时设置浅色主题，维持旧版本兼容性。
+- 所有 MATLAB 图窗、坐标区、图例和导出背景固定为白色，文字保持可读。通过 `create_figure`、`apply_white_background` 和 `save_figure` 实施，显式将图窗 `Theme` 设置为 `"light"`。
 - 所有保存的 `.fig` 文件，其图窗 `Visible` 属性必须为 `'on'`。每次保存前显式设置该属性，批处理创建的隐藏图窗也遵守此要求。
 
 ## 求解器

@@ -5,10 +5,8 @@ arguments
     figHandle (1,1) matlab.ui.Figure
 end
 
-% 新版本固定为浅色主题，旧版本使用下面的显式颜色设置。
-if isprop(figHandle, "Theme")
-    figHandle.Theme = "light";
-end
+% MATLAB R2025a 及后续版本固定使用浅色主题。
+figHandle.Theme = "light";
 figHandle.Color = [1 1 1];
 figHandle.InvertHardcopy = "off";
 
