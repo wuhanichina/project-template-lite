@@ -6,7 +6,7 @@ arguments
     options.Profile (1,1) string = "ieee"
     options.TargetLayout (1,1) string = ""
     options.ApplySize (1,1) logical = false
-    options.FontSizePt (1,1) double = NaN
+    options.FontSizePt (1,1) double {mustBeReal} = NaN
 end
 
 if isempty(figHandle)
@@ -36,6 +36,9 @@ elseif requestedFontSizePt < profile.minFontSizePt
     error("ProjectName_utils:plotting:FontTooSmall", ...
         "Formal figure font size %.1f pt is below the profile minimum %.1f pt.", ...
         requestedFontSizePt, profile.minFontSizePt);
+elseif ~isfinite(requestedFontSizePt)
+    error("ProjectName_utils:plotting:InvalidFontSize", ...
+        "Requested font size must be finite; received %g.", requestedFontSizePt);
 else
     fontSizePt = requestedFontSizePt;
 end
@@ -50,9 +53,9 @@ for k = 1:numel(fontCandidates)
         return
     end
 end
-fontName = "Times";
-warning("ProjectName_utils:plotting:FontFallback", ...
-    "None of the profile fonts are available. Falling back to %s.", fontName);
+error("ProjectName_utils:plotting:MissingFont", ...
+    "Required font %s is unavailable. Install it and check listfonts before exporting.", ...
+    strjoin(fontCandidates, ", "));
 end
 
 function resize_figure(figHandle, profile, targetLayout)
@@ -74,16 +77,31 @@ end
 
 function apply_font_defaults(figHandle, fontName, fontSizePt)
 fontObjects = findall(figHandle, "-property", "FontName");
+availableFonts = string(listfonts());
 for k = 1:numel(fontObjects)
-    try
+    % 中文对象保留微软雅黑；混排文字由 TeX 分组指定各段字体。
+    isChineseFont = strcmpi(string(fontObjects(k).FontName), "Microsoft YaHei");
+    hasChineseWrapper = false;
+    for textProperty = ["String", "XTickLabel", "YTickLabel", "ZTickLabel", "TickLabels"]
+        if isprop(fontObjects(k), textProperty)
+            hasChineseWrapper = hasChineseWrapper || any(contains( ...
+                string(fontObjects(k).(textProperty)), ...
+                "\fontname{Microsoft YaHei}"), "all");
+        end
+    end
+    if isChineseFont || hasChineseWrapper
+        assert(any(strcmpi(availableFonts, "Microsoft YaHei")), ...
+            "ProjectName_utils:plotting:MissingChineseFont", ...
+            "Microsoft YaHei is unavailable. Install it and check listfonts.");
+    end
+    if ~isChineseFont
         fontObjects(k).FontName = char(fontName);
-    catch
     end
     if isprop(fontObjects(k), "FontSize")
-        try
-            fontObjects(k).FontSize = fontSizePt;
-        catch
+        if isprop(fontObjects(k), "FontUnits")
+            fontObjects(k).FontUnits = "points";
         end
+        fontObjects(k).FontSize = fontSizePt;
     end
 end
 end
@@ -91,6 +109,10 @@ end
 function apply_axes_defaults(figHandle, profile)
 axesList = findall(figHandle, "Type", "axes");
 for k = 1:numel(axesList)
+    if ~isempty(findall(axesList(k), "Type", "line"))
+        set(axesList(k), "XGrid", profile.lineGrid, "YGrid", profile.lineGrid, ...
+            "XMinorGrid", "off", "YMinorGrid", "off");
+    end
     try
         if axesList(k).LineWidth < profile.axisLineWidthPt
             axesList(k).LineWidth = profile.axisLineWidthPt;

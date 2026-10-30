@@ -14,7 +14,7 @@
 | `formatting_rules.md` | 默认模板来源、公式标点、段落衔接和常见排版规则 |
 | `config/`、`revision/`、`submission_consistency.md` | 论文配置、返修材料与投稿检查 |
 
-先在 `manuscript/paper.md` 中组织完整论文。转入 Overleaf 后，以 `latex/main.tex` 及其引用的章节文件作为正式文字的主要修改对象，Markdown 保留转稿时的草稿版本。重要模型、公式、符号和结论变化同步到研究笔记与 `01_IDEA/` 中的对应材料。默认使用一个 Markdown 文件和一个 LaTeX 主文件，按实际篇幅或协作需要拆分章节。
+用户说“写论文”或“修改稿件”时，均按 Markdown 阶段处理，在 `manuscript/paper.md` 中组织和修改论文。只有用户明确要求组织 LaTeX 稿件时，才开始转稿或修改 `latex/main.tex` 及其引用的章节文件；已有 LaTeX 文件、Overleaf 配置或 Markdown 草稿完成均不自动触发转稿。Markdown 保留转稿时的草稿版本。重要模型、公式、符号和结论变化同步到研究笔记与 `01_IDEA/` 中的对应材料。默认使用一个 Markdown 文件和一个 LaTeX 主文件，按实际篇幅或协作需要拆分章节。
 
 `latex/` 包含独立编译所需的正文、参考文献、图片及模板文件。引用路径相对于该目录，避免依赖本机绝对路径或目录外文件。默认使用官方 `IEEEtran.cls` 的期刊模式及 `IEEEtran.bst` 文献样式，主文件为 `main.tex`，默认编译器为 pdfLaTeX。模板来源及排版约定见 [formatting_rules.md](formatting_rules.md)，写作和转稿时一并读取。目标期刊有明确的其他要求时，采用其模板与编译设置。
 

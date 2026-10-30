@@ -4,6 +4,8 @@
 
 开展相关任务前显式读取本文件，并遵守根目录 `AGENTS.md`。绘图实现保存在本目录；算例图表计划保存在 `01_IDEA/figure_plan.md`。
 
+更新模板或绘图规则时仅检查代码、调用关系和文档一致性，不自动创建或运行图片测试函数、绘图演示和示例图，也不批量导出测试图片。作者明确要求出图检查后，再执行指定检查。
+
 ## 算例图表与工程问题
 
 - 每个主算例先说明对应 `claimId`、系统与工况、具体工程问题、本文方法改变的物理状态或工程决策、代表性比较方法、可直接观察的结果及其工程作用，再确定图表顺序。
@@ -24,7 +26,7 @@
 
 ## 白色背景与图窗
 
-- 全部 MATLAB 图窗和导出文件均采用白色背景，坐标区和图例采用白底，坐标轴及文字使用清晰的黑色；正式图和诊断图均遵守此要求。
+- 全部 MATLAB 图窗、坐标区和导出文件均采用白色背景，图例采用无边框、透明背景，坐标轴及文字使用清晰的黑色；正式图和诊断图均遵守此要求。
 - 新图使用 `ProjectName_utils.plotting.create_figure(targetLayout)`；已有图使用 `ProjectName_utils.plotting.apply_white_background(fig)`。最低支持 MATLAB R2025a，图窗 `Theme` 显式设置为 `"light"`，背景和文字采用明确的对象颜色设置。
 - `exportgraphics` 显式指定 `BackgroundColor="white"`；FIG 和 `print` 导出保持相同背景。白底设置失败时应明确报错。
 - 使用显式图窗和坐标区句柄。新图默认可见，供作者调整；批处理可显式设置 `Visible="off"`。所有 `.fig` 文件中保存的图窗 `Visible` 属性必须为 `'on'`，每次调用 `savefig` 前显式设置。`save_figure` 保存后恢复源图窗的可见状态，文件中的属性保持 `'on'`。
@@ -33,15 +35,16 @@
 ## 字体、尺寸与全局视觉编码
 
 - 默认配置为 `ProjectName_utils.plotting.figure_profile("ieee")`。目标期刊的明确要求优先于默认配置。
-- 默认 `single-column` 宽度为 `8.89 cm`，文字为 `10 pt`。复杂小图可显式设置 `FontSizePt=8` 并写入 manifest。作者可按实际排版选择 `half-column` 或 `double-column`，再调整长宽比及留白。
-- 检查配置中的候选字体并记录实际字体，优先使用 Times New Roman、Helvetica、Arial 或 Cambria 等 IEEE 兼容字体。坐标轴线宽、曲线线宽、标记尺寸和分辨率采用当前 profile 中的定义。
+- 默认 `single-column` 宽度为 `8.89 cm`。双栏论文中的图，无论占用单栏还是跨越双栏，正常情况下全部文字均使用 `10 pt`，包括坐标轴刻度、轴标签、图内标注、色条及图例。所有图中文字最小为 `8 pt`；确需缩小字号时显式设置 `FontSizePt` 并写入 manifest。按稿件最终显示尺寸核对字号，插图缩放后也须满足最小字号。作者可按实际排版选择 `half-column` 或 `double-column`，再调整长宽比及留白。
+- 图中英文、数字及单位统一使用 Times New Roman，中文统一使用微软雅黑（MATLAB 字体名称为 `Microsoft YaHei`）。纯中文文字显式设置 `FontName="Microsoft YaHei"`；中英文混排使用 `Interpreter="tex"`，用 `{\fontname{Microsoft YaHei}中文}` 和 `{\fontname{Times New Roman}English}` 分别包裹文字，明确各段字体。刻度标签混排时设置 `TickLabelInterpreter="tex"`，图例混排时向 `place_legend` 传入 `Interpreter="tex"`。检查所需字体已安装，禁止静默替换字体。坐标轴线宽、曲线线宽、标记尺寸和分辨率采用当前 profile 中的定义。
+- 同一项目内所有折线图统一设置 x、y 轴网格线，两者同时开启或同时关闭，默认关闭，次网格线默认关闭。项目统一选择记录在 `01_IDEA/figure_plan.md`，并同步 `figure_profile` 中的 `lineGrid`；创建和导出时沿用该设置。
 - 图形质量的优先顺序为：数据真实性、结果来源、黑白可辨识、字号可读性、目标版面尺寸、美观。
 - 配色、线型和标记的选择推荐参考 [EasyPlot](https://github.com/Rimagination/easyplot) 的色带目录与图形可读性建议。根据变量类型、方法数量和图形密度选择方案，使用准确的色带 ID 或明确的 HEX/RGB 值；保持本项目的 MATLAB 绘图和正式导出方式。
 - 每个项目在首次正式出图前，将选定方案记录到 `01_IDEA/figure_plan.md` 的“项目配色、线型与标记”一节。记录参考来源及版本或查阅日期、色带 ID、组别顺序，以及每个方法或类别的图例名称、HEX/RGB、线型、标记、标记间隔和适用图件。连续色带补充数值范围、归一化方式和必要的中心值。
 - 文档记录与 `methodStyle` 及实际绘图调用保持一致。方案调整时同步文档、代码和受影响的图件，同一对象在不同算例和图件中沿用同一编码；按最终版面尺寸检查图例、曲线重叠及黑白辨识效果。
 - 项目全局视觉编码由 `ProjectName_utils.plotting.methodStyle` 维护。同一方法或类别的颜色、线型、标记、灰度及填充图案保持一致，曲线同时使用颜色、线型与标记区分。密集曲线使用 `plot_method_line` 或 `MarkerIndices` 设置稀疏标记。
 - 柱状图同时使用灰度、边线和填充图案信息，以便黑白出版辨认。刻度方向遵守当前 profile 或期刊要求。
-- 折线图和柱状图使用 `ProjectName_utils.plotting.place_legend(ax)`，默认图内自动位置或 `best`。图例遮挡关键曲线、柱形、峰值或不确定性区间时手动调整。
+- 图例优先放在图内空白区域。折线图和柱状图使用 `ProjectName_utils.plotting.place_legend(ax)`，默认位置为 `best`；根据条目数量、标签长度和曲线分布，调整 `Location`、`NumColumns` 和 `Orientation`，选择合适的行列数，避免大范围遮挡结果曲线、柱形、峰值或不确定性区间。图内无法合理放置时，可设为 `northoutside` 放在图上方，或设为 `southoutside` 放在图下方，并采用合适的多列布局。图例统一设置 `Box="off"`、`Color="none"`。
 - 中文正文、主结果比较图、图注、绘图数据及 manifest 将完整方法标注为 `本文方法`，英文稿使用 `Proposed method`。外部方法使用 `AuthorYear` 等来源标签，并登记对应文献。
 - 本文方法组成或约束作用对比图中，完整方法标注为 `本文原始方法`，变体使用含义明确的名称，例如 `去掉网络约束`，并说明改变的内容及工程影响。外部论文方法按来源比较。
 - 正式图分别导出独立子图，例如 `Fig05a`、`Fig05b` 和 `Fig05c`，在稿件中组合；不将 `subplot` 或 `tiledlayout` 组合图作为最终正式图。

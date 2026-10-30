@@ -47,7 +47,7 @@ arguments
     options.ExtraFormats string = strings(1, 0)
     options.FigureProfile (1,1) string = "ieee"
     options.ApplyProfileSize (1,1) logical = false
-    options.FontSizePt (1,1) double = NaN
+    options.FontSizePt (1,1) double {mustBeReal} = NaN
     options.UseProfileExtraFormats (1,1) logical = true
     options.LockTimeoutSeconds (1,1) double {mustBePositive} = 30
     options.StaleLockSeconds (1,1) double {mustBePositive} = 3600
@@ -947,6 +947,8 @@ metadata = set_default_field(metadata, "logAxisThreshold", "not_applicable");
 metadata.matlabVersion = string(version);
 metadata.templateFigureContractVersion = template_figure_contract_version();
 metadata.font = fontName;
+metadata.chineseFont = profile.chineseFont;
+metadata.lineGrid = profile.lineGrid;
 metadata.figureProfile = profile.name;
 metadata.figureProfileSource = profile.source;
 metadata.profileDefaultLayout = profile.defaultLayout;
@@ -1320,7 +1322,7 @@ fprintf(fid, "| Metric is claim-relevant, defined in symbols/derivation, and a r
 fprintf(fid, "| Main axes show a physical, operational, or engineering quantity rather than workflow or evidence metadata | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Compared methods use matched inputs, constraints, information, and operating conditions | REVIEW_REQUIRED |\n");
 fprintf(fid, "| The figure visibly advances the case story through the problem, method action, direct comparison, or engineering effect | REVIEW_REQUIRED |\n");
-fprintf(fid, "| Legend is in-axes when suitable and does not cover key curves, bars, peaks, or uncertainty bands | REVIEW_REQUIRED |\n");
+fprintf(fid, "| Legend has no border or background fill; position and column count avoid covering results; placement is inside the axes or above or below when necessary | REVIEW_REQUIRED |\n");
 fprintf(fid, "| X-axis labels are not too dense | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Structured labels use domain-readable forms | REVIEW_REQUIRED |\n");
 fprintf(fid, "| Method color, line style, and marker match methodStyle | REVIEW_REQUIRED |\n");

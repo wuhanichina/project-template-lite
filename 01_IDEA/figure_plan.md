@@ -28,6 +28,8 @@ manifest 中，但不决定正文图画什么。`physicsReproduction` 在模型�
 | 适用图型与图件 | 【折线图、柱状图、网络图、热图及相关图号】 |
 | 方法或类别的固定顺序 | 【填写与图例一致的顺序】 |
 | 连续色带的范围、归一化与中心值 | 【适用时填写数值范围、线性或对数尺度及中心值】 |
+| 折线图 x、y 轴网格线 | 默认同时关闭，`figure_profile.lineGrid="off"`；项目如选择开启，统一改为 `"on"` 并更新全部折线图；次网格线关闭 |
+| 图中文字字体 | 英文、数字和单位使用 Times New Roman，中文使用 Microsoft YaHei；混排文字使用 TeX 字体分组包裹 |
 
 | 方法或类别 | `methodStyle` 键 | 图例名称 | HEX 与 MATLAB RGB | 线型 `LineStyle` | 标记 `Marker` | 标记间隔或 `MarkerIndices` | 灰度或填充图案 |
 | --- | --- | --- | --- | --- | --- | --- | --- |

@@ -22,9 +22,11 @@ end
 function profile = ieee_profile()
 profile = struct();
 profile.name = "IEEE";
-profile.source = "IEEE-oriented project default for two-column manuscripts, updated 2026-08-09";
-profile.recommendedFonts = ["Helvetica", "Times New Roman", "Arial", "Cambria", "Symbol"];
-profile.fontCandidates = ["Times New Roman", "Helvetica", "Arial", "Cambria", "Times"];
+profile.source = "IEEE-oriented project default for two-column manuscripts, updated 2026-10-30";
+profile.recommendedFonts = ["Times New Roman", "Microsoft YaHei"];
+profile.fontCandidates = "Times New Roman";
+profile.chineseFont = "Microsoft YaHei";
+profile.lineGrid = "off";
 profile.fontSizePt = 10;
 profile.defaultFontSizePt = 10;
 profile.minFontSizePt = 8;
@@ -48,7 +50,7 @@ profile.vectorSubmissionFormats = ["ps", "eps", "pdf"];
 profile.accessibilityRule = "Do not rely on color alone; combine color with line style, marker, brightness, or fill pattern.";
 profile.axisLabelRule = "Use quantity names with units in parentheses, not units alone.";
 profile.widthRule = "Figures start at one-column width by default; authors may select half-, single-, or double-column layout and then adjust the figure manually.";
-profile.fontSizeRule = "Default manuscript figure text is 10 pt; complex small figures may use 8 pt when explicitly recorded.";
-profile.legendRule = "Prefer in-axes legends for line and bar charts; use best/auto placement first and move only when the legend covers important data.";
+profile.fontSizeRule = "In two-column manuscripts, all figure text, including legends, normally uses 10 pt for both single- and double-column figures. All text must remain at least 8 pt at the final publication size; explicitly record any reduced font size.";
+profile.legendRule = "Prefer in-axes legends with transparent backgrounds and no borders; choose position, columns, and orientation to avoid covering result curves, bars, peaks, or uncertainty bands. Place the legend above or below the axes when an in-axes layout is unsuitable.";
 profile.narrativeRule = "Case-study figures should make the engineering problem, proposed-method action, matched comparison, and concrete engineering effect visible; audit metadata must not become the plotted content.";
 end

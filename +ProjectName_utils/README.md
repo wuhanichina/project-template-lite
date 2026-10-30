@@ -47,9 +47,25 @@ records the actual width and height in the manifest; set
 wanted. Batch jobs may create figures with `Visible="off"`; `save_figure`
 restores that source state after export. Every saved `.fig` must store its
 figure `Visible` property as `'on'`, explicitly set before `savefig`.
-The profile also records 10 pt text, optional 8 pt text for complex
-small figures, font candidates, preview resolution, accepted submission
-formats, and the rule that color must not be the only visual distinction.
+All figure text, including legends, normally uses 10 pt in two-column
+manuscripts. The minimum is 8 pt at the final publication size. English text,
+numbers, and units use Times New Roman; Chinese text uses Microsoft YaHei.
+Set the font explicitly for Chinese objects and wrap mixed-language text in
+TeX font groups with the appropriate interpreter. Required fonts must be
+installed. The exporter preserves Microsoft YaHei objects and checks font
+availability for mixed-language labels.
+
+Line plots use the same x- and y-axis grid setting throughout a project.
+Both grids are off by default, with minor grids off. Record the project choice
+in `01_IDEA/figure_plan.md` and update `figure_profile.lineGrid` consistently.
+Legends have transparent backgrounds and no borders. Prefer space inside the
+axes, adjusting position and column count to avoid covering results; use the
+space above or below the axes when necessary.
+
+Template maintenance uses static checks. Create or run image tests, plotting
+demos, and sample exports only when explicitly requested by the author.
+The profile also records preview resolution, accepted submission formats,
+and the requirement to distinguish methods by color, line style, and markers.
 
 Prefer adding shared helpers to this package instead of creating a separate
 `scripts/`, `tools/`, or parallel utility folder. Create a new folder only when

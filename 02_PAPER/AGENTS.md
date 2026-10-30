@@ -15,7 +15,7 @@
 
 ## 稿件位置与排版
 
-- Markdown 草稿位于 `manuscript/paper.md`；转入正式写作后主要修改 `latex/main.tex` 及包含的章节文件，保留转稿时的 Markdown 版本。重要模型、公式、符号和结论同步回研究笔记与 `01_IDEA/`。
+- 用户说“写论文”或“修改稿件”时，均按 Markdown 阶段处理，修改 `manuscript/paper.md`。只有用户明确要求组织 LaTeX 稿件时，才开始转稿或修改 `latex/main.tex` 及包含的章节文件；已有 LaTeX 文件、Overleaf 配置或 Markdown 草稿完成均不自动触发转稿。转稿时保留对应的 Markdown 版本，重要模型、公式、符号和结论同步回研究笔记与 `01_IDEA/`。
 - `latex/` 包含独立编译所需的正文、`references.bib`、`figures/` 和期刊模板，使用相对路径。默认从一个 Markdown 文件和一个 LaTeX 主文件开始，按实际篇幅或协作需要拆分。
 - 读取 `formatting_rules.md`。默认采用 IEEE PES Transactions 适用的官方 `IEEEtran.cls` 和 `IEEEtran.bst`，保持上游文件内容。目标期刊的明确要求优先。
 - 保留 `\markboth` 页眉及默认页码，随稿件更新期刊名称、作者简称和论文短标题；卷期与出版日期确认后填写。
