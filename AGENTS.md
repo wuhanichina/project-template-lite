@@ -37,7 +37,7 @@
 - `data/` 保存完整复现输入，`cache/` 保存可重建的中间结果，`result/<case>/` 保存算例结果、日志和 `run_manifest.json`，`result/<case>/figures/` 保存正式图。`tests/` 保存调参、局部检查与临时验证。
 - 正式计算应能从代码和 `data/` 启动；缓存缺失时重新计算。`result/` 仅在明确复核既有结果的任务中作为读取对象。
 - `01_IDEA/` 保存研究目的、结论、推导、符号、证据索引、图表计划和研究记录。`02_PAPER/manuscript/` 保存 Markdown 草稿，`02_PAPER/latex/` 保存完整 LaTeX 稿件。`03_REFERENCE/` 保存文献目录、术语表和阅读材料。
-- 用户说“写论文”或“修改稿件”时，均按 Markdown 阶段处理，修改 `02_PAPER/manuscript/paper.md`。只有用户明确要求组织 LaTeX 稿件时，才开始转稿或修改 LaTeX 正文；已有 LaTeX 文件或 Overleaf 配置不自动触发转稿。
+- 用户说“写论文”或“修改稿件”时，均按 Markdown 阶段处理。先撰写 `02_PAPER/manuscript/paper_CN.md`，作者明确确认中文稿后再撰写 `02_PAPER/manuscript/paper_EN.md`；确认前英文稿仅保留章节结构。英文正文开始撰写后，每次修改同步中英文稿的技术内容、公式、符号、图表、数值、引用和结论，保持语义一致。只有用户明确要求组织 LaTeX 稿件时，才依据已确认的英文稿转稿或修改 LaTeX 正文；已有 LaTeX 文件或 Overleaf 配置不自动触发转稿。
 - 项目选定的对标论文必须获取完整原文 PDF，直接保存到 `03_REFERENCE/papers/`，不再下设子文件夹，文件名采用 `论文发表年份-作者-方法简称.pdf`。文献目录记录项目内相对路径、来源、版本和对标用途，按文献目录规范核查原文。
 - 项目方法对比采用相关高水平期刊中的电力系统研究，覆盖电力系统专门期刊及 `03_REFERENCE/AGENTS.md` 所列工业、能源和综合期刊。核实论文的工程对象、模型和条件与当前项目的关系。
 - `ProjectName_note.md` 说明当前工程缺口的现实需求、紧迫性、现有方法的工程后果、本文方法机理和结果含义。`ProjectName_blog.md` 提供有文献和结果依据的对外叙述。`ProjectName_changelog.md` 记录研究内容的实质变化。

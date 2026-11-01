@@ -4,9 +4,12 @@
 
 ## 写作目录与流程
 
+中文稿写作时同步确定英文章节标题，采用“中文标题（English Title）”形式，细化到正文二级标题；`#` 表示论文标题，`##`、`###` 分别表示正文一级、二级标题。模板预置二级标题填写位置，具体章节按研究内容组织。标题保持简练、准确，确定前查阅 TPWRS 或对应投稿期刊中对象、方法相近论文的标题用词、长度、层级及大小写习惯。英文稿直接使用中文稿中确定的英文标题，两份稿件的章节层级、顺序、标题措辞和大小写保持一致，标题修改时同步更新。
+
 | 路径 | 内容 |
 | --- | --- |
-| `manuscript/paper.md` | Markdown 论文草稿 |
+| `manuscript/paper_CN.md` | 中文 Markdown 稿件，首先撰写并由作者确认 |
+| `manuscript/paper_EN.md` | 英文 Markdown 稿件，中文稿确认后撰写 |
 | `latex/main.tex` | LaTeX 正式稿入口，默认采用 IEEE PES Transactions 适用的 IEEEtran 模板 |
 | `latex/references.bib` | 当前论文引用的 BibTeX 条目 |
 | `latex/figures/` | 正式稿实际使用的图片 |
@@ -14,7 +17,9 @@
 | `formatting_rules.md` | 默认模板来源、公式标点、段落衔接和常见排版规则 |
 | `config/`、`revision/`、`submission_consistency.md` | 论文配置、返修材料与投稿检查 |
 
-用户说“写论文”或“修改稿件”时，均按 Markdown 阶段处理，在 `manuscript/paper.md` 中组织和修改论文。只有用户明确要求组织 LaTeX 稿件时，才开始转稿或修改 `latex/main.tex` 及其引用的章节文件；已有 LaTeX 文件、Overleaf 配置或 Markdown 草稿完成均不自动触发转稿。Markdown 保留转稿时的草稿版本。重要模型、公式、符号和结论变化同步到研究笔记与 `01_IDEA/` 中的对应材料。默认使用一个 Markdown 文件和一个 LaTeX 主文件，按实际篇幅或协作需要拆分章节。
+用户说“写论文”或“修改稿件”时，均按 Markdown 阶段处理。先撰写 `manuscript/paper_CN.md`，作者明确确认中文稿后再撰写 `manuscript/paper_EN.md`；确认前英文稿仅保留章节结构。英文正文开始撰写后，每次修改同步两份稿件的技术内容、公式、符号、图表编号、数值、引用键、成立条件和结论，保持语义一致，并采用各自语言的专业表达。
+
+只有用户明确要求组织 LaTeX 稿件时，才依据已确认的 `manuscript/paper_EN.md` 撰写或修改 `latex/main.tex` 及其引用的章节文件；已有 LaTeX 文件、Overleaf 配置或 Markdown 草稿完成均不自动触发转稿。转稿后继续维护中英文 Markdown 稿件，LaTeX 正文的实质修改同步回两份稿件。重要模型、公式、符号和结论变化同步到研究笔记与 `01_IDEA/` 中的对应材料。默认使用中文、英文各一个 Markdown 文件和一个 LaTeX 主文件，按实际篇幅或协作需要拆分章节。
 
 `latex/` 包含独立编译所需的正文、参考文献、图片及模板文件。引用路径相对于该目录，避免依赖本机绝对路径或目录外文件。默认使用官方 `IEEEtran.cls` 的期刊模式及 `IEEEtran.bst` 文献样式，主文件为 `main.tex`，默认编译器为 pdfLaTeX。模板来源及排版约定见 [formatting_rules.md](formatting_rules.md)，写作和转稿时一并读取。目标期刊有明确的其他要求时，采用其模板与编译设置。
 
@@ -22,7 +27,7 @@ Git 跟踪 Markdown、LaTeX、BibTeX、模板文件和稿件用图，忽略 LaTe
 
 正式用图从 `result/<case>/figures/` 导出后复制到 `latex/figures/`，保留可核查的文件名，并在 `01_IDEA/evidence_map.md` 的对应图表记录中注明来源路径与稿件图片路径。更新图表时同时更新稿件副本。计算数据、FIG、manifest 和检查报告继续保存在结果目录。
 
-`03_REFERENCE/` 保存文献原文、阅读记录和收集的引用信息；`latex/references.bib` 维护当前论文使用的条目。Markdown 草稿中的引用键与该文件一致，转稿时沿用。
+`03_REFERENCE/` 保存文献原文、阅读记录和收集的引用信息；`latex/references.bib` 维护当前论文使用的条目。中英文 Markdown 稿件中的引用键与该文件一致，LaTeX 转稿时沿用英文稿的引用键。
 
 ## 材料分层
 

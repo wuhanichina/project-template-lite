@@ -15,13 +15,17 @@
 
 ## 稿件位置与排版
 
-- 用户说“写论文”或“修改稿件”时，均按 Markdown 阶段处理，修改 `manuscript/paper.md`。只有用户明确要求组织 LaTeX 稿件时，才开始转稿或修改 `latex/main.tex` 及包含的章节文件；已有 LaTeX 文件、Overleaf 配置或 Markdown 草稿完成均不自动触发转稿。转稿时保留对应的 Markdown 版本，重要模型、公式、符号和结论同步回研究笔记与 `01_IDEA/`。
-- `latex/` 包含独立编译所需的正文、`references.bib`、`figures/` 和期刊模板，使用相对路径。默认从一个 Markdown 文件和一个 LaTeX 主文件开始，按实际篇幅或协作需要拆分。
+- 用户说“写论文”或“修改稿件”时，均按 Markdown 阶段处理。先撰写 `manuscript/paper_CN.md`，作者明确确认中文稿后，再撰写 `manuscript/paper_EN.md`；确认前英文稿仅保留章节结构。
+- 中文稿写作时同步确定英文章节标题，细化到正文二级标题。论文标题使用 `#`，正文一级、二级标题分别使用 `##`、`###`，采用“中文标题（English Title）”形式；具体二级章节按研究内容组织。英文稿直接使用中文稿中确定的英文标题，保持章节层级、顺序、标题措辞和大小写一致；标题调整时同步两份稿件。英文正文仍在作者确认中文稿后撰写。
+- 章节标题简练、准确，直接说明本节的工程对象、模型、方法或分析内容。确定标题前，查阅 TPWRS 或对应投稿期刊中对象、方法相近的论文，核对标题用词、长度、层级及大小写习惯，按目标期刊要求确定写法；避免冗长修饰、宣传措辞和笼统标题。
+- 英文正文开始撰写后，每次修改同步中英文稿的技术内容、公式、符号、图表编号、数值、引用键、成立条件及结论，保持语义一致，并分别采用两种语言的专业表达。重要模型、公式、符号和结论同步回研究笔记与 `01_IDEA/`。
+- 只有用户明确要求组织 LaTeX 稿件时，才依据已确认的 `manuscript/paper_EN.md` 撰写或修改 `latex/main.tex` 及包含的章节文件。已有 LaTeX 文件、Overleaf 配置或 Markdown 草稿完成均不自动触发转稿。转稿后继续维护中英文 Markdown 稿件；LaTeX 正文的实质修改同步回中英文稿。
+- `latex/` 包含独立编译所需的正文、`references.bib`、`figures/` 和期刊模板，使用相对路径。默认使用中文、英文各一个 Markdown 文件和一个 LaTeX 主文件，按实际篇幅或协作需要拆分。
 - 读取 `formatting_rules.md`。默认采用 IEEE PES Transactions 适用的官方 `IEEEtran.cls` 和 `IEEEtran.bst`，保持上游文件内容。目标期刊的明确要求优先。
 - 保留 `\markboth` 页眉及默认页码，随稿件更新期刊名称、作者简称和论文短标题；卷期与出版日期确认后填写。
 - 公式按句意使用标点。逗号结尾、后文续接同一句时不留空行或插入 `\par`，续接文字不作首行缩进。公式处句子结束时使用句号；确实另起段落时采用模板正常缩进。避免全局取消缩进或强制所有公式使用逗号。
 - 稿件用图从 `result/<case>/figures/` 的正式导出中选取，复制到 `latex/figures/`，在证据索引中维护来源和稿件路径，结果图更新时同步副本。数据、FIG、manifest 和检查报告留在结果目录。
-- 当前论文引用条目维护在 `latex/references.bib`，Markdown 引用键与其一致；文献原文和阅读材料进入 `03_REFERENCE/`。
+- 当前论文引用条目维护在 `latex/references.bib`，中英文 Markdown 稿件的引用键与其一致；文献原文和阅读材料进入 `03_REFERENCE/`。
 - Git 跟踪稿件源文件、文献、模板和稿件用图，忽略编译中间文件。配置 Overleaf 同步时明确 `latex/` 与 Overleaf 项目根目录的对应关系，获取最新修改并处理冲突后推送；按用户要求配置同步。
 - 真实作者资料仅放在 Git 忽略的 `config/author-profile.yaml` 中，仓库跟踪示例文件。
 
@@ -51,7 +55,7 @@
 2. 本目录的论文配置与本地作者配置，缺失时读取对应示例。
 3. `01_IDEA/story.md`、`claims.md`、`derivation.md`、`symbols.md`、`evidence_map.md`、`research_trace.yaml`、`figure_plan.md`。
 4. 与当前判断相关的运行和图表 manifest、原始结果、绘图数据及检查报告。
-5. 当前 Markdown 或 LaTeX 源文件及 `references.bib`，相关文献目录和专业术语表。
+5. 当前中英文 Markdown 稿件、任务涉及的 LaTeX 源文件及 `references.bib`，相关文献目录和专业术语表。
 6. 返修时的 `revision/` 材料；涉及对外介绍时核对相应叙述及原始依据。
 
 PowerLit 交接读取 `.cursor/contracts/project-template-handoff.schema.yaml`，论文配置的 `contractVersion` 与合同一致。Skill 负责研究判断和写作推理，项目维护确认值、运行事实、结果和返修状态。
