@@ -14,7 +14,7 @@ comments:
     figurePlanIds: []
     requiredEvidence: "【待补充】"
     repairStatus: open
-    responseLocation: 02_PAPER/revision/response_matrix.md
+    responseLocation: 02_PAPER/01_voltage_violations/revision/response_matrix.md
     manuscriptPatchedAt: ""
     evidenceVerifiedAt: ""
     closedAt: ""

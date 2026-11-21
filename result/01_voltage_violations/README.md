@@ -1,9 +1,11 @@
-# result
+# 01_voltage_violations results
 
-Generated numerical evidence stays under one case folder per runnable case.
+This directory stores results for `02_PAPER/01_voltage_violations/`. Each case
+has its own directory. The paper-level summary is `project_summary.txt`, and
+figures comparing cases are stored under `project/figures/`.
 
 ```text
-result/
+result/01_voltage_violations/
 ├── case33bw/
 │   ├── summary.txt
 │   ├── run_manifest.json
@@ -19,7 +21,7 @@ manifest records the entry command, Git state, MATLAB/platform information,
 solver visibility, case configuration, input files, cache snapshot, output
 files, formal figure manifest paths, and evidence-registration reminder.
 
-Formal paper figures must be written to `result/<case>/figures/` through
+Formal paper figures must be written to `result/<paper>/<case>/figures/` through
 `ProjectName_utils.plotting.save_figure`. That helper exports the MATLAB source
 figure, preview image, vector image, plot data CSV when provided, a JSONL
 manifest, and a check report.

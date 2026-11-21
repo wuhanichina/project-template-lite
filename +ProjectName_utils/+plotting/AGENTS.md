@@ -79,9 +79,9 @@
 
 ## 导出文件与结果登记
 
-- 正式算例图保存在 `result/<case_name>/figures/`，通过 `ProjectName_utils.plotting.save_figure` 导出 FIG、PNG、SVG、适用的绘图数据 CSV、`figure_manifest.jsonl` 和 `figure_check_report.md`。期刊需要 PDF、EPS 或 TIFF 时，从同一图窗和导出函数生成。
+- 正式算例图保存在 `result/<paper>/<case>/figures/`，通过 `ProjectName_utils.plotting.save_figure` 导出 FIG、PNG、SVG、适用的绘图数据 CSV、`figure_manifest.jsonl` 和 `figure_check_report.md`。期刊需要 PDF、EPS 或 TIFF 时，从同一图窗和导出函数生成。
 - 正式论文图由 MATLAB 统一导出。截图、复制粘贴及其他绘图软件仅用于临时讨论。
 - 图表成为论文依据前，在 `01_IDEA/evidence_map.md` 登记图表与 `claimId`、证据编号及结果文件的关系。
-- 算例在数值结果及正式图导出结束后写入 `result/<case_name>/run_manifest.json`，确保包含图表与相关证据路径。
+- 算例在数值结果及正式图导出结束后写入 `result/<paper>/<case>/run_manifest.json`，确保包含图表与相关证据路径。
 - 坐标轴、图注和绘图数据中的量、单位、比较条件及名称保持一致；合同字段与结论、运行记录和图表 manifest 保持一致。
-- 稿件使用的图片副本保存在 `02_PAPER/latex/figures/`，相应证据记录同时注明正式导出来源和稿件路径；结果图更新时同步更新稿件副本。
+- 稿件使用的图片副本保存在 `02_PAPER/<paper>/latex/figures/`，相应证据记录同时注明正式导出来源和稿件路径；结果图更新时同步更新稿件副本。

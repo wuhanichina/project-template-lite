@@ -1,4 +1,4 @@
-# result/case33bw/figures
+# result/01_voltage_violations/case33bw/figures
 
 Case-specific folder for formal case33bw figures.
 

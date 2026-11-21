@@ -4,7 +4,7 @@ lastConfirmedAt: ""
 
 targetVenue: "IEEE TPWRS"
 workingLanguage: "zh-CN"
-researchPurpose: "【待补充：与 01_IDEA/story.md 的项目研究目的保持一致】"
+researchPurpose: "【待补充：与 01_IDEA/story.md 中本论文的研究目的保持一致】"
 researchPurposeStatus: draft
 researchPurposeBaselineVersion: ""
 researchPurposeChangeReason: ""
@@ -42,4 +42,4 @@ lastConsistencyVerdict:
   checkedAt: ""
   skillVersion: ""
   verdict: not-run
-  report: 02_PAPER/submission_consistency.md
+  report: 02_PAPER/01_voltage_violations/submission_consistency.md

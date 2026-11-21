@@ -40,9 +40,9 @@ PowerLit 的分类理由或写作政策。
 
 | 证据编号 | 原始结果位置 | 直接证据 | 可提炼到论文的解释 |
 | --- | --- | --- | --- |
-| E01 | `result/case33bw/summary.txt`; `result/case33bw/figures/` | 【待补充：33 节点配电网指标、图表和日志】 | 【待补充：它支撑 C1 中哪个对象、条件或指标】 |
-| E02 | `result/case123/summary.txt`; `result/case123/figures/` | 【待补充：123 节点配电网指标、规模和稳定性】 | 【待补充：它支撑扩展网架下的哪个物理关系或指标】 |
-| E03 | `result/project_summary.txt`; `result/project/figures/` | 【待补充：跨算例汇总表、SOTA 对比表或公平性说明】 | 【待补充：差异来自模型、约束、求解过程还是评价口径】 |
+| E01 | `result/01_voltage_violations/case33bw/summary.txt`; `result/01_voltage_violations/case33bw/figures/` | 【待补充：33 节点配电网指标、图表和日志】 | 【待补充：它支撑 C1 中哪个对象、条件或指标】 |
+| E02 | `result/01_voltage_violations/case123/summary.txt`; `result/01_voltage_violations/case123/figures/` | 【待补充：123 节点配电网指标、规模和稳定性】 | 【待补充：它支撑扩展网架下的哪个物理关系或指标】 |
+| E03 | `result/01_voltage_violations/project_summary.txt`; `result/01_voltage_violations/project/figures/` | 【待补充：跨算例汇总表、SOTA 对比表或公平性说明】 | 【待补充：差异来自模型、约束、求解过程还是评价口径】 |
 
 ## 证据状态
 

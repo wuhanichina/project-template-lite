@@ -1,6 +1,6 @@
 # project-template-lite
 
-Version: 2026.11.05
+Version: 2026.11.21
 
 > 📌 面向电力系统方向的科研论文，帮助研究者把代码、数据、结果、图表和论文材料整理成一套可复现、可追溯、可交接的研究档案。
 
@@ -16,6 +16,8 @@ Version: 2026.11.05
 
 仅保留最近 10 个日期版本；同一日期的多项修改合并为一条。
 
+- 2026-11-21：支持一库多文。稿件与结果按同名论文目录组织，通用写作规则集中到根目录，MATLAB 入口按指定论文保存算例结果和汇总。
+- 2026-11-09：明确论文用词、公式和算例写作要求。专业术语须先查证，按需使用跨学科术语，正文保留论证所需的公式和关键数值。图表提供定量结果，正文说明观察到的规律，结合前文模型解释成因，并依据结果提炼运行或规划准则。
 - 2026-11-05：扩充项目禁用词表，要求明确误差对应的电气量、参照值与计算公式，目标量、相关方程和变量的实际用途，多个对象之间的编号关系，以及设备的具体参数、来源和限值。
 - 2026-11-04：扩充项目禁用词表，要求具体说明材料的撰写与发布安排，以及比较分析中改变的条件、相同输入和结果依据。
 - 2026-11-03：扩充项目禁用词表，要求明确说明确定对象、固定参数、保持版本或限制文件访问的具体动作和条件。
@@ -24,8 +26,6 @@ Version: 2026.11.05
 - 2026-10-30：明确“写论文”和“修改稿件”均按 Markdown 阶段处理，只有用户明确要求组织 LaTeX 稿件时才开始转稿或修改 LaTeX 正文；图例优先放在图内，调整位置与行列数避免遮挡结果，必要时放在图上方或下方，统一采用无边框、透明背景；双栏论文中的图及图例正常使用 10 pt，最终排版尺寸下所有图中文字最小为 8 pt；折线图 x、y 轴网格线在项目内统一，默认关闭，英文使用 Times New Roman，中文使用微软雅黑，混排文字采用字体分组包裹；模板维护仅采用静态检查，出图检查由作者明确指定，并同步规则、绘图函数及说明。
 - 2026-10-29：研究笔记聚焦工程动机、现有不足、方法机理及工程价值，集中维护禁用词和术语查证要求；方法对比覆盖电力系统专门期刊及 TIA、TII、Applied Energy、Energy、Renewable Energy、Nature、Nature Energy、Nature Communications 等期刊中的电力系统研究；对标原文按“论文发表年份-作者-方法简称”直接保存到 `03_REFERENCE/papers/`；最低支持 MATLAB R2025a，统一采用浅色绘图主题。
 - 2026-10-27：所有 `.fig` 文件中保存的图窗 `Visible` 属性固定为 `'on'`，保存前显式设置；推荐参考 EasyPlot 选择配色、线型和标记，每个项目在 `01_IDEA/figure_plan.md` 记录选定方案并与 `methodStyle` 保持一致。
-- 2026-10-26：项目规范统一维护在根目录及论文、文献、绘图目录的 `AGENTS.md`；统一 MATLAB 绘图白色背景，研究笔记聚焦工程动机和方法机理，具体项目维护至少 40 篇高水平非中文参考文献，采用 Markdown 目录记录本地 PowerLit 地址及引用用途，并维护中英文术语表；文档写入前逐句严查生造词及计算机、数学翻译腔，对电力系统约定俗成的概念简洁表述，完整保留必要定义与成立条件。
-- 2026-10-21：新增 `02_PAPER/manuscript/` Markdown 草稿与 `02_PAPER/latex/` 正式稿目录，默认使用 IEEE PES Transactions 适用的官方 IEEEtran 模板；在 `02_PAPER/formatting_rules.md` 维护公式、段落、图表和文献排版约定，统一稿件用图、BibTeX、Overleaf 同步范围和分阶段写作规则。
 
 ---
 
@@ -54,7 +54,7 @@ Version: 2026.11.05
    - `+ProjectName_utils/`
    - `+ProjectName_sota/`
 3. 明确研究对象与当前工程缺口后，默认联网检索相关论文并检索可访问的本地 PowerLit，核对工程动机及中英文表达；在 `03_REFERENCE/` 维护参考文献目录和专业术语表。具体项目至少收录 40 篇经核查的高水平非中文相关文献。在 `01_IDEA/story.md` 确认研究目的及范围，后续实质修订记录在 `ProjectName_changelog.md`。
-4. 复制 `02_PAPER/config/paper-profile.example.yaml` 为受版本控制的
+4. 复制 `02_PAPER/<paper>/config/paper-profile.example.yaml` 为受版本控制的
    `paper-profile.yaml`，同步 `researchPurpose`，并确认目标期刊、最小研究对象、创新四轴、叙事、
    生命周期和证据边界。
 5. 继续填写 `01_IDEA/story.md`，判定最小可辨识研究对象、研究领域、具体工程对象和研究方向，写清楚工程痛点、物理原因和科学问题。
@@ -73,12 +73,12 @@ ProjectName_case33bw
    - `ProjectName_note.md`
    - `ProjectName_changelog.md`
    - `01_IDEA/evidence_map.md`
-   - 对应的 `result/<算例名>/` 路径
-13. 提交前按作者选定的验证安排，核对 `02_PAPER/submission_consistency.md`
+   - 对应的 `result/<paper>/<case>/` 路径
+13. 提交前按作者选定的验证安排，核对 `02_PAPER/<paper>/submission_consistency.md`
     中的论文一致性检查；执行冷启动验证时，临时移走或清空 `cache/`，确认
     `ProjectName` 或正式 `ProjectName_case*.m` 能只依赖代码和 `data/` 重新开始。
 
-如果需要作者信息配置，复制 `02_PAPER/config/author-profile.example.yaml` 为本地的 `author-profile.yaml` 后填写个人信息。真实 `author-profile.yaml` 保留在本地，不进入 Git。
+如果需要作者信息配置，复制 `02_PAPER/<paper>/config/author-profile.example.yaml` 为本地的 `author-profile.yaml` 后填写个人信息。真实 `author-profile.yaml` 保留在本地，不进入 Git。
 
 ### 批量替换 ProjectName 前缀
 
@@ -175,7 +175,7 @@ done
 grep -rn --exclude-dir=.git 'ProjectName' .
 ```
 
-算例名（如 `case33bw`、`case123`）按项目实际网络单独重命名：改动对应的 `<简称>_case*.m` 文件名、`local_case_config` 中的 `name`/`network`，并同步 `result/<算例名>/` 目录和 `01_IDEA/` 中的引用。
+算例名（如 `case33bw`、`case123`）按项目实际网络单独重命名：改动对应的 `<简称>_case*.m` 文件名、`local_case_config` 中的 `name`/`network`，并同步 `result/<paper>/<case>/` 目录和 `01_IDEA/` 中的引用。
 
 ---
 
@@ -196,8 +196,8 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 | 对比算法 | `+ProjectName_sota/` | 放基线方法和对比算法实现 |
 | 复现输入 | `data/` | 保存正式计算从零开始运行所需的输入 |
 | 中间缓存 | `cache/` | 保存可由 `data/` 和代码再生成的派生结果 |
-| 结果证据 | `result/<算例名>/` | 保存正式结果、表格、日志、`run_manifest.json` 和图表证据包 |
-| 论文材料 | `02_PAPER/manuscript/`、`02_PAPER/latex/`、`03_REFERENCE/` | 保存 Markdown 草稿、LaTeX 正式稿、稿件用图、参考文献和阅读记录 |
+| 结果证据 | `result/<paper>/<case>/` | 保存正式结果、表格、日志、`run_manifest.json` 和图表证据包 |
+| 论文材料 | `02_PAPER/<paper>/manuscript/`、`02_PAPER/<paper>/latex/`、`03_REFERENCE/` | 保存 Markdown 草稿、LaTeX 正式稿、稿件用图、参考文献和阅读记录 |
 | AI 助手规范 | 根目录及相关子目录的 `AGENTS.md` | 按目录维护全局编码、论文、文献和绘图规范 |
 | 写作交接合同 | `.cursor/contracts/` | 保存 PowerLit 交接字段、版本与来源 |
 
@@ -209,11 +209,11 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 | --- | --- | --- | --- |
 | 开一个新项目 | `README.md`、`01_IDEA/README.md` | `ProjectName*` 文件和三个 `+ProjectName_*` 包目录 | 项目简称替换完成，根入口可运行 |
 | 增加研究问题 | `01_IDEA/story.md` | `story.md`、`claims.md`、`ProjectName_note.md`、`ProjectName_changelog.md` | 新问题有最小可辨识研究对象、正向结论记录、证据状态、版本摘要和后续验证路径 |
-| 增加正式算例 | 现有 `ProjectName_case*.m` | 新算例入口、`result/<算例名>/`、`evidence_map.md` | 算例可从 `data/` 从零开始运行并写出 `run_manifest.json` |
+| 增加正式算例 | 现有 `ProjectName_case*.m` | 新算例入口、`result/<paper>/<case>/`、`evidence_map.md` | 算例可从 `data/` 从零开始运行并写出 `run_manifest.json` |
 | 增加核心方法 | `01_IDEA/derivation.md` | `+ProjectName_core/+<对象或阶段>/` | 函数名表达物理对象、数学操作或求解阶段 |
 | 增加对比算法 | `+ProjectName_sota/README.md` | `+ProjectName_sota/+<算法族>/` | 与本文方法共用数据、指标和约束口径 |
-| 生成正式图 | `result/<算例名>/figures/README.md` | `+ProjectName_utils/+plotting/`、算例出图调用 | `.fig/.png/.svg`、CSV、追溯记录和检查报告齐全 |
-| 写论文或修改稿件 | `ProjectName_note.md`、中英文 Markdown 稿件 | 先写 `02_PAPER/manuscript/paper_CN.md`，作者确认后写 `paper_EN.md`，随后同步修改两份稿件；只有明确要求组织 LaTeX 稿件时才依据已确认的英文稿转稿 | 中英文技术内容一致，重要结论能追到结论记录、公式、结果和证据状态 |
+| 生成正式图 | `result/<paper>/<case>/figures/README.md` | `+ProjectName_utils/+plotting/`、算例出图调用 | `.fig/.png/.svg`、CSV、追溯记录和检查报告齐全 |
+| 写论文或修改稿件 | `ProjectName_note.md`、中英文 Markdown 稿件 | 先写 `02_PAPER/<paper>/manuscript/paper_CN.md`，作者确认后写 `paper_EN.md`，随后同步修改两份稿件；只有明确要求组织 LaTeX 稿件时才依据已确认的英文稿转稿 | 中英文技术内容一致，重要结论能追到结论记录、公式、结果和证据状态 |
 | 写对外介绍 | `ProjectName_blog.md`、`ProjectName_note.md` | `ProjectName_blog.md`，必要时同步 `story.md`、`claims.md` 或 `ProjectName_changelog.md` | blog 围绕一个工程问题连续推进，减少定位卡、路线标签和写作过程说明；项目判断仍可追到范围、证据来源和证据状态 |
 | 投稿前复核 | `01_IDEA/evidence_map.md` | `ProjectName_note.md`、`ProjectName_changelog.md`、结果目录、稿件材料 | 证据、模型、指标、工程场景和结论表述一致 |
 | 交接项目 | `ProjectName_note.md` | README、研究笔记、研究版本、想法文件、结果索引 | 合作者能从根入口复现或定位待补项 |
@@ -246,7 +246,7 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 2. 在 `ProjectName_case*.m` 编排正式算例流程。
 3. 在 `data/` 放入从零开始运行所需的输入。
 4. 在 MATLAB 包目录中实现核心方法、支撑流程和对比算法。
-5. 运行算例后写入 `result/<算例名>/summary.txt` 和 `result/<算例名>/run_manifest.json`。
+5. 运行算例后写入 `result/<paper>/<case>/summary.txt` 和 `result/<paper>/<case>/run_manifest.json`。
 
 ### 从正式算例到图表证据
 
@@ -288,22 +288,26 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 ├── +ProjectName_sota/        # 对比方法和基线实现
 ├── data/                     # 完整复现输入：原始数据、算例、参数表和必要外部输入
 ├── cache/                    # 可删除中间缓存，不作为从零开始运行的必需输入
-├── result/                   # 结果、表格、运行 manifest、图表和日志
-│   ├── case33bw/
-│   │   └── figures/          # case33bw 正式图及其配套文件
-│   └── case123/
-│       └── figures/          # case123 正式图及其配套文件
+├── result/                   # 各篇论文的结果
+│   └── 01_voltage_violations/
+│       ├── case33bw/
+│       └── case123/
 ├── tests/                    # 调参、局部验证和临时检查
 ├── 01_IDEA/                  # 故事线、待验证结论、推导、符号、证据索引、研究轨迹
-├── 02_PAPER/                 # Markdown 草稿、LaTeX 正式稿、配置与返修材料
-├── 03_REFERENCE/             # 参考文献、BibTeX、阅读材料
-├── AGENTS.md                 # 全局表达、MATLAB、求解器和验证规范
+├── 02_PAPER/                 # 各篇论文的稿件目录
+│   └── 01_voltage_violations/ # Markdown 草稿、LaTeX 正式稿、配置与返修材料
+├── 03_REFERENCE/             # 文献目录、原文和专业术语表
+├── AGENTS.md                 # 全局表达、论文写作、MATLAB、求解器和验证规则
 └── .cursor/contracts/        # PowerLit 写作交接合同
 ```
 
 GitHub 不保存空目录，所以模板用少量 README 文件保留关键目录。目录 README 只说明放置规则；结果证据以 `result/`、`01_IDEA/evidence_map.md` 和正式图证据包为准。
 
-`02_PAPER/` 的写作文件按以下位置维护：
+`02_PAPER/` 顶层只放论文子目录。每篇论文在 `02_PAPER/<paper>/` 保存稿件，在 `result/<paper>/` 保存结果。两处目录同名，使用至少两位数字序号和有工程含义的小写英文，以 `_` 分隔，例如 `01_voltage_violations`。论文数量不限，已有序号保持稳定。
+
+新增论文时建立一对同名目录。从示例论文复制所需的稿件结构和配置示例，按新论文更新配置及返修文件引用的路径，并在 `01_IDEA/story.md` 按论文登记研究目的。相同工况、输入、约束和指标定义下，可在证据索引中引用其他论文目录中的原有结果。
+
+每篇论文目录内的文件如下。
 
 | 路径 | 用途 |
 | --- | --- |
@@ -315,9 +319,9 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 | `formatting_rules.md` | 默认模板来源与公式、段落、图表、文献排版规则 |
 | `config/`、`revision/` | 论文配置和返修材料 |
 
-“写论文”和“修改稿件”均按 Markdown 阶段处理。先写 `02_PAPER/manuscript/paper_CN.md`，作者明确确认中文稿后，再写 `02_PAPER/manuscript/paper_EN.md`；确认前英文稿仅保留章节结构。英文正文开始撰写后，每次修改同步中英文稿的技术内容、公式、符号、图表编号、数值、引用键、成立条件和结论。只有用户明确要求组织 LaTeX 稿件时，才依据已确认的英文稿转稿或修改 LaTeX 正文；已有 LaTeX 文件、Overleaf 配置或 Markdown 草稿完成均不自动触发转稿。转稿后继续同步维护中英文 Markdown 稿件，LaTeX 正文的实质修改同步回两份稿件，模型、公式和结论的重要变化同步到研究笔记和 `01_IDEA/`。具体约定见 [02_PAPER/README.md](02_PAPER/README.md)。
+“写论文”和“修改稿件”均按 Markdown 阶段处理。先写 `02_PAPER/<paper>/manuscript/paper_CN.md`，作者明确确认中文稿后，再写 `02_PAPER/<paper>/manuscript/paper_EN.md`；确认前英文稿仅保留章节结构。英文正文开始撰写后，每次修改同步中英文稿的技术内容、公式、符号、图表编号、数值、引用键、成立条件和结论。只有用户明确要求组织 LaTeX 稿件时，才依据已确认的英文稿转稿或修改 LaTeX 正文；已有 LaTeX 文件、Overleaf 配置或 Markdown 草稿完成均不自动触发转稿。转稿后继续同步维护中英文 Markdown 稿件，LaTeX 正文的实质修改同步回两份稿件，模型、公式和结论的重要变化同步到研究笔记和 `01_IDEA/`。具体约定见 [02_PAPER/01_voltage_violations/README.md](02_PAPER/01_voltage_violations/README.md)。
 
-`latex/` 包含独立编译所需的正文、文献、图片和期刊模板文件，使用相对路径引用。稿件图片从 `result/<case>/figures/` 的正式导出文件中选取，在证据索引中记录来源和稿件路径。建立 Overleaf Git 同步时，明确本地 `latex/` 与 Overleaf 项目根目录的对应关系及同步范围。
+`latex/` 包含独立编译所需的正文、文献、图片和期刊模板文件，使用相对路径引用。稿件图片从 `result/<paper>/<case>/figures/` 的正式导出文件中选取，在证据索引中记录来源和稿件路径。建立 Overleaf Git 同步时，明确本地 `latex/` 与 Overleaf 项目根目录的对应关系及同步范围。
 
 ---
 
@@ -340,6 +344,8 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 
 `ProjectName_case33bw.m` 和 `ProjectName_case123.m` 是算例级正式入口。每个入口负责编排本算例的完整流程：配置、输入检查、终端步骤跟踪、数据加载、本文方法、对比算法、指标汇总、结果写入和正式图导出。入口文件只组织流程，具体计算、IO、指标、绘图和对比算法放入对应 MATLAB 包目录。
 
+模板入口默认将结果归入 `01_voltage_violations`。运行其他论文的算例时，在 MATLAB 项目根目录调用 `ProjectName("02_storage_sizing")` 或 `ProjectName_case33bw(pwd, "02_storage_sizing")`，并使用该论文的实际目录名。`ProjectName` 将已登记算例及其汇总写入所选论文的结果目录，按该论文采用的算例更新入口的登记清单。
+
 `ProjectName.m` 是项目级汇总入口。它串联模板登记的算例入口，并预留跨算例汇总表和全局图表出口，例如规模扩展对比、总体性能对比和跨算例结果摘要。
 
 `+ProjectName_core/` 放定义本文贡献的核心代码，例如物理模型、数学模型、核心算法、求解器封装和论文主指标。
@@ -360,7 +366,7 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 
 `cache/` 只放由代码从 `data/`、配置和随机种子派生出来的中间结果。缓存可以加速复跑，但不能作为正式计算的启动条件。代码需要某个缓存文件才能启动时，应把该文件上溯为 `data/` 输入，或让代码从 `data/` 自动生成。
 
-`result/<算例名>/` 放这个算例的正式结果、表格、日志和 `run_manifest.json`。`run_manifest.json` 记录入口命令、Git、MATLAB/平台、求解器可见性、输入文件、缓存文件清单、输出文件、图表证据路径和证据登记提示。正式图统一放在 `result/<算例名>/figures/`。
+`result/<paper>/<case>/` 放这个算例的正式结果、表格、日志和 `run_manifest.json`。`run_manifest.json` 记录入口命令、Git、MATLAB/平台、求解器可见性、输入文件、缓存文件清单、输出文件、图表证据路径和证据登记提示。正式图统一放在 `result/<paper>/<case>/figures/`。
 
 ---
 
@@ -374,11 +380,11 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 | 对外叙事参考 | `ProjectName_blog.md` | 在证据边界内组织外部说明，不替代结论、推导、结果、文献或论文正文 |
 | 论文材料 | `02_PAPER/`、`03_REFERENCE/` | 沉淀论文草稿、作者配置示例、参考文献和阅读材料 |
 | 全局规范 | `AGENTS.md` | 全局表达、目录职责、MATLAB 编码、求解器、结果同步和验证 |
-| 论文与文献规范 | `02_PAPER/AGENTS.md`、`03_REFERENCE/AGENTS.md` | 工程动机、稿件排版、文献检索、中英文术语和返修 |
+| 论文与文献规范 | `AGENTS.md`、`03_REFERENCE/AGENTS.md` | 工程动机、稿件排版、文献检索、中英文术语和返修 |
 | 图表规范 | `+ProjectName_utils/+plotting/AGENTS.md` | 算例图表计划、指标、白底绘图、视觉编码和导出文件 |
 | 写作交接合同 | `.cursor/contracts/` | PowerLit 交接字段、版本与来源 |
 | 代码质量门 | `+ProjectName_utils/+plotting/save_figure.m` | 在正式出图时检查图表元信息、导出包和检查报告 |
-| 运行审计记录 | `result/<case>/run_manifest.json` | 记录算例入口、环境、配置、输入、缓存、输出和图表证据路径 |
+| 运行记录 | `result/<paper>/<case>/run_manifest.json` | 记录算例入口、环境、配置、输入、缓存、输出和图表证据路径 |
 
 `01_IDEA/` 不承担 AI 助手规则说明的职责。它像研究白板一样呈现故事线、待验证结论、推导、证据和路线记录。
 
@@ -388,14 +394,13 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 
 | 文件 | 适用内容 |
 | --- | --- |
-| `AGENTS.md` | 全局技术选择、所有 MATLAB 文件的编码约定、表达规范、目录职责、运行和验证 |
-| `02_PAPER/AGENTS.md` | 研究笔记、对外介绍、Markdown 和 LaTeX 稿件、IEEE PES 排版及返修 |
+| `AGENTS.md` | 全局表达、研究笔记、论文写作与返修、MATLAB 编码、目录职责、运行和验证 |
 | `03_REFERENCE/AGENTS.md` | 默认联网和 PowerLit 检索、40 篇非中文文献、本地地址与专业术语表 |
 | `+ProjectName_utils/+plotting/AGENTS.md` | 图表计划、指标、白底、版面、视觉编码和正式导出 |
 
 根目录规范列出各类任务需要读取的子目录规范。撰写根目录研究笔记、维护 `01_IDEA/` 材料或修改根目录算例入口时，也按任务读取相应文件。
 
-Markdown 草稿进入 `02_PAPER/manuscript/`，LaTeX 正式稿及稿件用图进入 `02_PAPER/latex/`。排版前读取 `02_PAPER/formatting_rules.md`。文献用途和术语来源分别维护在 `03_REFERENCE/Powerlit相关论文本地地址.md` 与 `03_REFERENCE/专业术语表.md`；默认禁用词和改写方式集中维护在 `03_REFERENCE/项目禁用词表.md`。
+Markdown 草稿进入 `02_PAPER/<paper>/manuscript/`，LaTeX 正式稿及稿件用图进入 `02_PAPER/<paper>/latex/`。排版前读取 `02_PAPER/<paper>/formatting_rules.md`。文献用途和术语来源分别维护在 `03_REFERENCE/Powerlit相关论文本地地址.md` 与 `03_REFERENCE/专业术语表.md`；默认禁用词和改写方式集中维护在 `03_REFERENCE/项目禁用词表.md`。
 
 PowerLit 交接合同保存在 `.cursor/contracts/`。更新规范时，同步相关 `AGENTS.md`、README 和实际引用；合同字段变化时单独维护其版本与来源。
 
@@ -420,7 +425,7 @@ MATLAB 绘图统一使用白色背景，坐标轴和文字使用黑色。新图�
 每个算例都有自己的图表目录：
 
 ```text
-result/<算例名>/figures/
+result/<paper>/<case>/figures/
 ```
 
 正式图统一通过：
@@ -521,7 +526,7 @@ ProjectName_utils.plotting.place_legend(ax, Interpreter="tex");
 
 `ProjectName_note.md`、`01_IDEA/story.md`、`01_IDEA/claims.md` 和创新点锚定正文使用领域通用术语、工程对象、物理量、模型关系和可查证算例名称。生造词、内部实验配置代号、临时参数组名、分支名或脚本缩写只放在证据编号、入口文件、结果路径、run manifest、Git 记录或配置字段中，不作为研究对象、工程痛点、模型名称、方法名称或贡献主语。
 
-立项时默认联网检索与当前工程缺口相关的高水平论文，并检索可访问的本地 PowerLit。阅读同类问题的工程表述、输入假设、方法能力、机理原因和工程后果，再组织研究笔记中的论述。论文引言先写入 `02_PAPER/manuscript/paper_CN.md`，作者确认后撰写 `paper_EN.md`，随后同步修改两份稿件；只有用户明确要求组织 LaTeX 稿件时，才依据已确认的英文稿转稿或修改 LaTeX 正文。
+立项时默认联网检索与当前工程缺口相关的高水平论文，并检索可访问的本地 PowerLit。阅读同类问题的工程表述、输入假设、方法能力、机理原因和工程后果，再组织研究笔记中的论述。论文引言先写入 `02_PAPER/<paper>/manuscript/paper_CN.md`，作者确认后撰写 `paper_EN.md`，随后同步修改两份稿件；只有用户明确要求组织 LaTeX 稿件时，才依据已确认的英文稿转稿或修改 LaTeX 正文。
 
 每个具体项目至少收录 40 篇经核查的高水平非中文参考文献，按 DOI 和题名合并重复记录。`03_REFERENCE/Powerlit相关论文本地地址.md` 逐篇列出全部作者、题名、期刊、年份、卷号、期号、页码或文章编号、DOI、本文用途，以及已经检查存在的 PowerLit PDF 和 JSON 地址。通用模板尚未指定课题，目录数量从零记录。
 
@@ -535,7 +540,7 @@ ProjectName_utils.plotting.place_legend(ax, Interpreter="tex");
 
 专业术语查证后才能用于正文，优先采用对象和模型相近的期刊文献中的名称。已核实表达、来源和待核实候选分别维护在 [专业术语表](03_REFERENCE/专业术语表.md) 中。建模表述区分定义、假设、近似、能力和实际结果，据此选择 `can`、`is` 等结构；“物理”仅在具有具体技术含义时使用。
 
-文字风格要求物理概念清晰、数学逻辑简练。优先使用节点电压、线路功率、潮流约束、源荷过程、运行场景、概率分布、越限事件等电力系统对象和物理量；根目录 `AGENTS.md` 维护完整表达规范，专业术语表记录项目具体用法及来源。
+优先采用同类电力系统期刊的常用表达。跨学科术语确有必要时，查证后说明它在本文中对应的对象和用途。正文用电路关系、设备响应和运行约束解释工程直觉，只保留论证所需的公式和关键数值。详细写作要求见 [论文写作规则](AGENTS.md)。
 
 研究笔记结合具体文献、推导或算例说明判断，写清适用工况和关键条件，解释结果对运行或规划决策的作用。详细证据状态登记在 `01_IDEA/claims.md` 和 `01_IDEA/evidence_map.md`。
 
@@ -608,7 +613,7 @@ ProjectName_case123
 | 运行环境 | 最低 MATLAB R2025a；项目额外 toolbox、求解器和数据依赖已在入口或 README 声明，并记录实际验证 release |
 | 项目验证 | 作者已按真实模型、数据、toolbox 和求解器依赖显式运行项目级检查；模板本身不自动执行 MATLAB |
 | 复现输入 | 正式计算能在移走或清空 `cache/` 后，只依赖代码和 `data/` 启动 |
-| 运行 manifest | 每个正式算例写出 `result/<case>/run_manifest.json`，并记录入口命令、Git、环境、配置、输入、缓存和输出 |
+| 运行 manifest | 每个正式算例写出 `result/<paper>/<case>/run_manifest.json`，并记录入口命令、Git、环境、配置、输入、缓存和输出 |
 | 证据索引 | 正式结果已登记到 `01_IDEA/evidence_map.md` |
 | 研究笔记 | `ProjectName_note.md` 说明当前工程需求、紧迫性、现有不足及后果、方法机理和结果的工程含义 |
 | 文献与术语 | 至少 40 篇高水平非中文相关文献具有完整书目信息、用途及核实的本地地址，中英文术语表记录来源和定义 |
@@ -651,9 +656,9 @@ ProjectName_case123
 
 - 模板入口和 MATLAB 包目录。
 - 根目录及子目录的 `AGENTS.md`，以及 `.cursor/contracts/` 中的写作交接合同。
-- `01_IDEA/`、`02_PAPER/config/author-profile.example.yaml`、`03_REFERENCE/` 中的轻量文本材料。
+- `01_IDEA/`、`02_PAPER/<paper>/config/author-profile.example.yaml`、`03_REFERENCE/` 中的轻量文本材料。
 - `03_REFERENCE/papers/` 中选定对标论文的 PDF 及对应文献记录。
-- `02_PAPER/manuscript/`、`02_PAPER/latex/` 中的稿件源文件、BibTeX、必要模板文件和稿件用图；LaTeX 编译中间文件由 `.gitignore` 排除。
+- `02_PAPER/<paper>/manuscript/`、`02_PAPER/<paper>/latex/` 中的稿件源文件、BibTeX、必要模板文件和稿件用图；LaTeX 编译中间文件由 `.gitignore` 排除。
 - `data/` 中随项目提交的完整复现输入，以及 `cache/`、`tests/`、`result/` 里的 README 占位说明。
 
 默认保留在本地或由运行时生成：
@@ -663,7 +668,7 @@ ProjectName_case123
 - 大型 `.mat` 文件。
 - `.fig`、日志、临时测试结果。
 - 未经筛选、尚未决定是否进入提交包的大型原始数据。
-- 含真实个人信息的 `02_PAPER/config/author-profile.yaml`。
+- 含真实个人信息的 `02_PAPER/<paper>/config/author-profile.yaml`。
 
 公共 Git 可以因为体积或隐私暂不跟踪完整 `data/` 文件，但正式项目提交包必须包含完整 `data/` 输入。若某个必要输入尚不能随项目提供，应在 `data/README.md` 和 `01_IDEA/evidence_map.md` 中标记为复现输入待补齐。`cache/` 只保存派生中间结果。
 

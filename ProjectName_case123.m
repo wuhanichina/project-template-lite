@@ -1,4 +1,4 @@
-function runSummary = ProjectName_case123(projectRoot)
+function runSummary = ProjectName_case123(projectRoot, paperId)
 %% ProjectName_case123
 % Formal case workflow for the case123 network.
 %
@@ -28,7 +28,10 @@ else
     end
 end
 
-caseConfig = local_case_config(projectRoot);
+if nargin < 2
+    paperId = "";
+end
+caseConfig = local_case_config(projectRoot, paperId);
 tracker = ProjectName_utils.workflow.create_step_tracker(9, caseConfig.name);
 trackerCleanup = onCleanup(@() tracker.close("aborted"));
 
@@ -123,17 +126,20 @@ catch runError
 end
 end
 
-function caseConfig = local_case_config(projectRoot)
+function caseConfig = local_case_config(projectRoot, paperId)
+[paperResultDir, paperId] = ProjectName_utils.workflow.resolve_paper_result_dir(projectRoot, paperId);
 caseConfig = struct();
 caseConfig.projectRoot = string(projectRoot);
+caseConfig.paperId = paperId;
 caseConfig.name = "case123";
 caseConfig.network = "case123";
 caseConfig.description = "Proposed method and registered baselines on the case123 network";
 caseConfig.entryFunction = "ProjectName_case123";
+caseConfig.command = string(sprintf('%s(pwd, "%s")', caseConfig.entryFunction, paperId));
 caseConfig.seed = 123;
 caseConfig.dataDir = fullfile(projectRoot, "data");
 caseConfig.cacheDir = fullfile(projectRoot, "cache", caseConfig.name);
-caseConfig.resultDir = fullfile(projectRoot, "result", caseConfig.name);
+caseConfig.resultDir = fullfile(paperResultDir, caseConfig.name);
 caseConfig.figureDir = fullfile(caseConfig.resultDir, "figures");
 caseConfig.claim = "C2";
 caseConfig.evidenceId = "E02";

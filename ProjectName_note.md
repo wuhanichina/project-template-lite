@@ -163,10 +163,10 @@ $$
 
 | 图表 | 对应工程问题 | 支持结论 | 结果与工程解释 | 结果来源 |
 | --- | --- | --- | --- | --- |
-| FigIntro01 | 【测试系统、源荷时序、概率分布或场景条件】 | C? | 【待补充】 | `result/...` |
-| FigResult01a | 【本文方法改变的对象与工程效果】 | C1 | 【待补充】 | `result/case33bw/figures/` |
+| FigIntro01 | 【测试系统、源荷时序、概率分布或场景条件】 | C? | 【待补充】 | `result/01_voltage_violations/...` |
+| FigResult01a | 【本文方法改变的对象与工程效果】 | C1 | 【待补充】 | `result/01_voltage_violations/case33bw/figures/` |
 
-结论与数据、算例入口及版本的对应关系见 [evidence_map.md](01_IDEA/evidence_map.md)。模板中的来源包括 `ProjectName_case33bw.m`、`result/case33bw/run_manifest.json`，`ProjectName_case123.m`、`result/case123/run_manifest.json`，以及项目汇总入口 `ProjectName.m` 与 `result/project_summary.txt`；具体结果按实际登记记录填写。
+结论与数据、算例入口及版本的对应关系见 [evidence_map.md](01_IDEA/evidence_map.md)。模板中的来源包括 `ProjectName_case33bw.m`、`result/01_voltage_violations/case33bw/run_manifest.json`，`ProjectName_case123.m`、`result/01_voltage_violations/case123/run_manifest.json`，以及项目汇总入口 `ProjectName.m` 与 `result/01_voltage_violations/project_summary.txt`；具体结果按实际登记记录填写。
 
 ## 7. 研究贡献与适用条件
 

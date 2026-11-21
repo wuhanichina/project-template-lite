@@ -7,8 +7,12 @@ end
 
 failedAt = string(datetime("now", "Format", "yyyy-MM-dd HH:mm:ss"));
 projectRoot = get_optional_string(caseConfig, "projectRoot", "");
-resultDir = get_optional_string(caseConfig, "resultDir", ...
-    fullfile(projectRoot, "result", get_optional_string(caseConfig, "name", "unknown_case")));
+resultDir = get_optional_string(caseConfig, "resultDir", "");
+if resultDir == ""
+    paperId = get_optional_string(caseConfig, "paperId", "");
+    paperResultDir = ProjectName_utils.workflow.resolve_paper_result_dir(projectRoot, paperId);
+    resultDir = fullfile(paperResultDir, get_optional_string(caseConfig, "name", "unknown_case"));
+end
 figureDir = get_optional_string(caseConfig, "figureDir", fullfile(resultDir, "figures"));
 manifestFile = string(fullfile(resultDir, "run_manifest.json"));
 
@@ -30,7 +34,7 @@ manifest.status = "failed";
 manifest.claim = get_optional_string(caseConfig, "claim", "");
 manifest.evidenceId = get_optional_string(caseConfig, "evidenceId", "");
 manifest.entryFunction = get_optional_string(caseConfig, "entryFunction", manifest.caseName);
-manifest.command = manifest.entryFunction + "()";
+manifest.command = get_optional_string(caseConfig, "command", manifest.entryFunction + "()");
 manifest.projectRoot = projectRoot;
 manifest.failedStage = normalize_failed_stage(failedStage);
 manifest.failure = build_failure(runError, manifest.failedStage);

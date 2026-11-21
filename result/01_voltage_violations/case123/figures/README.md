@@ -1,4 +1,4 @@
-# result/case123/figures
+# result/01_voltage_violations/case123/figures
 
 Case-specific folder for formal case123 figures.
 

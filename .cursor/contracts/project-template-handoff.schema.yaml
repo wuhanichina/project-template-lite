@@ -62,6 +62,11 @@ required_records:
     - repairStatus
 
 template_extensions:
+  paper_layout:
+    version: "2026.11.21"
+    extendsContractVersion: "2026.07.12"
+    paper_directory: "02_PAPER/<paper>/"
+    result_directory: "result/<paper>/"
   figure_story:
     version: "2026.08.10"
     extendsContractVersion: "2026.07.12"
@@ -78,8 +83,8 @@ template_extensions:
 load_order:
   - ProjectName_note.md
   - ProjectName_changelog.md
-  - 02_PAPER/config/paper-profile.yaml
-  - 02_PAPER/config/author-profile.yaml
+  - 02_PAPER/<paper>/config/paper-profile.yaml
+  - 02_PAPER/<paper>/config/author-profile.yaml
   - 01_IDEA/story.md
   - 01_IDEA/claims.md
   - 01_IDEA/derivation.md
@@ -87,9 +92,9 @@ load_order:
   - 01_IDEA/evidence_map.md
   - 01_IDEA/research_trace.yaml
   - 01_IDEA/figure_plan.md
-  - result/<case>/run_manifest.json
-  - result/<case>/figures/figure_manifest.jsonl
-  - 02_PAPER/revision/
+  - result/<paper>/<case>/run_manifest.json
+  - result/<paper>/<case>/figures/figure_manifest.jsonl
+  - 02_PAPER/<paper>/revision/
 
 ownership:
   skill:

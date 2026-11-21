@@ -1,4 +1,4 @@
-function projectSummary = ProjectName()
+function projectSummary = ProjectName(paperId)
 %% ProjectName
 % Project-level entry for registered case workflows and cross-case outputs.
 %
@@ -6,8 +6,13 @@ function projectSummary = ProjectName()
 % run case-specific formal workflows, and package functions handle reusable
 % computation, result export, and plotting logic.
 
+arguments
+    paperId (1,1) string = ""
+end
+
 projectRoot = fileparts(mfilename("fullpath"));
 addpath(projectRoot);
+[resultDir, paperId] = ProjectName_utils.workflow.resolve_paper_result_dir(projectRoot, paperId);
 
 fprintf("Running ProjectName project workflow\n");
 fprintf("Project root: %s\n", projectRoot);
@@ -17,12 +22,12 @@ caseEntries = {@ProjectName_case33bw, @ProjectName_case123};
 
 caseSummaries = repmat(ProjectName_utils.workflow.empty_run_summary(), 1, numel(caseEntries));
 for caseIdx = 1:numel(caseEntries)
-    caseSummaries(caseIdx) = caseEntries{caseIdx}();
+    caseSummaries(caseIdx) = caseEntries{caseIdx}(projectRoot, paperId);
 end
 
 projectConfig = struct();
 projectConfig.projectRoot = string(projectRoot);
-projectConfig.resultDir = fullfile(projectRoot, "result");
+projectConfig.resultDir = resultDir;
 projectConfig.figureDir = fullfile(projectConfig.resultDir, "project", "figures");
 projectConfig.summaryFile = fullfile(projectConfig.resultDir, "project_summary.txt");
 projectConfig.caseNames = [caseSummaries.caseName];
@@ -33,6 +38,7 @@ projectFigureOutputs = ProjectName_utils.plotting.export_project_figures(project
 
 projectSummary = struct();
 projectSummary.project = "ProjectName";
+projectSummary.paperId = paperId;
 projectSummary.status = "scaffold";
 projectSummary.caseNames = projectConfig.caseNames;
 projectSummary.caseSummaryFiles = [caseSummaries.summaryFile];
@@ -46,5 +52,4 @@ ProjectName_utils.io.write_summary(projectConfig.summaryFile, projectSummary);
 
 fprintf("Project summary: %s\n", projectConfig.summaryFile);
 fprintf("Project-level figures: %s\n", projectFigureOutputs.figureDir);
-fprintf("Done. Check result/case33bw, result/case123, and result/project_summary.txt.\n");
 end

@@ -75,9 +75,9 @@ manifest 中，但不决定正文图画什么。`physicsReproduction` 在模型�
 
 | figurePlanId / 图号 | claimId | 读者问题 `readerQuestion` | 工程对象 `engineeringObject` | 图中直接可见的结果 `visibleResult` | 对比方法 `comparedMethods` | 在算例故事中的作用 `storyContribution` | 物理量与单位 | 图型 | 数据文件 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 【待补充】 | C1 | 【读者看图后能直接回答的问题】 | 【节点、线路、设备、状态、动作或决策】 | 【问题、变化、差异或工程效果】 | 【本文方法与代表性方法；不适用时填 not_applicable】 | 【本图如何承接前后图并推进完整故事】 | 【名称、定义、单位和方向】 | 【折线、网络图、热图、散点、柱状或表格】 | `result/case33bw/...` | scaffold |
-| 【待补充】 | C2 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/case123/...` | scaffold |
-| 【待补充】 | C3 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/project/...` | scaffold |
+| 【待补充】 | C1 | 【读者看图后能直接回答的问题】 | 【节点、线路、设备、状态、动作或决策】 | 【问题、变化、差异或工程效果】 | 【本文方法与代表性方法；不适用时填 not_applicable】 | 【本图如何承接前后图并推进完整故事】 | 【名称、定义、单位和方向】 | 【折线、网络图、热图、散点、柱状或表格】 | `result/01_voltage_violations/case33bw/...` | scaffold |
+| 【待补充】 | C2 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/01_voltage_violations/case123/...` | scaffold |
+| 【待补充】 | C3 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | 【待补充】 | `result/01_voltage_violations/project/...` | scaffold |
 
 ## 导出审计字段
 
@@ -87,7 +87,7 @@ manifest 中，但不决定正文图画什么。`physicsReproduction` 在模型�
 
 | figurePlanId | contractVersion | claimId | evidenceRole | sciQuestion | physicsReproduction | metric | dataDescription | visualEncoding | targetLayout | command | keyParams | randomSeed |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 【待补充】 | 2026.07.12 | C1 | 【按实际证据用途填写】 | 【本图回答的研究问题】 | 【可信参照；不适用时填 not_applicable】 | 【指标名称、定义、单位和方向】 | 【字段、单位、维度和预处理】 | 【颜色、线型、标记、分组和坐标】 | single-column | `ProjectName_case33bw` | 【待补充】 | 【数值或 not_applicable】 |
+| 【待补充】 | 2026.07.12 | C1 | 【按实际证据用途填写】 | 【本图回答的研究问题】 | 【可信参照；不适用时填 not_applicable】 | 【指标名称、定义、单位和方向】 | 【字段、单位、维度和预处理】 | 【颜色、线型、标记、分组和坐标】 | single-column | `ProjectName_case33bw(pwd, "01_voltage_violations")` | 【待补充】 | 【数值或 not_applicable】 |
 
 ## 图件可读性检查
 

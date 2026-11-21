@@ -11,7 +11,7 @@ Keep this package for implementation support that should not define the paper's 
 - `+plotting/`: paper figure style and export helpers. Formal figures should use
   `figure_profile`, `create_figure`, `methodStyle`, `plot_method_line`,
   `place_legend`, and `save_figure`, and should be written to
-  `result/<case>/figures/`.
+  `result/<paper>/<case>/figures/`.
   Default `methodStyle` labels are Chinese placeholders with explicit physical
   meaning; translate them only after the manuscript language is fixed.
 

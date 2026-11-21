@@ -18,7 +18,11 @@
 | 最近确认记录 | 【待补充：确认日期、确认人或会议记录】 |
 | 修订原因 | 【首次确认时填“立项确认”；后续修订说明外部需求或研究判断发生了什么变化】 |
 
-`02_PAPER/config/paper-profile.yaml` 的 `researchPurpose` 保存本节的机器可读镜像，`ProjectName_note.md` 保存面向团队的同步展示。研究目的发生实质变化时，同步更新这三处，并在 `ProjectName_changelog.md` 记录修订原因、影响范围和后续动作。
+按论文目录名记录每篇论文在项目中的研究目的，并写入对应 `02_PAPER/<paper>/config/paper-profile.yaml` 的 `researchPurpose`。`ProjectName_note.md` 保存相应的研究说明。研究目的发生实质变化时同步更新，并在 `ProjectName_changelog.md` 记录修订原因和影响范围。
+
+| 论文目录名 | 该论文的研究目的 |
+| --- | --- |
+| `01_voltage_violations` | 【待补充】 |
 
 ## 最小可辨识研究对象判定
 
@@ -47,7 +51,7 @@
 ## 已确认叙事档案
 
 本节只保存经使用者确认的取值，通用分类和路由规则由 PowerLit Skill
-解释。完整机器可读状态见 `02_PAPER/config/paper-profile.yaml`。
+解释。完整机器可读状态见 `02_PAPER/<paper>/config/paper-profile.yaml`。
 
 | 字段 | 当前值 |
 | --- | --- |
@@ -94,7 +98,7 @@
 | 物理状态或约束关系 | 【待补充】 | `01_IDEA/symbols.md`; `01_IDEA/derivation.md` |
 | 数学模型 | 【待补充】 | `01_IDEA/derivation.md`; `+ProjectName_core/` |
 | 求解或评估过程 | 【待补充】 | `ProjectName_case*.m`; `+ProjectName_core/` |
-| 工程指标和证据输出 | 【待补充】 | `result/<case>/`; `01_IDEA/evidence_map.md` |
+| 工程指标和证据输出 | 【待补充】 | `result/<paper>/<case>/`; `01_IDEA/evidence_map.md` |
 
 ## 路线演化摘要
 
