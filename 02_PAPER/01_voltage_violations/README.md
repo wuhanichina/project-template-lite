@@ -15,6 +15,7 @@
 | `latex/figures/` | 正式稿实际使用的图片 |
 | `latex/` 下的 `.cls`、`.sty`、`.bst` 等文件 | 正式稿需要的期刊模板与排版文件 |
 | `formatting_rules.md` | 默认模板来源、公式标点、段落衔接和常见排版规则 |
+| `config/case_list.json` | 本论文的算例入口及运行顺序 |
 | `config/`、`revision/`、`submission_consistency.md` | 论文配置、返修材料与投稿检查 |
 
 用户说“写论文”或“修改稿件”时，均按 Markdown 阶段处理。先撰写 `manuscript/paper_CN.md`，作者明确确认中文稿后再撰写 `manuscript/paper_EN.md`；确认前英文稿仅保留章节结构。英文正文开始撰写后，每次修改同步两份稿件的技术内容、公式、符号、图表编号、数值、引用键、成立条件和结论，保持语义一致，并采用各自语言的专业表达。

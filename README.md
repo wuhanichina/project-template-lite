@@ -16,7 +16,7 @@ Version: 2026.11.21
 
 仅保留最近 10 个日期版本；同一日期的多项修改合并为一条。
 
-- 2026-11-21：支持一库多文。稿件与结果按同名论文目录组织，通用写作规则集中到根目录，MATLAB 入口按指定论文保存算例结果和汇总。
+- 2026-11-21：支持一库多文。稿件与结果按同名论文目录组织，通用写作规则集中到根目录。MATLAB 入口按每篇论文的算例清单运行并保存结果和汇总。
 - 2026-11-09：明确论文用词、公式和算例写作要求。专业术语须先查证，按需使用跨学科术语，正文保留论证所需的公式和关键数值。图表提供定量结果，正文说明观察到的规律，结合前文模型解释成因，并依据结果提炼运行或规划准则。
 - 2026-11-05：扩充项目禁用词表，要求明确误差对应的电气量、参照值与计算公式，目标量、相关方程和变量的实际用途，多个对象之间的编号关系，以及设备的具体参数、来源和限值。
 - 2026-11-04：扩充项目禁用词表，要求具体说明材料的撰写与发布安排，以及比较分析中改变的条件、相同输入和结果依据。
@@ -175,7 +175,7 @@ done
 grep -rn --exclude-dir=.git 'ProjectName' .
 ```
 
-算例名（如 `case33bw`、`case123`）按项目实际网络单独重命名：改动对应的 `<简称>_case*.m` 文件名、`local_case_config` 中的 `name`/`network`，并同步 `result/<paper>/<case>/` 目录和 `01_IDEA/` 中的引用。
+算例名（如 `case33bw`、`case123`）按项目实际网络单独重命名。更新对应的 `<简称>_case*.m` 文件名、`local_case_config` 中的 `name` 和 `network`，并同步相关论文的 `config/case_list.json`、`result/<paper>/<case>/` 和 `01_IDEA/` 中的引用。
 
 ---
 
@@ -209,7 +209,7 @@ grep -rn --exclude-dir=.git 'ProjectName' .
 | --- | --- | --- | --- |
 | 开一个新项目 | `README.md`、`01_IDEA/README.md` | `ProjectName*` 文件和三个 `+ProjectName_*` 包目录 | 项目简称替换完成，根入口可运行 |
 | 增加研究问题 | `01_IDEA/story.md` | `story.md`、`claims.md`、`ProjectName_note.md`、`ProjectName_changelog.md` | 新问题有最小可辨识研究对象、正向结论记录、证据状态、版本摘要和后续验证路径 |
-| 增加正式算例 | 现有 `ProjectName_case*.m` | 新算例入口、`result/<paper>/<case>/`、`evidence_map.md` | 算例可从 `data/` 从零开始运行并写出 `run_manifest.json` |
+| 增加正式算例 | 现有 `ProjectName_case*.m` | 新算例入口、所属论文的 `config/case_list.json`、`result/<paper>/<case>/`、`evidence_map.md` | 算例可从 `data/` 从零开始运行并写出 `run_manifest.json` |
 | 增加核心方法 | `01_IDEA/derivation.md` | `+ProjectName_core/+<对象或阶段>/` | 函数名表达物理对象、数学操作或求解阶段 |
 | 增加对比算法 | `+ProjectName_sota/README.md` | `+ProjectName_sota/+<算法族>/` | 与本文方法共用数据、指标和约束口径 |
 | 生成正式图 | `result/<paper>/<case>/figures/README.md` | `+ProjectName_utils/+plotting/`、算例出图调用 | `.fig/.png/.svg`、CSV、追溯记录和检查报告齐全 |
@@ -317,6 +317,7 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 | `latex/references.bib` | 当前论文引用的 BibTeX 文献 |
 | `latex/figures/` | 正式稿使用的图片 |
 | `formatting_rules.md` | 默认模板来源与公式、段落、图表、文献排版规则 |
+| `config/case_list.json` | 当前论文的算例入口及运行顺序 |
 | `config/`、`revision/` | 论文配置和返修材料 |
 
 “写论文”和“修改稿件”均按 Markdown 阶段处理。先写 `02_PAPER/<paper>/manuscript/paper_CN.md`，作者明确确认中文稿后，再写 `02_PAPER/<paper>/manuscript/paper_EN.md`；确认前英文稿仅保留章节结构。英文正文开始撰写后，每次修改同步中英文稿的技术内容、公式、符号、图表编号、数值、引用键、成立条件和结论。只有用户明确要求组织 LaTeX 稿件时，才依据已确认的英文稿转稿或修改 LaTeX 正文；已有 LaTeX 文件、Overleaf 配置或 Markdown 草稿完成均不自动触发转稿。转稿后继续同步维护中英文 Markdown 稿件，LaTeX 正文的实质修改同步回两份稿件，模型、公式和结论的重要变化同步到研究笔记和 `01_IDEA/`。具体约定见 [02_PAPER/01_voltage_violations/README.md](02_PAPER/01_voltage_violations/README.md)。
@@ -344,7 +345,9 @@ GitHub 不保存空目录，所以模板用少量 README 文件保留关键目�
 
 `ProjectName_case33bw.m` 和 `ProjectName_case123.m` 是算例级正式入口。每个入口负责编排本算例的完整流程：配置、输入检查、终端步骤跟踪、数据加载、本文方法、对比算法、指标汇总、结果写入和正式图导出。入口文件只组织流程，具体计算、IO、指标、绘图和对比算法放入对应 MATLAB 包目录。
 
-模板入口默认将结果归入 `01_voltage_violations`。运行其他论文的算例时，在 MATLAB 项目根目录调用 `ProjectName("02_storage_sizing")` 或 `ProjectName_case33bw(pwd, "02_storage_sizing")`，并使用该论文的实际目录名。`ProjectName` 将已登记算例及其汇总写入所选论文的结果目录，按该论文采用的算例更新入口的登记清单。
+在 `02_PAPER/<paper>/config/case_list.json` 中按运行顺序填写算例函数名，格式为 JSON 字符串数组，函数名无需附加 `.m`。增加论文或调整算例时，编辑该论文的清单。 [示例算例清单](02_PAPER/01_voltage_violations/config/case_list.json)
+
+在 MATLAB 项目根目录调用 `ProjectName("01_voltage_violations")`。入口先核对所选论文的清单，再依次运行其中登记的算例，将汇总写入 `result/<paper>/project_summary.txt`。`ProjectName` 不带参数时使用模板示例论文。需要单独运行一个算例时，可调用 `ProjectName_case33bw(pwd, "01_voltage_violations")`。
 
 `ProjectName.m` 是项目级汇总入口。它串联模板登记的算例入口，并预留跨算例汇总表和全局图表出口，例如规模扩展对比、总体性能对比和跨算例结果摘要。
 

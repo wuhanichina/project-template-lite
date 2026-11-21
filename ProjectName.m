@@ -13,16 +13,15 @@ end
 projectRoot = fileparts(mfilename("fullpath"));
 addpath(projectRoot);
 [resultDir, paperId] = ProjectName_utils.workflow.resolve_paper_result_dir(projectRoot, paperId);
+caseListFile = fullfile(projectRoot, "02_PAPER", paperId, "config", "case_list.json");
+caseEntries = load_case_entries(caseListFile, projectRoot, string(mfilename) + "_case");
 
-fprintf("Running ProjectName project workflow\n");
+fprintf("Running cases for %s\n", paperId);
 fprintf("Project root: %s\n", projectRoot);
-
-% Registered case entries. Add a new case by appending its entry handle here.
-caseEntries = {@ProjectName_case33bw, @ProjectName_case123};
 
 caseSummaries = repmat(ProjectName_utils.workflow.empty_run_summary(), 1, numel(caseEntries));
 for caseIdx = 1:numel(caseEntries)
-    caseSummaries(caseIdx) = caseEntries{caseIdx}(projectRoot, paperId);
+    caseSummaries(caseIdx) = feval(caseEntries{caseIdx}, projectRoot, paperId);
 end
 
 projectConfig = struct();
@@ -40,6 +39,7 @@ projectSummary = struct();
 projectSummary.project = "ProjectName";
 projectSummary.paperId = paperId;
 projectSummary.status = "scaffold";
+projectSummary.caseEntries = string(caseEntries(:).');
 projectSummary.caseNames = projectConfig.caseNames;
 projectSummary.caseSummaryFiles = [caseSummaries.summaryFile];
 projectSummary.caseRunManifestFiles = [caseSummaries.runManifestFile];
@@ -52,4 +52,35 @@ ProjectName_utils.io.write_summary(projectConfig.summaryFile, projectSummary);
 
 fprintf("Project summary: %s\n", projectConfig.summaryFile);
 fprintf("Project-level figures: %s\n", projectFigureOutputs.figureDir);
+end
+
+function caseEntries = load_case_entries(caseListFile, projectRoot, casePrefix)
+% 在运行首个算例之前核对整份清单及入口文件。
+assert(isfile(caseListFile), 'ProjectName:MissingCaseList', ...
+    'Create the case list for this paper: %s.', caseListFile);
+caseEntries = jsondecode(fileread(caseListFile));
+assert(iscell(caseEntries) && isvector(caseEntries) && ~isempty(caseEntries) && ...
+    all(cellfun(@ischar, caseEntries)), ...
+    'ProjectName:InvalidCaseList', ...
+    'List at least one case function name in a JSON array in %s.', caseListFile);
+assert(numel(unique(lower(string(caseEntries)))) == numel(caseEntries), ...
+    'ProjectName:DuplicateCaseEntry', 'Case function names repeat in %s.', caseListFile);
+
+for caseIdx = 1:numel(caseEntries)
+    entryName = caseEntries{caseIdx};
+    assert(isvarname(entryName) && startsWith(entryName, casePrefix) && ...
+        strlength(entryName) > strlength(casePrefix), ...
+        'ProjectName:InvalidCaseEntry', 'Invalid case function name "%s" in %s.', ...
+        entryName, caseListFile);
+    entryPath = fullfile(projectRoot, string(entryName) + ".m");
+    resolvedPath = which(entryName);
+    if ispc
+        matchesEntryPath = strcmpi(resolvedPath, entryPath);
+    else
+        matchesEntryPath = strcmp(resolvedPath, entryPath);
+    end
+    assert(matchesEntryPath, 'ProjectName:UnresolvedCaseEntry', ...
+        'Case function "%s" listed in %s must resolve to %s. MATLAB resolved "%s".', ...
+        entryName, caseListFile, entryPath, resolvedPath);
+end
 end
