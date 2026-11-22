@@ -2,6 +2,7 @@ contractVersion: "2026.07.12"
 profileVersion: "1.1"
 lastConfirmedAt: ""
 
+# 复制本示例后，按当前论文已确认的期刊和研究目的填写。
 targetVenue: "IEEE TPWRS"
 workingLanguage: "zh-CN"
 researchPurpose: "【待补充：与 01_IDEA/story.md 中本论文的研究目的保持一致】"
@@ -9,17 +10,18 @@ researchPurposeStatus: draft
 researchPurposeBaselineVersion: ""
 researchPurposeChangeReason: ""
 minimumResearchObject: "【待补充】"
-paperSpine: "For [power-system object] under [condition], this paper [technical action] so that [conflict] can be addressed within [evidence boundary]."
+paperSpine: "【写明当前论文的核心问题，以及最重要的发现或待检验的判断】"
 
+# 以下分类是方法论文的填写示例。按本篇论文的实际贡献选择合同允许值。
 primaryInnovationAxis: technical-object
 secondaryInnovationAxes: []
 noveltyMode: one-to-hundred
 technicalObjectType: model-formulation
-narrativeArc: method-first
+narrativeArc: "" # 按本篇论文的主要贡献选择叙述顺序，允许值见 01_IDEA/story.md。
 lifecycleStage: one-to-hundred-evidence
 manuscriptUse: conditional
 
-caseContract: new-method
+caseContract: "" # 按本篇论文的算例需要检验的判断选择，允许值见 01_IDEA/story.md。
 requiredEvidenceRoles: [] # 按论文的实际算例故事填写，不自动要求四类角色齐全
 
 evidenceBoundary: "【待补充：系统、场景、假设、数据窗口与未覆盖条件】"
@@ -36,7 +38,7 @@ lastConfirmedBrief:
   mainInnovation: ""
   theoreticalValue: ""
   engineeringValue: ""
-  framingsToDrop: []
+  framingsToDrop: [] # 填写已决定从本篇稿件中删去的相邻问题或应用主张。
 
 lastConsistencyVerdict:
   checkedAt: ""
